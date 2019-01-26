@@ -1,4 +1,4 @@
-# T10 finiteLoop
+# T10 - finiteLoop
 
 | name         | eID    | GitHub Username | Email                     |
 |--------------|--------|-----------------|---------------------------|
