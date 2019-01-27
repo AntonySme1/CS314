@@ -2,7 +2,9 @@
 
 
 ![Team Photo for finiteLoop](team/images/teamPhoto-min.jpg)
-_Fig 1: Team photo for finiteLoop_
+
+###### *Figure 1: Team photo for finiteLoop*
+
 
 | name         | eID    | GitHub Username | Email                     |
 |--------------|--------|-----------------|---------------------------|
