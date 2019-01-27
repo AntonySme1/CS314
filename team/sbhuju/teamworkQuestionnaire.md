@@ -50,4 +50,4 @@
    * I will assume they are happy with dominating the team process, unless they ask for help.
 
 17. __What will you do if you feel most of the facilitation responsibilities are falling on you?__ 
-   * I will assume that I have been appointed as facilitator. I will ask for help if I am not able to facilitate the team properly.
+    * I will assume that I have been appointed as facilitator. I will ask for help if I am not able to facilitate the team properly.
