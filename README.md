@@ -1,5 +1,13 @@
 # T10 - finiteLoop
 
+<figure>
+    <img src='team/images/teamPhoto-min.jpg' alt="Team Photo for finite loop " height="350" />
+    <font size="2">
+    <figcaption> Fig.1: Team Photo for finite loop 
+    </figcaption>
+    </font>
+</figure>
+
 | name         | eID    | GitHub Username | Email                     |
 |--------------|--------|-----------------|---------------------------|
 | Saurav Bhuju | sbhuju | sbhuju          | sbhuju@rams.colostate.edu |
