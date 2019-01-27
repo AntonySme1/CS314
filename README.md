@@ -1,14 +1,8 @@
 # T10 - finiteLoop
 
-<figure>
-    <img src='team/images/teamPhoto-min.jpg' alt="Team Photo for finiteLoop " height="350" />
-    <font size="2">
-    <figcaption> Fig.1: Team Photo for finiteLoop 
-    </figcaption>
-    </font>
-</figure>
 
-&nbsp;
+![Team Photo for finiteLoop](team/images/teamPhoto-min.jpg)
+Format: ![Team Photo for finiteLoop]
 
 | name         | eID    | GitHub Username | Email                     |
 |--------------|--------|-----------------|---------------------------|
