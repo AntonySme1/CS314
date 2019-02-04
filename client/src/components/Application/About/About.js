@@ -74,7 +74,7 @@ export default class About extends Component{
                     <CardImg top width="100%" src="https://photos.gurushots.com/unsafe/500x500/ccce38a7b1b46939b00b63dfd0fe0fea/3_04e86ebfb135035a652071581e8490bb.jpg" alt="Picture of Jonathan Perea" />
                     <CardBody>
                         <CardText>I'm a senior at CSU studying Applied Computing Technologies. I work four jobs at the Lincoln Center. In my free time,
-                            I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tc,
+                            I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tv,
                             or working out.</CardText>
                     </CardBody>
                 </Card>
