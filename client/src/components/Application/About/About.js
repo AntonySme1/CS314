@@ -12,6 +12,12 @@ export default class About extends Component{
         super(props);
     }
 
+    /*
+     *  Col length code taken from: https://reactstrap.github.io/components/layout/
+     *  *Note, to change layout of items on page, edit code here based on number of
+     *  columns and rows needed.
+     */
+
     render() {
         return(
             <Container>
@@ -21,11 +27,6 @@ export default class About extends Component{
                     </Col>
                 </Row>
                 <Row>
-                    /*
-                     *  Col length code taken from: https://reactstrap.github.io/components/layout/
-                     *  *Note, to change layout of items on page, edit code here based on number of
-                     *  columns and rows needed.
-                     */
                     <Col sm="12" md={{size: 6, offset: 3}}>
                         {this.memberOne()}
                     </Col>
