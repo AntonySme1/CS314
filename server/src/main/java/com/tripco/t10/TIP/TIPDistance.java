@@ -46,7 +46,17 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    this.distance = 0;
+    double originLatitude = Double.parseDouble(String.valueOf(this.origin.get("latitude")));
+    double originLongitude = Double.parseDouble(String.valueOf(this.origin.get("longitude")));
+
+    double destinationLatitude = Double.parseDouble(String.valueOf(this.destination.get("latitude")));
+    double destinationLongitude = Double.parseDouble(String.valueOf(this.destination.get("longitude")));
+
+    double earthRadius = Double.parseDouble(String.valueOf(this.earthRadius));
+
+    this.distance = (int) com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistance(originLatitude, originLongitude, destinationLatitude, destinationLongitude, earthRadius);
+
+    //this.origin.g
     log.trace("buildResponse -> {}", this);
   }
 

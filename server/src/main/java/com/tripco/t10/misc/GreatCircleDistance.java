@@ -8,9 +8,7 @@ public class GreatCircleDistance {
     /** code below from https://rosettacode.org/wiki/Haversine_formula#Java and modified for project as needed
      * */
 
-    public static final double earthRadius = 3958; // In miles
-
-    public static double calculateGreatCircleDistance(double lat1, double lon1, double lat2, double lon2) {
+    public static double calculateGreatCircleDistance(double lat1, double lon1, double lat2, double lon2, double earthRadius) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
         lat1 = Math.toRadians(lat1);
