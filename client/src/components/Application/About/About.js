@@ -119,7 +119,7 @@ export default class About extends Component{
                     <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
                         {'Jack'}
                     </CardHeader>
-                    <CardImg top width="100%" src="https://pbs.twimg.com/profile_images/521440884382900225/B2y30Dsn_400x400.jpeg" />
+                    <CardImg top width="100%" src="https://i.ibb.co/JKWx0RP/jacks-avatar.png" alt="Jack's photo" />
                     <CardBody>
                         <CardText>I'm currently a junior at CSU studying Computer Science</CardText>
                     </CardBody>
