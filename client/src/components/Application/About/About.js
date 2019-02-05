@@ -102,11 +102,11 @@ export default class About extends Component{
             <div>
                 <Card>
                     <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {'Name'}
+                        {'Saurav'}
                     </CardHeader>
-                    <CardImg top width="100%" src="#" alt="#" />
+                    <CardImg top width="100%" src="https://i.ibb.co/JcFhMwp/saurav.png" alt="Image of Saurav" />
                     <CardBody>
-                        <CardText>Insert information here</CardText>
+                        <CardText> I am a senior CSU student studying Applied Computing Technology. </CardText>
                     </CardBody>
                 </Card>
             </div>
