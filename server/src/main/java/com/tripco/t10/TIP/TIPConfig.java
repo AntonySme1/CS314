@@ -49,4 +49,12 @@ public class TIPConfig extends TIPHeader {
     return this.placeAttributes;
   }
 
+  @Override
+  public String toString() {
+    return "TIPConfig{" +
+            "serverName='" + serverName + '\'' +
+            ", placeAttributes=" + placeAttributes +
+            '}';
+  }
+
 }

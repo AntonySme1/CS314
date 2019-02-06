@@ -66,4 +66,13 @@ public class TIPDistance extends TIPHeader {
   int getDistance() {
     return distance;
   }
+
+  @Override
+  public String toString() {
+    return "TIPDistance{" +
+            "origin=" + origin +
+            ", destination=" + destination +
+            ", distance=" + distance +
+            '}';
+  }
 }
