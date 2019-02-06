@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+import static com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistance;
+
 
 /** Defines the TIP distance object.
  *
@@ -54,7 +56,7 @@ public class TIPDistance extends TIPHeader {
 
     double earthRadius = Double.parseDouble(String.valueOf(this.earthRadius));
 
-    this.distance = (int) com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistance(originLatitude, originLongitude, destinationLatitude, destinationLongitude, earthRadius);
+    this.distance = (int) Math.round (calculateGreatCircleDistance(originLatitude, originLongitude, destinationLatitude, destinationLongitude, earthRadius));
 
     //this.origin.g
     log.trace("buildResponse -> {}", this);
