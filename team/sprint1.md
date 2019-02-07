@@ -1,4 +1,4 @@
-# Sprint # - *your team number* - *your team name*
+# Sprint # - *T10* - *Finiteloop*
 
 ## Goal
 
@@ -28,20 +28,21 @@ Epics planned for this release.
 
 ## Review
 
-#### Completed epics in Sprint Backlog 
+#### Completed epics in Sprint Backlog
 * *epic number and name*:  comments
-* 
-
-#### Incomplete epics in Sprint Backlog 
+*  *TripCo: The application should identify the client and server currently in use #30.*: The server should be working and
+            deployed for Sprint1.
+#### Incomplete epics in Sprint Backlog
 * *epic number and name*: explanation
-*
+* *User: I want to know where I am on the map #33*: not enough practice with this API so far to avoid a brute force
+         approach and degrade user experience.
 
 #### What went well
-* 
+* We finished this Sprint with plenty of time to spare.
 *
 
 #### Problems encountered and resolutions
-* 
+* Attempting to do the geolocation Epic just ended up wasting time. 
 *
 
 ## Retrospective
