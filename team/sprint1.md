@@ -1,16 +1,16 @@
-# Sprint # - *T10* - *Finiteloop*
+# Sprint # - *T10* - *finiteLoop*
 
 ## Goal
 
 ### Distance Calculator!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Jack Fitzgerald*
 
 ## Definition of Done
 
 * Web application deployed on the production server (black-bottle.cs.colostate.edu).
 * Version in server/pom.xml should be `<version>1.0</version>`.
 * Product Increment release `v1.0` created on GitHub.
-* Sprint Review and Restrospectives completed (sprints/sprint#.md).
+* Sprint Review and Retrospectives completed (sprints/sprint#.md).
 
 ## Policies
 
@@ -47,7 +47,7 @@ Epics planned for this release.
 #### What went well
 * We finished this Sprint with plenty of time to spare.
 * The epics were usually easy to understand and when they were not, we were able to talk through it.
-* 
+* Good communication about issues in Slack and daily Scrum.
 
 #### Problems encountered and resolutions
 * Attempting to do the geolocation Epic just ended up wasting time. 
@@ -60,7 +60,9 @@ Epics planned for this release.
 Our group was able to communicate effectively, which made completing tasks/epics easier and quicker.
 
 #### Potential improvements
-We will work to improve on deciding which tasks we can and will take on during the planning phase and making more reasonable
+* We will work to improve on deciding which tasks we can and will take on during the planning phase and making more reasonable
 estimates for issues.
+* Better use of ZenHub by updating the epics during the sprint actively and use estimates to prioritize tasks related to epics.
 
 #### What we will change next time
+* Active use of ZenHub for project planning.
