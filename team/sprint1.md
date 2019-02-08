@@ -1,4 +1,4 @@
-# Sprint # - *T10* - *finiteLoop*
+# Sprint 1 - *T10* - *finiteLoop*
 
 ## Goal
 
