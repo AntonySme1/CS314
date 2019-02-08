@@ -22,33 +22,45 @@
 
 Epics planned for this release.
 
-* *## title*
-*
-
+* *TripCo: The application should identify the client and server*
+* *TripCo: use a standard logging system on the server*
+* *User: I want to compute the distance between two locations on the planet*
+* *User: I'd like to know who to thank for this tool*
+* *User: I want to know where I am on the map*
+* *User: I may need distances in other units of measure Epic*
 
 ## Review
 
 #### Completed epics in Sprint Backlog
 * *epic number and name*:  comments
 *  *TripCo: The application should identify the client and server currently in use #30.*: The server should be working and
-            deployed for Sprint1.
+            deployed for Sprint1.        
+* *User: I'd like to know who to thank for this #35.*: About page was created and group information was added.
+* **
+
 #### Incomplete epics in Sprint Backlog
 * *epic number and name*: explanation
 * *User: I want to know where I am on the map #33*: not enough practice with this API so far to avoid a brute force
          approach and degrade user experience.
+* **
 
 #### What went well
 * We finished this Sprint with plenty of time to spare.
-*
+* The epics were usually easy to understand and when they were not, we were able to talk through it.
+* 
 
 #### Problems encountered and resolutions
 * Attempting to do the geolocation Epic just ended up wasting time. 
+* Unfamiliar with new tools. Resolved by studying code from other files and reading guides.
 *
 
 ## Retrospective
 
 #### What went well
+Our group was able to communicate effectively, which made completing tasks/epics easier and quicker.
 
 #### Potential improvements
+We will work to improve on deciding which tasks we can and will take on during the planning phase and making more reasonable
+estimates for issues.
 
 #### What we will change next time
