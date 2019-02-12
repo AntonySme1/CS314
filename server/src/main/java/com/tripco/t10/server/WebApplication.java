@@ -44,4 +44,10 @@ public class WebApplication {
   private static boolean validTcpIpPortNumber(int portNumber) {
     return (portNumber >= 0 & portNumber <= 65535);
   }
+
+
+  @Override
+  public String toString() {
+    return "WebApplication{}";
+  }
 }

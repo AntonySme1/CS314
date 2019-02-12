@@ -18,5 +18,10 @@ public class GreatCircleDistance {
         double c = 2 * Math.asin(Math.sqrt(a));
         return earthRadius * c;
     }
-    
+
+
+    @Override
+    public String toString() {
+        return "GreatCircleDistance{}";
+    }
 }
