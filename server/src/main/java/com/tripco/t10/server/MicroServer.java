@@ -145,4 +145,8 @@ class MicroServer {
   }
 
 
+  @Override
+  public String toString() {
+    return "MicroServer{}";
+  }
 }
