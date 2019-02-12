@@ -22,8 +22,13 @@ export default class About extends Component{
         return(
             <Container>
                 <Row>
-                    <Col xs="12">
+                    <Col sm="12" md={{size: 6, offset: 3}}>
                         {this.heading()}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12">
+                        {this.createEmptySpace()}
                     </Col>
                 </Row>
                 <Row>
@@ -32,13 +37,28 @@ export default class About extends Component{
                     </Col>
                 </Row>
                 <Row>
+                    <Col xs="12">
+                        {this.createEmptySpace()}
+                    </Col>
+                </Row>
+                <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
                         {this.memberTwo()}
                     </Col>
                 </Row>
                 <Row>
+                    <Col xs="12">
+                        {this.createEmptySpace()}
+                    </Col>
+                </Row>
+                <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
                         {this.memberThree()}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12">
+                        {this.createEmptySpace()}
                     </Col>
                 </Row>
                 <Row>
@@ -56,6 +76,13 @@ export default class About extends Component{
             <Pane header={'About'}
                   bodyJSX={'Welcome to finiteLoop'}/>
         );
+    }
+
+    createEmptySpace() {
+        return (<div>
+            <CardBody>
+            </CardBody>
+        </div>);
     }
 
     /*
@@ -78,6 +105,7 @@ export default class About extends Component{
                             or working out.</CardText>
                     </CardBody>
                 </Card>
+                <p></p>
             </div>
         );
     }
@@ -90,8 +118,8 @@ export default class About extends Component{
                     </CardHeader>
                     <CardImg top width="100%" src="http://i68.tinypic.com/xldo2b.jpg"  />
                     <CardBody>
-                        <CardText>I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits. 
-                        I also enjoy video games and drones.</CardText>
+                        <CardText>I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits.
+                            I also enjoy video games and drones.</CardText>
                     </CardBody>
                 </Card>
             </div>
