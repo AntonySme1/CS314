@@ -1,9 +1,9 @@
-# Sprint 2 - *your team number* - *your team name*
+# Sprint 2 - *T10* - *Finite Loop*
 
 ## Goal
 
 ### A map and itinerary!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Patrick Keleher*
 
 ## Definition of Done
 
@@ -31,50 +31,54 @@
 * All commits include a task/issue number.
 * All commits include tests for the added or modified code.
 * All tests pass.
-#### Continuous Integration / Delivery 
+#### Continuous Integration / Delivery
 * Master is never broken.  If broken, it is fixed immediately.
 * Continuous integration successfully builds and tests all pull requests for master branch.
-* All Java dependencies in pom.xml.  Do not load external libraries in your repo. 
+* All Java dependencies in pom.xml.  Do not load external libraries in your repo.
 
 
 ## Plan
 
 This sprint will complete the following Epics.
 
-* *#0 epic title: description*
-*
+* *#83 User: The calculator data shouldn't go away when units change.*
+* *#84 User: It would be nice to see a map with the calculator.*
+* *#90 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
+* *#33 User: I want to know where I am on the map #33*
+
+
 
 Key planning decisions for this sprint include ...
-
+Time management and team work. Also ensuring we can get the epics we have planned to get done actually completed. Effective communication is key.
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *value* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Tasks |  *value*   | *value* |
+| Story Points |  *value*  | *value* |
 
 
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| *date* | *#task, ...* | *#task, ...* | *none* |
 
 
 ## Review (focus on solution and technology)
 
 In this sprint, ...
 
-#### Completed epics in Sprint Backlog 
+#### Completed epics in Sprint Backlog
 
 These Epics were completed.
 
 * *## epic title: comments*
-* 
+*
 
-#### Incomplete epics in Sprint Backlog 
+#### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
 
@@ -107,6 +111,6 @@ We ...
 
 We could improve ...
 
-#### What we will change next sprint 
+#### What we will change next sprint
 
 We will change ...
