@@ -2,6 +2,7 @@ package com.tripco.t10.misc;
 
 import java.lang.Math;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class GreatCircleDistance {
     /** code below from https://rosettacode.org/wiki/Haversine_formula#Java and modified for project as needed
      * */
 
-    public static BigDecimal calculateGreatCircleDistance(Map origin, Map destination, BigDecimal earthRadius) {
+    public static BigInteger calculateGreatCircleDistance(Map origin, Map destination, BigDecimal earthRadius) {
 
         double originLatitude = Double.parseDouble(String.valueOf(origin.get("latitude")));
         double originLongitude = Double.parseDouble(String.valueOf(origin.get("longitude")));
@@ -24,10 +25,13 @@ public class GreatCircleDistance {
         originLatitude = Math.toRadians(originLatitude);
         destinationLatitude = Math.toRadians(destinationLatitude);
 
-        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(originLatitude) * Math.cos(destinationLatitude;
+        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(originLatitude) * Math.cos(destinationLatitude);
         double c = 2 * Math.asin(Math.sqrt(a));
         BigDecimal cBigDecimal = new BigDecimal(c, MathContext.DECIMAL64);
-        return earthRadius .multiply(cBigDecimal);
+        BigDecimal answer = (earthRadius.multiply(cBigDecimal)).setScale(0, BigDecimal.ROUND_HALF_UP);
+
+        return answer.toBigInteger();
+
     }
 
 
