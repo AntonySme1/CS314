@@ -94,13 +94,23 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-          let lat = magellan('12°20\'44.1600"N').latitude().toDD();
-          console.log(lat);
+      const originLat = magellan(this.state.origin.latitude).latitude().toDD();
+      const originLon = magellan(this.state.origin.longitude).longitude().toDD();
+
+      const destinationLat = magellan(this.state.destination.latitude).latitude().toDD();
+      const destinationLon = magellan(this.state.destination.longitude).longitude().toDD();
+
+      let updatedOrigin = { latitude: originLat, longitude: originLon};
+      let updatedDestination = { latitude: destinationLat, longitude: destinationLon};
+
+      console.log(updatedOrigin);
+      console.log(updatedDestination);
+
       const tipConfigRequest = {
       'type'        : 'distance',
       'version'     : 1,
-      'origin'      : this.state.origin,
-      'destination' : this.state.destination,
+      'origin'      : updatedOrigin,
+      'destination' : updatedDestination,
       'earthRadius' : this.props.options.units[this.props.options.activeUnit]
     };
 
