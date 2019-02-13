@@ -1,12 +1,14 @@
 package com.tripco.t10.TIP;
 
+
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Map;
 
-import static com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistance;
 
 
 /** Defines the TIP distance object.
@@ -25,19 +27,19 @@ import static com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistan
 public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
-  private Float earthRadius;
-  private Integer distance;
+  private BigDecimal earthRadius;
+  private BigInteger distance;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
 
-  TIPDistance(int version, Map origin, Map destination, float earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, BigDecimal earthRadius) {
     this();
     this.requestVersion = version;
     this.origin = origin;
     this.destination = destination;
     this.earthRadius = earthRadius;
-    this.distance = 0;
+    this.distance = new BigInteger("0");
   }
 
 
@@ -48,22 +50,15 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    double originLatitude = Double.parseDouble(String.valueOf(this.origin.get("latitude")));
-    double originLongitude = Double.parseDouble(String.valueOf(this.origin.get("longitude")));
-
-    double destinationLatitude = Double.parseDouble(String.valueOf(this.destination.get("latitude")));
-    double destinationLongitude = Double.parseDouble(String.valueOf(this.destination.get("longitude")));
-
-    double earthRadius = Double.parseDouble(String.valueOf(this.earthRadius));
-
-    this.distance = (int) Math.round (calculateGreatCircleDistance(originLatitude, originLongitude, destinationLatitude, destinationLongitude, earthRadius));
+    GreatCircleDistance haversine = new GreatCircleDistance();
+    this.distance = haversine.calculateGreatCircleDistance(this.origin, this.destination, this.earthRadius);
 
     //this.origin.g
     log.trace("buildResponse -> {}", this);
   }
 
 
-  int getDistance() {
+  BigInteger getDistance() {
     return distance;
   }
 
