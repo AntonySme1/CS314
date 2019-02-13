@@ -12,7 +12,7 @@ public class GreatCircleDistance {
     /** code below from https://rosettacode.org/wiki/Haversine_formula#Java and modified for project as needed
      * */
 
-    public static BigInteger calculateGreatCircleDistance(Map origin, Map destination, BigDecimal earthRadius) {
+    public BigInteger calculateGreatCircleDistance(Map origin, Map destination, BigDecimal earthRadius) {
 
         double originLatitude = Double.parseDouble(String.valueOf(origin.get("latitude")));
         double originLongitude = Double.parseDouble(String.valueOf(origin.get("longitude")));

@@ -1,6 +1,7 @@
 package com.tripco.t10.TIP;
 
 
+import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +9,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 
-import static com.tripco.t10.misc.GreatCircleDistance.calculateGreatCircleDistance;
 
 
 /** Defines the TIP distance object.
@@ -50,8 +50,8 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-
-    this.distance = calculateGreatCircleDistance(this.origin, this.destination, this.earthRadius);
+    GreatCircleDistance haversine = new GreatCircleDistance();
+    this.distance = haversine.calculateGreatCircleDistance(this.origin, this.destination, this.earthRadius);
 
     //this.origin.g
     log.trace("buildResponse -> {}", this);
