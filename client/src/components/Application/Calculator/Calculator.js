@@ -4,6 +4,7 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
+import magellan from 'magellan-coords';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -93,7 +94,9 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-    const tipConfigRequest = {
+          let lat = magellan('12°20\'44.1600"N').latitude().toDD();
+          console.log(lat);
+      const tipConfigRequest = {
       'type'        : 'distance',
       'version'     : 1,
       'origin'      : this.state.origin,
