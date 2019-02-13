@@ -1,6 +1,9 @@
 package com.tripco.t10.misc;
 
 import java.lang.Math;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.Map;
 
 /** Determines the distance between geographic coordinates.
  */
@@ -8,15 +11,23 @@ public class GreatCircleDistance {
     /** code below from https://rosettacode.org/wiki/Haversine_formula#Java and modified for project as needed
      * */
 
-    public static double calculateGreatCircleDistance(double lat1, double lon1, double lat2, double lon2, double earthRadius) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
+    public static BigDecimal calculateGreatCircleDistance(Map origin, Map destination, BigDecimal earthRadius) {
 
-        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
+        double originLatitude = Double.parseDouble(String.valueOf(origin.get("latitude")));
+        double originLongitude = Double.parseDouble(String.valueOf(origin.get("longitude")));
+
+        double destinationLatitude = Double.parseDouble(String.valueOf(destination.get("latitude")));
+        double destinationLongitude = Double.parseDouble(String.valueOf(destination.get("longitude")));
+
+        double dLat = Math.toRadians(destinationLatitude - originLatitude);
+        double dLon = Math.toRadians(destinationLongitude - originLongitude);
+        originLatitude = Math.toRadians(originLatitude);
+        destinationLatitude = Math.toRadians(destinationLatitude);
+
+        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(originLatitude) * Math.cos(destinationLatitude;
         double c = 2 * Math.asin(Math.sqrt(a));
-        return earthRadius * c;
+        BigDecimal cBigDecimal = new BigDecimal(c, MathContext.DECIMAL64);
+        return earthRadius .multiply(cBigDecimal);
     }
 
 
