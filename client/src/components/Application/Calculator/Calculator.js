@@ -5,9 +5,10 @@ import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import magellan from 'magellan-coords';
-import {Map, Marker, Popup, TileLayer} from "react-leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet/dist/leaflet.css';
+import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
 
 export default class Calculator extends Component {
   constructor(props) {
