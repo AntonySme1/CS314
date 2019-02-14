@@ -5,6 +5,10 @@ import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import magellan from 'magellan-coords';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet/dist/leaflet.css';
+import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -42,6 +46,11 @@ export default class Calculator extends Component {
             {this.createDistance()}
           </Col>
         </Row>
+          <Row>
+              <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+                  {this.renderMap()}
+              </Col>
+          </Row>
       </Container>
     );
   }
@@ -153,4 +162,48 @@ export default class Calculator extends Component {
     location[field] = value;
     this.setState({[stateVar]: location});
   }
+
+    renderMap() {
+        return (
+            <Pane header={'Calculator Map'}
+                  bodyJSX={this.renderLeafletMap()}/>
+        );
+    }
+
+    renderLeafletMap() {
+        return (
+            <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+                 style={{height: 500, maxwidth: 700}}>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                />
+                <Marker position={this.csuOvalGeographicCoordinates()}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
+                </Marker>
+            </Map>
+        )
+    }
+
+    csuOvalGeographicCoordinates() {
+        return L.latLng(40.576179, -105.080773);
+    }
+
+    originMarker() {
+        return L.latLng(this.state.origin.latitude, this.state.origin.longitude);
+    }
+
+    destMarker() {
+        return L.latLng(this.state.destination.latitude, this.state.destination.longitude);
+    }
+
+    markerIcon() {
+        // react-leaflet does not currently handle default marker icons correctly,
+        // so we must create our own
+        return L.icon({
+            iconUrl: icon,
+            shadowUrl: iconShadow,
+            iconAnchor: [12,40]  // for proper placement
+        })
+    }
 }
