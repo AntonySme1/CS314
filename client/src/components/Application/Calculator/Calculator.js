@@ -46,6 +46,11 @@ export default class Calculator extends Component {
             {this.createDistance()}
           </Col>
         </Row>
+          <Row>
+              <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+                  {this.renderMap()}
+              </Col>
+          </Row>
       </Container>
     );
   }
