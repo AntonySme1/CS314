@@ -4,6 +4,7 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
+import magellan from 'magellan-coords';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -93,32 +94,58 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-    const tipConfigRequest = {
-      'type'        : 'distance',
-      'version'     : 1,
-      'origin'      : this.state.origin,
-      'destination' : this.state.destination,
-      'earthRadius' : this.props.options.units[this.props.options.activeUnit]
-    };
+      const originLat = magellan(this.state.origin.latitude).latitude();
+      const originLon = magellan(this.state.origin.longitude).longitude();
 
-    sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
-      .then((response) => {
-        if(response.statusCode >= 200 && response.statusCode <= 299) {
+      const destinationLat = magellan(this.state.destination.latitude).latitude();
+      const destinationLon = magellan(this.state.destination.longitude).longitude();
+
+      if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
+
           this.setState({
-            distance: response.body.distance,
-            errorMessage: null
+              errorMessage: this.props.createErrorBanner(
+                  'Bad Request',
+                  400,
+                  `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
+              )
           });
-        }
-        else {
-          this.setState({
-            errorMessage: this.props.createErrorBanner(
-                response.statusText,
-                response.statusCode,
-                `Request to ${ this.props.settings.serverPort } failed.`
-            )
-          });
-        }
-      });
+      }
+
+      else {
+
+          const updatedOrigin = {latitude: originLat.toDD(), longitude: originLon.toDD()};
+          const updatedDestination = {latitude: destinationLat.toDD(), longitude: destinationLon.toDD()};
+
+          console.log(updatedOrigin);
+          console.log(updatedDestination);
+
+          const tipConfigRequest = {
+              'type': 'distance',
+              'version': 1,
+              'origin': updatedOrigin,
+              'destination': updatedDestination,
+              'earthRadius': this.props.options.units[this.props.options.activeUnit]
+          };
+
+
+          sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
+              .then((response) => {
+                  if (response.statusCode >= 200 && response.statusCode <= 299) {
+                      this.setState({
+                          distance: response.body.distance,
+                          errorMessage: null
+                      });
+                  } else {
+                      this.setState({
+                          errorMessage: this.props.createErrorBanner(
+                              response.statusText,
+                              response.statusCode,
+                              `Request to ${this.props.settings.serverPort} failed.`
+                          )
+                      });
+                  }
+              });
+      }
   }
 
   updateLocationOnChange(stateVar, field, value) {
