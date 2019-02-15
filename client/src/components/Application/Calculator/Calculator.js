@@ -14,11 +14,26 @@ export default class Calculator extends Component {
     this.createInputField = this.createInputField.bind(this);
 
     this.state = {
-      origin: {latitude: '', longitude: ''},
-      destination: {latitude: '', longitude: ''},
-      distance: 0,
-      errorMessage: null
+        origin: {latitude: '', longitude: ''},
+        destination: {latitude: '', longitude: ''},
+        distance: 0,
+        errorMessage: null
     };
+
+    /**
+     * code partially taken from https://www.w3schools.com/js/js_cookies.asp
+     * cookie data gets stored in updateLocationOnChange(), then when the page is loaded
+     * the constructor will update origin and destination according to cookie data.
+     * olatitude/olongitude and dlatitude/dlongitude refer to origin and destination coordinates respectively
+     */
+
+    let cookieInformation = document.cookie.split(';');
+    for (let i = 0; i < cookieInformation.length; i++) {
+        let coordinate = cookieInformation[i];
+        while (coordinate.charAt(0) == ' ') {
+            coordinate = coordinate.substring(1);
+        }
+    }
   }
 
   render() {
@@ -122,8 +137,10 @@ export default class Calculator extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
+    document.cookie = stateVar.charAt(0) + field + "=" + value;
     let location = Object.assign({}, this.state[stateVar]);
     location[field] = value;
     this.setState({[stateVar]: location});
   }
 }
+
