@@ -13,27 +13,55 @@ export default class Calculator extends Component {
     this.calculateDistance = this.calculateDistance.bind(this);
     this.createInputField = this.createInputField.bind(this);
 
-    this.state = {
-        origin: {latitude: '', longitude: ''},
-        destination: {latitude: '', longitude: ''},
-        distance: 0,
-        errorMessage: null
-    };
-
     /**
      * code partially taken from https://www.w3schools.com/js/js_cookies.asp
-     * cookie data gets stored in updateLocationOnChange(), then when the page is loaded
+     * Cookie data gets stored when user changes coordinates, then when the page is loaded
      * the constructor will update origin and destination according to cookie data.
      * olatitude/olongitude and dlatitude/dlongitude refer to origin and destination coordinates respectively
+     * I would like to put this code into a method to reduce clutter in the constructor and improve readability
      */
+
+    let olatitude = '';
+    let olongitude = '';
+    let dlatitude = '';
+    let dlongitude = '';
 
     let cookieInformation = document.cookie.split(';');
     for (let i = 0; i < cookieInformation.length; i++) {
         let coordinate = cookieInformation[i];
-        while (coordinate.charAt(0) == ' ') {
+        while (coordinate.charAt(0) === ' ') {
             coordinate = coordinate.substring(1);
         }
+        let origOrDest = coordinate.charAt(0);
+        if(origOrDest === 'o') {
+            coordinate = coordinate.substring(1);
+            coordinate = coordinate.split('=');
+            if (coordinate[0] === "latitude") {
+                olatitude = coordinate[1];
+            }
+            else {
+                olongitude = coordinate[1];
+            }
+        }
+        if(origOrDest === 'd') {
+            coordinate = coordinate.substring(1);
+            coordinate = coordinate.split('=');
+            if (coordinate[0] === "latitude") {
+                dlatitude = coordinate[1];
+            }
+            else {
+                dlongitude = coordinate[1];
+            }
+        }
     }
+
+    this.state = {
+        origin: {latitude: olatitude, longitude: olongitude},
+        destination: {latitude: dlatitude, longitude: dlongitude},
+        distance: 0,
+        errorMessage: null
+    };
+
   }
 
   render() {
@@ -70,7 +98,9 @@ export default class Calculator extends Component {
 
   createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
-      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+        document.cookie = stateVar.charAt(0) + event.target.name + "=" + event.target.value;
+        this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
+    };
 
     let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
     return (
@@ -137,7 +167,6 @@ export default class Calculator extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
-    document.cookie = stateVar.charAt(0) + field + "=" + value;
     let location = Object.assign({}, this.state[stateVar]);
     location[field] = value;
     this.setState({[stateVar]: location});
