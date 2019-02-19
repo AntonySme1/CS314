@@ -8,7 +8,7 @@ import magellan from 'magellan-coords';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -171,13 +171,15 @@ export default class Calculator extends Component {
     }
 
     renderLeafletMap() {
+      let latlngs = [this.originMarker(), this.destMarker()];
         return (
             <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.originMarker()} icon={this.markerIcon()}>Origin Marker</Marker>
-                <Marker position={this.destMarker()} icon={this.markerIcon()}>Destination Marker</Marker>
+                <Marker position={this.originMarker()} icon={this.markerIcon()}/>
+                <Marker position={this.destMarker()} icon={this.markerIcon()}/>
+                <Polyline positions={latlngs} color={"red"}/>
             </Map>
         )
     }
