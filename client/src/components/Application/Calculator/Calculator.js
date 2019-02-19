@@ -8,7 +8,7 @@ import magellan from 'magellan-coords';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -217,30 +217,14 @@ export default class Calculator extends Component {
 
     renderLeafletMap() {
         return (
-            <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
-                 style={{height: 500, maxwidth: 700}}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}}>
+                <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+                           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.csuOvalGeographicCoordinates()}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
-                </Marker>
             </Map>
         )
     }
 
-    csuOvalGeographicCoordinates() {
-        return L.latLng(40.576179, -105.080773);
-    }
-
-    originMarker() {
-        return L.latLng(this.state.origin.latitude, this.state.origin.longitude);
-    }
-
-    destMarker() {
-        return L.latLng(this.state.destination.latitude, this.state.destination.longitude);
-    }
 
     markerIcon() {
         // react-leaflet does not currently handle default marker icons correctly,
