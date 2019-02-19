@@ -12,6 +12,7 @@ import Pane from './Pane'
 export default class Home extends Component {
 
   render() {
+    this.renderGeolocation();
     return (
       <Container>
         <Row>
@@ -23,9 +24,9 @@ export default class Home extends Component {
           </Col>
         </Row>
       </Container>
-    );
-  }
+    )
 
+  }
   renderMap() {
     return (
       <Pane header={'Where Am I?'}
@@ -49,6 +50,32 @@ export default class Home extends Component {
         </Marker>
       </Map>
     )
+  }
+  renderGeolocation() {
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+
+
+    };
+
+    function success(pos) {
+      var crd = pos.coords;
+
+      console.log('Your current position is:');
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude: ${crd.longitude}`);
+      console.log(`More or less ${crd.accuracy} meters.`);
+    }
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+     navigator.geolocation.getCurrentPosition(success, error, options);
+
+
   }
 
   renderIntro() {
