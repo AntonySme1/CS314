@@ -216,26 +216,15 @@ export default class Calculator extends Component {
     }
 
     renderLeafletMap() {
-      let latlngs = [this.originMarker(), this.destMarker()];
         return (
             <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.originMarker()} icon={this.markerIcon()}/>
-                <Marker position={this.destMarker()} icon={this.markerIcon()}/>
-                <Polyline positions={latlngs} color={"red"}/>
             </Map>
         )
     }
 
-    originMarker() {
-        return L.latLng(this.state.origin.latitude, this.state.origin.longitude);
-    }
-
-    destMarker() {
-        return L.latLng(this.state.destination.latitude, this.state.destination.longitude);
-    }
 
     markerIcon() {
         // react-leaflet does not currently handle default marker icons correctly,
