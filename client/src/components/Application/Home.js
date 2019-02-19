@@ -5,6 +5,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import Pane from './Pane'
+import ItineraryForm from "./ItineraryForm/ItineraryForm";
+
 
 /*
  * Renders the home page.
@@ -20,6 +22,9 @@ export default class Home extends Component {
           </Col>
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
             {this.renderIntro()}
+          </Col>
+          <Col xs={12} sm={12} md={5} lg={4} xl={3}>
+            <ItineraryForm />
           </Col>
         </Row>
       </Container>
