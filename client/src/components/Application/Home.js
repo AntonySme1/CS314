@@ -12,9 +12,10 @@ import Pane from './Pane'
 export default class Home extends Component {
 
   render() {
-    this.renderGeolocation();
+
     return (
       <Container>
+        {this.renderGeolocation()}
         <Row>
           <Col xs={12} sm={12} md={7} lg={8} xl={9}>
             {this.renderMap()}
