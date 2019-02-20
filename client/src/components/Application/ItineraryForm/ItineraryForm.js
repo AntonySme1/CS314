@@ -19,6 +19,11 @@ const ItineraryForm = (props) => {
     );
 }
 
+const readFile = {
+
+            
+}
+
 
 
 
@@ -27,3 +32,4 @@ const ItineraryForm = (props) => {
 
 
 export default ItineraryForm;
+export readFile;
