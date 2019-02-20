@@ -14,7 +14,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.success = this.success.bind(this);
-    this.state = {latitude: '', longitude: ''};
+    this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
   }
 
   render() {
@@ -53,14 +53,18 @@ export default class Home extends Component {
         />
         <Marker position={this.getCurrentCoordinates()}
                 icon={this.markerIcon()}>
-          <Popup className="font-weight-extrabold">Colorado State University</Popup>
+          <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
         </Marker>
       </Map>
     )
   }
 
-  getCurrentCoordinates(){
+  getCurrentCoordinates() {
     return L.latLng(this.state.latitude, this.state.longitude);
+  }
+
+  currentLocationPopup() {
+      return this.state.location;
   }
 
   renderGeolocation() {
@@ -76,7 +80,7 @@ export default class Home extends Component {
   success(pos) {
     var crd = pos.coords;
 
-    this.setState({latitude: crd.latitude, longitude: crd.longitude});
+    this.setState({latitude: crd.latitude, longitude: crd.longitude, location: 'your location'});
     console.log('Your current position is:');
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude: ${crd.longitude}`);
