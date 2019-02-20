@@ -18,6 +18,7 @@ const ItineraryForm = (props) => {
     );
 }
 
+//code from https://blog.shovonhasan.com/using-promises-with-filereader/
 const processFile = (file) => {
     const reader = new FileReader();
 
