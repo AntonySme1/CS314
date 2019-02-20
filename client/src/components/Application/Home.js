@@ -70,7 +70,6 @@ export default class Home extends Component {
   renderGeolocation() {
     var options = {
       enableHighAccuracy: true,
-      timeout: 5000,
       maximumAge: 0
     };
 
