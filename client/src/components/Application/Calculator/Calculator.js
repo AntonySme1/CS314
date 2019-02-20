@@ -148,11 +148,11 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-      const originLat = magellan(this.state.origin.latitude).latitude();
-      const originLon = magellan(this.state.origin.longitude).longitude();
+      const originLat = magellan(this.state.origin.latitude.toUpperCase()).latitude();
+      const originLon = magellan(this.state.origin.longitude.toUpperCase()).longitude();
 
-      const destinationLat = magellan(this.state.destination.latitude).latitude();
-      const destinationLon = magellan(this.state.destination.longitude).longitude();
+      const destinationLat = magellan(this.state.destination.latitude.toUpperCase()).latitude();
+      const destinationLon = magellan(this.state.destination.longitude.toUpperCase()).longitude();
 
       if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
 
