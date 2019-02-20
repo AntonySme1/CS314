@@ -11,6 +11,12 @@ import Pane from './Pane'
  */
 export default class Home extends Component {
 
+  constructor(props) {
+    super(props);
+    this.success = this.success.bind(this);
+    this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
+  }
+
   render() {
 
     return (
@@ -40,43 +46,48 @@ export default class Home extends Component {
     // 1: bounds={this.coloradoGeographicBoundaries()}
     // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
     return (
-      <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+      <Map center={this.getCurrentCoordinates()} zoom={10}
            style={{height: 500, maxwidth: 700}}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
-        <Marker position={this.csuOvalGeographicCoordinates()}
+        <Marker position={this.getCurrentCoordinates()}
                 icon={this.markerIcon()}>
-          <Popup className="font-weight-extrabold">Colorado State University</Popup>
+          <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
         </Marker>
       </Map>
     )
   }
+
+  getCurrentCoordinates() {
+    return L.latLng(this.state.latitude, this.state.longitude);
+  }
+
+  currentLocationPopup() {
+      return this.state.location;
+  }
+
   renderGeolocation() {
     var options = {
       enableHighAccuracy: true,
-      timeout: 5000,
       maximumAge: 0
-
-
     };
 
-    function success(pos) {
-      var crd = pos.coords;
+     navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+  }
 
-      console.log('Your current position is:');
-      console.log(`Latitude : ${crd.latitude}`);
-      console.log(`Longitude: ${crd.longitude}`);
-      console.log(`More or less ${crd.accuracy} meters.`);
-    }
+  success(pos) {
+    var crd = pos.coords;
 
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
+    this.setState({latitude: crd.latitude, longitude: crd.longitude, location: 'your location'});
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+  }
 
-     navigator.geolocation.getCurrentPosition(success, error, options);
-
-
+  error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
   renderIntro() {
