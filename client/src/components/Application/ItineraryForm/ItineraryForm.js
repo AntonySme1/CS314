@@ -7,29 +7,31 @@ const ItineraryForm = (props) => {
 
             <FormGroup>
                 <Label for="itinerary">Itinerary Upload</Label>
-                <Input type="file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" />
+                <Input type="file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={test}/>
                 <FormText color="muted">
                     Please upload '.json' extension file only.
                 </FormText>
             </FormGroup>
 
-            <Button>Upload</Button>
 
         </Form>
     );
 }
 
-const readFile = {
 
-            
+const test = (event) => {
+
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        console.log (reader.result);
+        }
+
+    reader.readAsText(file);
+
+
 }
-
-
-
-
-
-
-
-
 export default ItineraryForm;
-export readFile;
+
