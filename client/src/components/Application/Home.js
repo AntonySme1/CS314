@@ -11,6 +11,12 @@ import Pane from './Pane'
  */
 export default class Home extends Component {
 
+  constructor(props) {
+    super(props);
+    this.success = this.success.bind(this);
+    this.state = {latitude: '', longitude: ''};
+  }
+
   render() {
 
     return (
@@ -57,26 +63,23 @@ export default class Home extends Component {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0
-
-
     };
 
-    function success(pos) {
-      var crd = pos.coords;
+     navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+  }
 
-      console.log('Your current position is:');
-      console.log(`Latitude : ${crd.latitude}`);
-      console.log(`Longitude: ${crd.longitude}`);
-      console.log(`More or less ${crd.accuracy} meters.`);
-    }
+  success(pos) {
+    var crd = pos.coords;
 
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
+    this.setState({latitude: crd.latitude, longitude: crd.longitude});
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+  }
 
-     navigator.geolocation.getCurrentPosition(success, error, options);
-
-
+  error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
   renderIntro() {
