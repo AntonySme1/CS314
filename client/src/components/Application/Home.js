@@ -46,18 +46,23 @@ export default class Home extends Component {
     // 1: bounds={this.coloradoGeographicBoundaries()}
     // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
     return (
-      <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+      <Map center={this.getCurrentCoordinates()} zoom={10}
            style={{height: 500, maxwidth: 700}}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
-        <Marker position={this.csuOvalGeographicCoordinates()}
+        <Marker position={this.getCurrentCoordinates()}
                 icon={this.markerIcon()}>
           <Popup className="font-weight-extrabold">Colorado State University</Popup>
         </Marker>
       </Map>
     )
   }
+
+  getCurrentCoordinates(){
+    return L.latLng(this.state.latitude, this.state.longitude);
+  }
+
   renderGeolocation() {
     var options = {
       enableHighAccuracy: true,
