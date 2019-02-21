@@ -33,6 +33,7 @@ export default class Home extends Component {
           </Col>
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
             <ItineraryForm />
+
           </Col>
         </Row>
       </Container>
