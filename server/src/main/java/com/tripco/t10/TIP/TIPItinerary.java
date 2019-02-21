@@ -1,5 +1,6 @@
 package com.tripco.t10.TIP;
 
+import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,24 +12,26 @@ import java.util.ArrayList;
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private ArrayList<Integer> destinations;
+    private ArrayList<Integer> distances;
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
-    TIPItinerary(int version, JsonObject options, JsonArray places, ArrayList<Integer> destinations) {
+    TIPItinerary(int version, JsonObject options, JsonArray places, ArrayList<Integer> distances) {
         this();
         this.requestVersion = version;
         this.options = options;
         this.places = places;
-        this.destinations = destinations;
+        this.distances = distances;
     }
 
     private TIPItinerary() {
         this.requestType = "itinerary";
     }
 
+
     @Override
     public void buildResponse() {
+
         log.trace("buildResponse -> {}", this);
     }
 
@@ -38,7 +41,8 @@ public class TIPItinerary extends TIPHeader{
         return "TIPItinerary{" +
                 "options: " + gson.toJson(options) +
                 "places: " + gson.toJson(places) +
-                "destinations" + gson.toJson(destinations) +
+                "distances" + gson.toJson(distances) +
                 '}';
     }
+
 }
