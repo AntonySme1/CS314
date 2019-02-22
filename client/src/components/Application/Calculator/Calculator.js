@@ -28,7 +28,7 @@ export default class Calculator extends Component {
 
     let cookieInformation = document.cookie.split(';');
     this.parseCookieInformation(cookieInformation);
-
+    this.calculateDistance();
   }
 
   parseCookieInformation(cookieInformation) {
