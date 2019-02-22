@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, FormGroup, FormText} from 'reactstrap'
+import {Button, FormGroup, FormText, Table} from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 
@@ -15,7 +15,7 @@ export default class ItineraryForm extends Component {
         this.state = {
             version: 2,
             options: {},
-            places: {},
+            places: [],
             distances: [],
             errorMessage: null
 
@@ -109,6 +109,7 @@ setStateFromFile (fileContent) {
     return false;
 };
 
+
 calculateLegDistance () {
 
    const tipLegDistanceRequest = {
@@ -119,13 +120,15 @@ calculateLegDistance () {
         'distances': this.state.distances
     };
 
+
 sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
         .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 this.setState({
-                    distances: response.body.distance,
+                    distances: response.body.distances,
                     errorMessage: null
                 });
+                console.log(this.state.distances)
             } else {
                 this.setState({
                     errorMessage: this.props.createErrorBanner(
