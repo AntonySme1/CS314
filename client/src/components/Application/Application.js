@@ -96,7 +96,9 @@ export default class Application extends Component {
                          serverConfig={this.state.serverConfig}
                          updateSetting={this.updateClientSetting}/>;
       default:
-        return <Home/>;
+        return <Home settings={this.state.clientSettings}
+                     createErrorBanner={this.createErrorBanner}
+        />;
     }
   }
 

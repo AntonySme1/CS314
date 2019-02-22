@@ -15,6 +15,7 @@ export default class Home extends Component {
 
   constructor(props) {
     super(props);
+
     this.success = this.success.bind(this);
     this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
   }
@@ -32,7 +33,9 @@ export default class Home extends Component {
             {this.renderIntro()}
           </Col>
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
-            <ItineraryForm />
+            <ItineraryForm  settings = {this.props.settings}
+                            createErrorBanner={this.props.createErrorBanner}/>
+
           </Col>
         </Row>
       </Container>
