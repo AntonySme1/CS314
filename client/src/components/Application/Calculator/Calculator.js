@@ -17,56 +17,53 @@ export default class Calculator extends Component {
     this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
     this.calculateDistance = this.calculateDistance.bind(this);
     this.createInputField = this.createInputField.bind(this);
-
-    /**
-     * code partially taken from https://www.w3schools.com/js/js_cookies.asp
-     * Cookie data gets stored when user changes coordinates, then when the page is loaded
-     * the constructor will update origin and destination according to cookie data.
-     * olatitude/olongitude and dlatitude/dlongitude refer to origin and destination coordinates respectively
-     * I would like to put this code into a method to reduce clutter in the constructor and improve readability
-     */
-
-    let olatitude = '';
-    let olongitude = '';
-    let dlatitude = '';
-    let dlongitude = '';
-
-    let cookieInformation = document.cookie.split(';');
-    for (let i = 0; i < cookieInformation.length; i++) {
-        let coordinate = cookieInformation[i];
-        while (coordinate.charAt(0) === ' ') {
-            coordinate = coordinate.substring(1);
-        }
-        let origOrDest = coordinate.charAt(0);
-        if(origOrDest === 'o') {
-            coordinate = coordinate.substring(1);
-            coordinate = coordinate.split('=');
-            if (coordinate[0] === "latitude") {
-                olatitude = coordinate[1];
-            }
-            else {
-                olongitude = coordinate[1];
-            }
-        }
-        if(origOrDest === 'd') {
-            coordinate = coordinate.substring(1);
-            coordinate = coordinate.split('=');
-            if (coordinate[0] === "latitude") {
-                dlatitude = coordinate[1];
-            }
-            else {
-                dlongitude = coordinate[1];
-            }
-        }
-    }
+    this.updateStateWithCookieCoord = this.updateStateWithCookieCoord.bind(this);
 
     this.state = {
-        origin: {latitude: olatitude, longitude: olongitude},
-        destination: {latitude: dlatitude, longitude: dlongitude},
+        origin: {latitude: '', longitude: ''},
+        destination: {latitude: '', longitude: ''},
         distance: 0,
         errorMessage: null
     };
 
+    let cookieInformation = document.cookie.split(';');
+    this.parseCookieInformation(cookieInformation);
+
+  }
+
+  parseCookieInformation(cookieInformation) {
+      for (let i = 0; i < cookieInformation.length; i++) {
+          let coordinate = cookieInformation[i];
+          while (coordinate.charAt(0) === ' ') {
+              coordinate = coordinate.substring(1);
+          }
+          this.updateStateWithCookieCoord(coordinate);
+      }
+  }
+
+  updateStateWithCookieCoord(coordinate) {
+      let origOrDest = coordinate.charAt(0);
+      if(origOrDest === 'o') {
+          coordinate = coordinate.substring(1);
+          coordinate = coordinate.split('=');
+          if (coordinate[0] === "latitude") {
+              this.state.origin.latitude = coordinate[1];
+          }
+
+          else {
+              this.state.origin.longitude = coordinate[1];
+          }
+      }
+      if(origOrDest === 'd') {
+          coordinate = coordinate.substring(1);
+          coordinate = coordinate.split('=');
+          if (coordinate[0] === "latitude") {
+              this.state.destination.latitude = coordinate[1];
+          }
+          else {
+              this.state.destination.longitude = coordinate[1];
+          }
+      }
   }
 
   render() {
