@@ -11,10 +11,12 @@ export default class ItineraryForm extends Component {
 
         this.calculateLegDistance = this.calculateLegDistance.bind(this);
         this.readFile = this.readFile.bind(this);
+
         this.state = {
-            options: null,
-            places: null,
-            distances: null,
+            version: 2,
+            options: {},
+            places: {},
+            distances: [],
             errorMessage: null
 
         };
@@ -67,6 +69,7 @@ async readFile   (event) {
     const file = event.target.files[0];
     const fileContent = await this.processFile (file);
     this.printJSON(fileContent);
+    this.setStateFromFile(fileContent);
 };
 
 printJSON  (fileContent)  {
@@ -77,6 +80,16 @@ printJSON  (fileContent)  {
    console.log("places is ", parsedJSON.places);
    console.log("distances is ", parsedJSON.distances);
 
+}
+
+setStateFromFile (fileContent) {
+    const parsedJSON = JSON.parse(fileContent);
+    this.setState(
+        {
+            version: parsedJSON.requestVersion,
+            options: parsedJSON.options,
+            places: parsedJSON.places
+        } )
 }
 
 
@@ -99,14 +112,14 @@ printJSON  (fileContent)  {
 calculateLegDistance () {
 
    const tipLegDistanceRequest = {
-        'type': 'itinenary',
-        'version': 1,
+        'type': 'itinerary',
+        'version': this.state.version,
         'options': this.state.options,
         'places': this.state.places,
         'distances': this.state.distances
     };
 
-sendServerRequestWithBody('itinenary', tipLegDistanceRequest, this.props.settings.serverPort)
+sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
         .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 this.setState({
