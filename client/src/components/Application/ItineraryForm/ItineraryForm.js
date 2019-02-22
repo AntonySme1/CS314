@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-
 import {Button, FormGroup, FormText} from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
-
-import 'leaflet/dist/leaflet.css';
-
 
 
 export default class ItineraryForm extends Component {
