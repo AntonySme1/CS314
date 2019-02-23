@@ -88,7 +88,7 @@ export default class Home extends Component {
                 <Marker position={this.convertCoordinates(place.latitude, place.longitude)}
                             icon={this.markerIcon()}
                             key={index}>
-                  <Popup className="font-weight-extrabold">{place.name}</Popup>
+                  <Popup className="font-weight-extrabold">{place.name + ` lat: ${place.latitude} long: ${place.longitude}`}</Popup>
                 </Marker>
             );
           }))
