@@ -17,7 +17,11 @@ export default class Home extends Component {
 
     this.success = this.success.bind(this);
     this.getItineraryData = this.getItineraryData.bind(this);
-    this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
+    this.state = {latitude: 40.576179,
+      longitude: -105.080773,
+      location: 'Colorado State University',
+      itinerary: null
+    };
   }
 
   render() {
