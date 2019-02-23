@@ -3,10 +3,9 @@ import {Container, Row, Col} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import ItineraryForm from "./ItineraryForm/ItineraryForm";
-
 
 /*
  * Renders the home page.
@@ -67,6 +66,7 @@ export default class Home extends Component {
           <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
         </Marker>
         {this.generateTripMarkers()}
+        {this.drawLinesBetweenMarkers()}
       </Map>
     )
   }
@@ -88,6 +88,15 @@ export default class Home extends Component {
                 </Marker>
             );
           }))
+    }
+  }
+
+  drawLinesBetweenMarkers(){
+    if(this.state.itinerary) {
+      let coordinates = this.state.itinerary.places.map((place) => {
+        return [Number(place.latitude), Number(place.longitude)];
+      });
+      return <Polyline positions={coordinates}/>
     }
   }
 
