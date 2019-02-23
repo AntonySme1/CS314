@@ -17,6 +17,7 @@ export default class Home extends Component {
     super(props);
 
     this.success = this.success.bind(this);
+    this.getItineraryData = this.getItineraryData.bind(this);
     this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
   }
 
@@ -34,7 +35,8 @@ export default class Home extends Component {
           </Col>
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
             <ItineraryForm  settings = {this.props.settings}
-                            createErrorBanner={this.props.createErrorBanner}/>
+                            createErrorBanner={this.props.createErrorBanner}
+                            getItineraryData={this.getItineraryData}/>
 
           </Col>
         </Row>
@@ -42,6 +44,7 @@ export default class Home extends Component {
     )
 
   }
+
   renderMap() {
     return (
       <Pane header={'Where Am I?'}
@@ -63,8 +66,33 @@ export default class Home extends Component {
                 icon={this.markerIcon()}>
           <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
         </Marker>
+        {this.generateTripMarkers()}
       </Map>
     )
+  }
+
+  getItineraryData(itinerary){
+    console.log(itinerary);
+    this.setState({itinerary: itinerary});
+  }
+
+  generateTripMarkers(){
+    if (this.state.itinerary) {
+      return (
+          this.state.itinerary.places.map((place, index) => {
+            return (
+                <Marker position={this.convertCoordinates(place.latitude, place.longitude)}
+                            icon={this.markerIcon()}
+                            key={index}>
+                  <Popup className="font-weight-extrabold">{place.name}</Popup>
+                </Marker>
+            );
+          }))
+    }
+  }
+
+  convertCoordinates(latitude, longitude){
+    return L.latLng(latitude, longitude);
   }
 
   getCurrentCoordinates() {
