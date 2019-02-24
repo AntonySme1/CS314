@@ -128,7 +128,8 @@ sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.setting
                     distances: response.body.distances,
                     errorMessage: null
                 });
-                console.log(this.state.distances)
+                console.log(this.state.distances);
+                this.props.getItineraryData(this.state);
             } else {
                 this.setState({
                     errorMessage: this.props.createErrorBanner(

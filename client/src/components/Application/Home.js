@@ -3,10 +3,9 @@ import {Container, Row, Col} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import ItineraryForm from "./ItineraryForm/ItineraryForm";
-
 
 /*
  * Renders the home page.
@@ -17,7 +16,12 @@ export default class Home extends Component {
     super(props);
 
     this.success = this.success.bind(this);
-    this.state = {latitude: 40.576179, longitude: -105.080773, location: 'Colorado State University'};
+    this.getItineraryData = this.getItineraryData.bind(this);
+    this.state = {latitude: 40.576179,
+      longitude: -105.080773,
+      location: 'Colorado State University',
+      itinerary: null
+    };
   }
 
   render() {
@@ -34,7 +38,8 @@ export default class Home extends Component {
           </Col>
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
             <ItineraryForm  settings = {this.props.settings}
-                            createErrorBanner={this.props.createErrorBanner}/>
+                            createErrorBanner={this.props.createErrorBanner}
+                            getItineraryData={this.getItineraryData}/>
 
           </Col>
         </Row>
@@ -42,6 +47,7 @@ export default class Home extends Component {
     )
 
   }
+
   renderMap() {
     return (
       <Pane header={'Where Am I?'}
@@ -63,8 +69,43 @@ export default class Home extends Component {
                 icon={this.markerIcon()}>
           <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
         </Marker>
+        {this.generateTripMarkers()}
+        {this.drawLinesBetweenMarkers()}
       </Map>
     )
+  }
+
+  getItineraryData(itinerary){
+    console.log(itinerary);
+    this.setState({itinerary: itinerary});
+  }
+
+  generateTripMarkers(){
+    if (this.state.itinerary) {
+      return (
+          this.state.itinerary.places.map((place, index) => {
+            return (
+                <Marker position={this.convertCoordinates(place.latitude, place.longitude)}
+                            icon={this.markerIcon()}
+                            key={index}>
+                  <Popup className="font-weight-extrabold">{place.name + ` lat: ${place.latitude} long: ${place.longitude}`}</Popup>
+                </Marker>
+            );
+          }))
+    }
+  }
+
+  drawLinesBetweenMarkers(){
+    if(this.state.itinerary) {
+      let coordinates = this.state.itinerary.places.map((place) => {
+        return [Number(place.latitude), Number(place.longitude)];
+      });
+      return <Polyline positions={coordinates}/>
+    }
+  }
+
+  convertCoordinates(latitude, longitude){
+    return L.latLng(latitude, longitude);
   }
 
   getCurrentCoordinates() {
