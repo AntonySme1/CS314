@@ -50,7 +50,7 @@ legDistanceButton() {
      return (
 
          <Col sm={{ size: 10, offset: 4 }}>
-             <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Leg Distance</Button>
+             <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
          </Col>
 
      );

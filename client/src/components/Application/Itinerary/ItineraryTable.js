@@ -56,7 +56,7 @@ const getTotalDistance = (itinerary) => {
             }
 
         );
-        
+
         return sum
     }
 
