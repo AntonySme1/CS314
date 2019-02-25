@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {Button, FormGroup, FormText, Table} from 'reactstrap'
+import {Button, Col, FormGroup, FormText, Table} from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
+import CustomInput from "reactstrap/es/CustomInput";
 
 
 export default class ItineraryForm extends Component {
@@ -14,7 +15,8 @@ export default class ItineraryForm extends Component {
 
         this.state = {
             version: 2,
-            options: {},
+            options: {"title":"My Trip",
+                "earthRadius":"3958.761316"},
             places: [],
             distances: [],
             errorMessage: null
@@ -31,10 +33,10 @@ export default class ItineraryForm extends Component {
 
             <FormGroup>
                 <Label for="itinerary">Itinerary Upload</Label>
-                <Input type="file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
-                <FormText color="muted">
-                    Please upload '.json' extension file only.
-                </FormText>
+                <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
+
+            </FormGroup>
+            <FormGroup check row>
                 {this.legDistanceButton()}
             </FormGroup>
 
@@ -46,7 +48,11 @@ export default class ItineraryForm extends Component {
 
 legDistanceButton() {
      return (
-        <Button color="primary" onClick={this.calculateLegDistance}>Leg Distance</Button>
+
+         <Col sm={{ size: 10, offset: 4 }}>
+             <Button color="primary" onClick={this.calculateLegDistance}>Leg Distance</Button>
+         </Col>
+
      );
     }
 

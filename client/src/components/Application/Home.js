@@ -5,8 +5,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
-import ItineraryForm from "./ItineraryForm/ItineraryForm";
-
+import ItineraryForm from "./Itinerary/ItineraryForm";
+import ItineraryTable from   "./Itinerary/ItineraryTable";
 /*
  * Renders the home page.
  */
@@ -17,6 +17,7 @@ export default class Home extends Component {
 
     this.success = this.success.bind(this);
     this.getItineraryData = this.getItineraryData.bind(this);
+    this.renderItineraryForm = this.renderItineraryForm.bind(this);
     this.state = {latitude: 40.576179,
       longitude: -105.080773,
       location: 'Colorado State University',
@@ -27,8 +28,11 @@ export default class Home extends Component {
   render() {
 
     return (
+
       <Container>
+
         {this.renderGeolocation()}
+
         <Row>
           <Col xs={12} sm={12} md={7} lg={8} xl={9}>
             {this.renderMap()}
@@ -36,13 +40,14 @@ export default class Home extends Component {
           <Col xs={12} sm={12} md={5} lg={4} xl={3}>
             {this.renderIntro()}
           </Col>
-          <Col xs={12} sm={12} md={5} lg={4} xl={3}>
-            <ItineraryForm  settings = {this.props.settings}
-                            createErrorBanner={this.props.createErrorBanner}
-                            getItineraryData={this.getItineraryData}/>
+        </Row>
 
+        <Row>
+          <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+            {this.renderItineraryForm()}
           </Col>
         </Row>
+
       </Container>
     )
 
@@ -51,8 +56,27 @@ export default class Home extends Component {
   renderMap() {
     return (
       <Pane header={'Where Am I?'}
-            bodyJSX={this.renderLeafletMap()}/>
+            bodyJSX={this.renderLeafletMap()} />
     );
+  }
+
+  renderItineraryForm() {
+        return (
+            <Pane header={'Itinerary'}
+                  bodyJSX = {this.ItineraryForm()}
+
+            />
+        );
+  }
+
+  ItineraryForm() {
+        return (
+            <ItineraryForm  settings = {this.props.settings}
+                            createErrorBanner={this.props.createErrorBanner}
+                            getItineraryData={this.getItineraryData}/>
+
+
+        )
   }
 
   renderLeafletMap() {
@@ -94,7 +118,13 @@ export default class Home extends Component {
           }))
     }
   }
-
+renderItineraryTable(){
+        if (this.state.itinerary){
+          return (<ItineraryTable settings = {this.props.settings}
+                                  createErrorBanner={this.props.createErrorBanner}
+                                  getItineraryData={this.getItineraryData} />)
+        }
+}
   drawLinesBetweenMarkers(){
     if(this.state.itinerary) {
       let coordinates = this.state.itinerary.places.map((place) => {
