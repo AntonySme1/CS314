@@ -90,7 +90,7 @@ export default class Home extends Component {
     if (this.state.itinerary){
       return (<ItineraryTable settings = {this.props.settings}
                               createErrorBanner={this.props.createErrorBanner}
-                              getItineraryData={this.getItineraryData} />)
+                              itinerary={this.state.itinerary} />)
     }
   }
 

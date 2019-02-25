@@ -2,7 +2,7 @@ import React from 'react';
 import {Table} from "reactstrap";
 
 
-const  ItineraryTable = () => {
+const  ItineraryTable = (props) => {
     return (
         <Table responsive hover boderless>
             <thead>
@@ -16,37 +16,49 @@ const  ItineraryTable = () => {
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th>1</th>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
 
-            </tr>
-            <tr>
-                <th>2</th>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-            </tr>
-            <tr>
-                <th>3</th>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
+                {generateTableData (props.itinerary)}
 
-            </tr>
+
+
             <tr>
                 <th colSpan="4" scope="row">Grand Total</th>
 
 
-                <td>0</td>
+                <td>{getTotalDistance(props.itinerary) }</td>
             </tr>
             </tbody>
         </Table>);
 };
+const generateTableData = (itinerary) =>{
 
+
+    if (itinerary != null){
+        return(
+        itinerary.places.map((place,index) => {
+            return (<tr>
+                <td>{index + 1}</td>
+                <td>{place.name}</td>
+                <td>{place.latitude}</td>
+                <td>{place.longitude}</td>
+                <td>{itinerary.distances[index]}</td>
+            </tr>)
+        }))
+    }
+
+};
+const getTotalDistance = (itinerary) => {
+    if (itinerary != null){
+        let sum = 0;
+
+        itinerary.distances.forEach((item) => {
+            sum += item
+            }
+
+        );
+        
+        return sum
+    }
+
+}
 export default ItineraryTable;
