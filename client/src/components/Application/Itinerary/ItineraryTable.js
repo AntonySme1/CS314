@@ -4,45 +4,46 @@ import {Table} from "reactstrap";
 
 const  ItineraryTable = () => {
     return (
-        <Table responsive striped hover boderless>
+        <Table responsive hover boderless>
             <thead>
             <tr>
                 <th>#</th>
                 <th>City</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
-                <th>Table heading</th>
-                <th>Table heading</th>
-                <th>Table heading</th>
+                <th>Leg Distance</th>
+
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th scope="row">1</th>
+                <th>1</th>
                 <td>Table cell</td>
                 <td>Table cell</td>
+                <td>Table cell</td>
+                <td>Table cell</td>
+
+            </tr>
+            <tr>
+                <th>2</th>
                 <td>Table cell</td>
                 <td>Table cell</td>
                 <td>Table cell</td>
                 <td>Table cell</td>
             </tr>
             <tr>
-                <th scope="row">2</th>
+                <th>3</th>
                 <td>Table cell</td>
                 <td>Table cell</td>
                 <td>Table cell</td>
                 <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
+
             </tr>
             <tr>
-                <th scope="row">3</th>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
+                <th colSpan="4" scope="row">Grand Total</th>
+
+
+                <td>0</td>
             </tr>
             </tbody>
         </Table>);

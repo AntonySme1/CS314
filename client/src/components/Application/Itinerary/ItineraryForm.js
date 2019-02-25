@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Col, FormGroup, FormText, Table} from 'reactstrap'
+import {Button, Col, FormGroup} from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import CustomInput from "reactstrap/es/CustomInput";
@@ -50,7 +50,7 @@ legDistanceButton() {
      return (
 
          <Col sm={{ size: 10, offset: 4 }}>
-             <Button color="primary" onClick={this.calculateLegDistance}>Leg Distance</Button>
+             <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Leg Distance</Button>
          </Col>
 
      );

@@ -18,6 +18,7 @@ export default class Home extends Component {
     this.success = this.success.bind(this);
     this.getItineraryData = this.getItineraryData.bind(this);
     this.renderItineraryForm = this.renderItineraryForm.bind(this);
+    this.renderItineraryTable = this.renderItineraryTable.bind(this);
     this.state = {latitude: 40.576179,
       longitude: -105.080773,
       location: 'Colorado State University',
@@ -48,6 +49,12 @@ export default class Home extends Component {
           </Col>
         </Row>
 
+        <Row>
+        <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+          {this.renderItineraryTable()}
+        </Col>
+       </Row>
+
       </Container>
     )
 
@@ -69,6 +76,7 @@ export default class Home extends Component {
         );
   }
 
+
   ItineraryForm() {
         return (
             <ItineraryForm  settings = {this.props.settings}
@@ -77,6 +85,13 @@ export default class Home extends Component {
 
 
         )
+  }
+  renderItineraryTable(){
+    if (this.state.itinerary){
+      return (<ItineraryTable settings = {this.props.settings}
+                              createErrorBanner={this.props.createErrorBanner}
+                              getItineraryData={this.getItineraryData} />)
+    }
   }
 
   renderLeafletMap() {
@@ -118,13 +133,7 @@ export default class Home extends Component {
           }))
     }
   }
-renderItineraryTable(){
-        if (this.state.itinerary){
-          return (<ItineraryTable settings = {this.props.settings}
-                                  createErrorBanner={this.props.createErrorBanner}
-                                  getItineraryData={this.getItineraryData} />)
-        }
-}
+
   drawLinesBetweenMarkers(){
     if(this.state.itinerary) {
       let coordinates = this.state.itinerary.places.map((place) => {
