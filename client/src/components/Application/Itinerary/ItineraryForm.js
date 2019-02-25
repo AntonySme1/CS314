@@ -123,7 +123,7 @@ calculateLegDistance () {
         'version': this.state.version,
         'options': this.state.options,
         'places': this.state.places,
-        'distances': this.state.distances
+        'distances': []
     };
 
 
