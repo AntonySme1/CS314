@@ -9,8 +9,8 @@ const  ItineraryTable = (props) => {
             <tr>
                 <th>#</th>
                 <th>City</th>
-                <th>Longitude</th>
                 <th>Latitude</th>
+                <th>Longitude</th>
                 <th>Leg Distance</th>
 
             </tr>
