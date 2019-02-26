@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Button, Col, FormGroup} from 'reactstrap'
-import { Form, Label, Input } from 'reactstrap'
+import { Form, Label, Input, CustomInput } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
-import CustomInput from "reactstrap/es/CustomInput";
+
 
 
 export default class ItineraryForm extends Component {
