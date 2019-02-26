@@ -139,6 +139,9 @@ export default class Home extends Component {
       let coordinates = this.state.itinerary.places.map((place) => {
         return [Number(place.latitude), Number(place.longitude)];
       });
+      if (coordinates.length) {
+        coordinates.push(coordinates[0]);
+      }
       return <Polyline positions={coordinates}/>
     }
   }
