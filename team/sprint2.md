@@ -82,9 +82,8 @@ These Epics were completed.
 
 These Epics were not completed.
 
-* *## epic title: explanation*
-* 
-*
+* #100 User: Show me a map and itinerary for my trip*
+* #89 User: It would be nice to see a map with the calculator.*
 
 #### What went well
 
