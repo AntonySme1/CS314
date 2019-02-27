@@ -27,19 +27,19 @@ import java.util.Map;
 public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
-  private BigDecimal earthRadius;
-  private BigInteger distance;
+  private Double earthRadius;
+  private Long distance;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
 
-  TIPDistance(int version, Map origin, Map destination, BigDecimal earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, Double earthRadius) {
     this();
     this.requestVersion = version;
     this.origin = origin;
     this.destination = destination;
     this.earthRadius = earthRadius;
-    this.distance = new BigInteger("0");
+    this.distance = 0L;
   }
 
 
@@ -58,7 +58,7 @@ public class TIPDistance extends TIPHeader {
   }
 
 
-  BigInteger getDistance() {
+  Long getDistance() {
     return distance;
   }
 

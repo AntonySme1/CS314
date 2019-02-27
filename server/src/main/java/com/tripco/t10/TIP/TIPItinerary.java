@@ -81,8 +81,8 @@ public class TIPItinerary extends TIPHeader{
 
     }
 
-    BigDecimal getEarthRadius(){
-        return BigDecimal.valueOf(options.getAsJsonObject().get("earthRadius").getAsDouble());
+    Double getEarthRadius(){
+        return options.getAsJsonObject().get("earthRadius").getAsDouble();
     }
 
     @Override
