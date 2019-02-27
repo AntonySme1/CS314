@@ -76,13 +76,16 @@ In this sprint, ...
 These Epics were completed.
 
 * *## epic title: comments*
-*
+* *#32 User: I may need distances in other units of measure Epic*
+* *#83 User: I may need distances in other units of measure Epic*
+* *#90 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
 
 #### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
 
 * *## epic title: explanation*
+* 
 *
 
 #### What went well
