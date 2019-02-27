@@ -75,7 +75,6 @@ In this sprint, ...
 
 These Epics were completed.
 
-* *## epic title: comments*
 * *#32 User: I may need distances in other units of measure*
 * *#90 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
 
