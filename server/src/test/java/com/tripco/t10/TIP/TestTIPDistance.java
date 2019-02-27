@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class TestTIPDistance {
 
   /* Radius and location values shared by test cases */
-  private final BigDecimal radiusMiles = new BigDecimal("6371000000");
+  private final Double radiusMiles = 6.37E+9;
   private Map<String, Object> csu;
   private final int version = 1;
 
@@ -31,8 +31,8 @@ public class TestTIPDistance {
   public void testOriginDestinationSame() {
     TIPDistance trip = new TIPDistance(version, csu, csu, radiusMiles);
     trip.buildResponse();
-    BigInteger expect = new BigInteger("0");
-    BigInteger actual = trip.getDistance();
+    Long expect = 0L;
+    Long actual = trip.getDistance();
     assertEquals("origin and destination are the same", expect, actual);
   }
 }
