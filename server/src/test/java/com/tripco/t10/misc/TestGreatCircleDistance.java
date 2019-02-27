@@ -30,7 +30,7 @@ public class TestGreatCircleDistance {
         destination.put("latitude", 0);
         destination.put("longitude", 0);
 
-        BigDecimal earthRadius = new BigDecimal(3959);
+        double earthRadius = 3959;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
         assertEquals(0, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
@@ -46,7 +46,7 @@ public class TestGreatCircleDistance {
         destination.put("latitude", 90);
         destination.put("longitude", 180);
 
-        BigDecimal earthRadius = new BigDecimal(3959);
+        double earthRadius = 3959;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
         assertEquals(6219, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
@@ -62,7 +62,7 @@ public class TestGreatCircleDistance {
         destination.put("latitude", -45);
         destination.put("longitude", -90);
 
-        BigDecimal earthRadius = new BigDecimal(3959);
+        double earthRadius = 3959;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
         assertEquals(12438, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
@@ -78,7 +78,7 @@ public class TestGreatCircleDistance {
         destination.put("latitude", -45);
         destination.put("longitude", -90);
 
-        BigDecimal earthRadius = new BigDecimal(6371);
+        double earthRadius = 6371;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
         assertEquals(20015, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
@@ -114,7 +114,7 @@ public class TestGreatCircleDistance {
         destination.put("latitude", 50);
         destination.put("longitude", -151);
 
-        BigDecimal earthRadius = new BigDecimal(3958.761316);
+        double earthRadius = 3959;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
         assertEquals(44, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
