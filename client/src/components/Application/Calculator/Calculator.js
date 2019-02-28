@@ -9,7 +9,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
-import pasre from 'coord-parser'
+import coordParser from 'coord-parser'
 export default class Calculator extends Component {
   constructor(props) {
       super(props);
@@ -146,18 +146,29 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-      const originLatLon = this.state.origin.latitude + " " + this.state.origin.longitude;
+      const originLatLon = this.state.origin.latitude + ", " + this.state.origin.longitude;
 
-      const destinationLatLon = this.state.destination.latitude + " " + this.state.destination.longitude;
+      const destinationLatLon = this.state.destination.latitude + ", " + this.state.destination.longitude;
         console.log(originLatLon);
-      console.log(pasre(originLatLon));
+      let originLat;
+      let originLon;
+      let destinationLat;
+      let destinationLon;
 
-      let originLat = "5";
-      let originLon = "5";
-      let destinationLat = "5";
-      let destinationLon  = "5";
+      try {
+          const parsedOrigin = coordParser(originLatLon);
+          const parsedDestination = coordParser(destinationLatLon);
 
-      if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
+          originLat = parsedOrigin.lat;
+          originLon = parsedOrigin.lon;
+          destinationLat = parsedDestination.lat;
+          destinationLon  = parsedDestination.lon;
+      }
+      catch (e) {
+
+      }
+
+      if (typeof originLat === "undefined" || typeof originLon === "undefined" || typeof destinationLat === "undefined" || typeof destinationLon === "undefined") {
 
 
       }
@@ -167,8 +178,8 @@ export default class Calculator extends Component {
           const updatedOrigin = {latitude: originLat, longitude: originLon};
           const updatedDestination = {latitude: destinationLat, longitude: destinationLon};
 
-          //console.log(updatedOrigin);
-          //console.log(updatedDestination);
+          console.log(updatedOrigin);
+          console.log(updatedDestination);
 
           const tipConfigRequest = {
               'type': 'distance',
