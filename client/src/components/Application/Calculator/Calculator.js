@@ -9,7 +9,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
-
+import pasre from 'coord-parser'
 export default class Calculator extends Component {
   constructor(props) {
       super(props);
@@ -146,11 +146,16 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-      const originLat = magellan(this.state.origin.latitude.toUpperCase());
-      const originLon = magellan(this.state.origin.longitude.toUpperCase());
+      const originLatLon = this.state.origin.latitude + " " + this.state.origin.longitude;
 
-      const destinationLat = magellan(this.state.destination.latitude.toUpperCase());
-      const destinationLon = magellan(this.state.destination.longitude.toUpperCase());
+      const destinationLatLon = this.state.destination.latitude + " " + this.state.destination.longitude;
+        console.log(originLatLon);
+      console.log(pasre(originLatLon));
+
+      let originLat = "5";
+      let originLon = "5";
+      let destinationLat = "5";
+      let destinationLon  = "5";
 
       if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
 
@@ -159,11 +164,11 @@ export default class Calculator extends Component {
 
       else {
 
-          const updatedOrigin = {latitude: originLat.toDD(), longitude: originLon.toDD()};
-          const updatedDestination = {latitude: destinationLat.toDD(), longitude: destinationLon.toDD()};
+          const updatedOrigin = {latitude: originLat, longitude: originLon};
+          const updatedDestination = {latitude: destinationLat, longitude: destinationLon};
 
-          console.log(updatedOrigin);
-          console.log(updatedDestination);
+          //console.log(updatedOrigin);
+          //console.log(updatedDestination);
 
           const tipConfigRequest = {
               'type': 'distance',
