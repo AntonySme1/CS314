@@ -12,26 +12,27 @@ import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 
 export default class Calculator extends Component {
   constructor(props) {
-    super(props);
+      super(props);
 
-    this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
-    this.calculateDistance = this.calculateDistance.bind(this);
-    this.createInputField = this.createInputField.bind(this);
-    this.updateStateWithCookieCoord = this.updateStateWithCookieCoord.bind(this);
+      this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
+      this.calculateDistance = this.calculateDistance.bind(this);
+      this.createInputField = this.createInputField.bind(this);
+      this.updateStateWithCookieCoord = this.updateStateWithCookieCoord.bind(this);
 
-    this.state = {
-        origin: {latitude: '', longitude: ''},
-        destination: {latitude: '', longitude: ''},
-        distance: 0,
-        errorMessage: null
-    };
+      this.state = {
+          origin: {latitude: '', longitude: ''},
+          destination: {latitude: '', longitude: ''},
+          distance: 0,
+          errorMessage: null
+      };
 
-    let cookieInformation = document.cookie.split(';');
-    this.parseCookieInformation(cookieInformation);
-    this.calculateDistance();
+      let cookieInformation = document.cookie.split(';');
+      this.parseCookieInformation(cookieInformation);
+      this.calculateDistance();
   }
 
-  parseCookieInformation(cookieInformation) {
+
+  parseCookieInformation(cookieInformation){
       for (let i = 0; i < cookieInformation.length; i++) {
           let coordinate = cookieInformation[i];
           while (coordinate.charAt(0) === ' ') {
@@ -153,13 +154,13 @@ export default class Calculator extends Component {
 
       if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
 
-          this.setState({
-              errorMessage: this.props.createErrorBanner(
-                  'Bad Request',
-                  400,
-                  `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
-              )
-          });
+          // this.setState({
+          //     errorMessage: this.props.createErrorBanner(
+          //         'Bad Request',
+          //         400,
+          //         `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
+          //     )
+          // });
       }
 
       else {
