@@ -149,7 +149,7 @@ export default class Calculator extends Component {
       const originLatLon = this.state.origin.latitude + ", " + this.state.origin.longitude;
 
       const destinationLatLon = this.state.destination.latitude + ", " + this.state.destination.longitude;
-        console.log(originLatLon);
+        
       let originLat;
       let originLon;
       let destinationLat;
@@ -159,6 +159,7 @@ export default class Calculator extends Component {
           const parsedOrigin = coordParser(originLatLon);
           const parsedDestination = coordParser(destinationLatLon);
 
+
           originLat = parsedOrigin.lat;
           originLon = parsedOrigin.lon;
           destinationLat = parsedDestination.lat;
@@ -167,13 +168,18 @@ export default class Calculator extends Component {
       catch (e) {
 
       }
-
-      if (typeof originLat === "undefined" || typeof originLon === "undefined" || typeof destinationLat === "undefined" || typeof destinationLon === "undefined") {
+      const checkIfDefined = typeof originLat === "undefined" || typeof originLon === "undefined" || typeof destinationLat === "undefined" || typeof destinationLon === "undefined"
+      if (checkIfDefined) {
 
 
       }
 
       else {
+          const checkLatRange = parseInt(originLat) >= -90 && parseInt(originLat) <= 90 && parseInt(destinationLat) >= -90 && parseInt(destinationLat) <= 90;
+          const checkLonRange = parseInt(originLon) >= -180 && parseInt(originLon) <= 180 && parseInt(destinationLon) >= -180 && parseInt(destinationLon) <= 180;
+
+          if (checkLatRange && checkLonRange) {
+
 
           const updatedOrigin = {latitude: originLat, longitude: originLon};
           const updatedDestination = {latitude: destinationLat, longitude: destinationLon};
@@ -207,6 +213,7 @@ export default class Calculator extends Component {
                       });
                   }
               });
+      }
       }
   }
 
