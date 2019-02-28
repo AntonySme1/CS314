@@ -4,12 +4,12 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import magellan from 'magellan-coords';
+import coordParser from 'coord-parser'
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
-import coordParser from 'coord-parser'
+
 export default class Calculator extends Component {
   constructor(props) {
       super(props);
