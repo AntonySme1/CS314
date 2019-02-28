@@ -4,7 +4,7 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import magellan from 'magellan-coords';
+import coordParser from 'coord-parser'
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -146,27 +146,43 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-      const originLat = magellan(this.state.origin.latitude.toUpperCase()).latitude();
-      const originLon = magellan(this.state.origin.longitude.toUpperCase()).longitude();
+      const originLatLon = this.state.origin.latitude + ", " + this.state.origin.longitude;
 
-      const destinationLat = magellan(this.state.destination.latitude.toUpperCase()).latitude();
-      const destinationLon = magellan(this.state.destination.longitude.toUpperCase()).longitude();
+      const destinationLatLon = this.state.destination.latitude + ", " + this.state.destination.longitude;
+        
+      let originLat;
+      let originLon;
+      let destinationLat;
+      let destinationLon;
 
-      if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
+      try {
+          const parsedOrigin = coordParser(originLatLon);
+          const parsedDestination = coordParser(destinationLatLon);
 
-           this.setState({
-               errorMessage: this.props.createErrorBanner(
-                   'Bad Request',
-                   400,
-                   `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
-               )
-           });
+
+          originLat = parsedOrigin.lat;
+          originLon = parsedOrigin.lon;
+          destinationLat = parsedDestination.lat;
+          destinationLon  = parsedDestination.lon;
+      }
+      catch (e) {
+
+      }
+      const checkIfDefined = typeof originLat === "undefined" || typeof originLon === "undefined" || typeof destinationLat === "undefined" || typeof destinationLon === "undefined"
+      if (checkIfDefined) {
+
+
       }
 
       else {
+          const checkLatRange = parseInt(originLat) >= -90 && parseInt(originLat) <= 90 && parseInt(destinationLat) >= -90 && parseInt(destinationLat) <= 90;
+          const checkLonRange = parseInt(originLon) >= -180 && parseInt(originLon) <= 180 && parseInt(destinationLon) >= -180 && parseInt(destinationLon) <= 180;
 
-          const updatedOrigin = {latitude: originLat.toDD(), longitude: originLon.toDD()};
-          const updatedDestination = {latitude: destinationLat.toDD(), longitude: destinationLon.toDD()};
+          if (checkLatRange && checkLonRange) {
+
+
+          const updatedOrigin = {latitude: originLat, longitude: originLon};
+          const updatedDestination = {latitude: destinationLat, longitude: destinationLon};
 
           console.log(updatedOrigin);
           console.log(updatedDestination);
@@ -197,6 +213,7 @@ export default class Calculator extends Component {
                       });
                   }
               });
+      }
       }
   }
 
