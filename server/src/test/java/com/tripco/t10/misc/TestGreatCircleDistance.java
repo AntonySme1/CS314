@@ -129,7 +129,7 @@ public class TestGreatCircleDistance {
         double earthRadius = 637100000;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
-        assertEquals(2.0015E9, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).doubleValue(), 1E4);
+        assertEquals(2001508680, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).doubleValue(), 1);
     }
 
     @Test
@@ -145,7 +145,11 @@ public class TestGreatCircleDistance {
         double earthRadius = 6.371E9;
 
         GreatCircleDistance calculator = new GreatCircleDistance();
-        assertEquals(2.00151151E+10, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).doubleValue(), 1E5);
+
+        double value = calculator.calculateGreatCircleDistance(origin, destination, earthRadius);
+        double expect = 2.0015086796E10;
+
+        assertEquals(expect, value, 1);
     }
 
     @Test
