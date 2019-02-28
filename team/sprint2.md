@@ -75,42 +75,49 @@ In this sprint, ...
 
 These Epics were completed.
 
-* *## epic title: comments*
-*
+* *#32 User: I may need distances in other units of measure*
+* *#90 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
 
 #### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
 
-* *## epic title: explanation*
-*
+* #100 User: Show me a map and itinerary for my trip*
+* #89 User: It would be nice to see a map with the calculator.*
+* #84 User: let me choose from different map backgrounds.*
+* #104 I'd like to be able to choose what to display for each destination in the itinerary.*
 
 #### What went well
 
-The ...
+The cookies and adding multiple markers.  Geolocation helped us become much more familiar with react.
 
 
 #### Problems encountered and resolutions
 
-The ...
+The geolocation epic turned out to be more tasks the originally anticipated.
+
 
 
 ## Retrospective (focus on people, process, tools)
 
-In this sprint, ...
+In this sprint, we began working together a team more. We also realized we have to better plan out our sprint and focus on the main epics. 
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Our changes for this sprint included adding a way to upload an itinerary json file to show the entire trip on the home page map.
+
+We added browser geolocation support for this sprint.  
 
 #### What we did well
 
-We ...
+We stated working together more as a team and planning better.
 
 #### What we need to work on
 
 We could improve ...
+Focusing on what the main epic of the sprint are instead of doing what looks the most fun.
 
 #### What we will change next sprint
 
 We will change ...
+Doing the main epics of the sprint before doing any others to keep us on track. Work more together as a team.
