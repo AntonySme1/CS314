@@ -37,6 +37,22 @@ public class TestGreatCircleDistance {
     }
 
     @Test
+    public void easyTest(){
+        Map origin = new LinkedHashMap();
+        origin.put("latitude", 40.5853);
+        origin.put("longitude", -105.0844);
+
+        Map destination = new LinkedHashMap();
+        destination.put("latitude", 39.7392);
+        destination.put("longitude", -104.9903);
+
+        double earthRadius = 3959;
+
+        GreatCircleDistance calculator = new GreatCircleDistance();
+        assertEquals(59, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
+    }
+
+    @Test
     public void testCorners(){
         Map origin = new LinkedHashMap();
         origin.put("latitude", 0);
@@ -84,21 +100,69 @@ public class TestGreatCircleDistance {
         assertEquals(20015, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
     }
 
-//    @Test
-//    public void testWithNauticalMiles(){
-//        Map origin = new LinkedHashMap();
-//        origin.put("latitude", 45);
-//        origin.put("longitude", 90);
-//
-//        Map destination = new LinkedHashMap();
-//        destination.put("latitude", -45);
-//        destination.put("longitude", -90);
-//
-//        BigDecimal earthRadius = new BigDecimal(3440);
-//
-//        GreatCircleDistance calculator = new GreatCircleDistance();
-//        assertEquals(5404, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
-//    }
+    @Test
+    public void testWithMeters(){
+        Map origin = new LinkedHashMap();
+        origin.put("latitude", 45);
+        origin.put("longitude", 90);
+
+        Map destination = new LinkedHashMap();
+        destination.put("latitude", -45);
+        destination.put("longitude", -90);
+
+        double earthRadius = 6371000;
+
+        GreatCircleDistance calculator = new GreatCircleDistance();
+        assertEquals(20015087, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
+    }
+
+    @Test
+    public void testWithCentimeters(){
+        Map origin = new LinkedHashMap();
+        origin.put("latitude", 45);
+        origin.put("longitude", 90);
+
+        Map destination = new LinkedHashMap();
+        destination.put("latitude", -45);
+        destination.put("longitude", -90);
+
+        double earthRadius = 637100000;
+
+        GreatCircleDistance calculator = new GreatCircleDistance();
+        assertEquals(2.0015E9, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).doubleValue(), 1E4);
+    }
+
+    @Test
+    public void testWithMillimeters(){
+        Map origin = new LinkedHashMap();
+        origin.put("latitude", 45);
+        origin.put("longitude", 90);
+
+        Map destination = new LinkedHashMap();
+        destination.put("latitude", -45);
+        destination.put("longitude", -90);
+
+        double earthRadius = 6.371E9;
+
+        GreatCircleDistance calculator = new GreatCircleDistance();
+        assertEquals(2.00151151E+10, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).doubleValue(), 1E5);
+    }
+
+    @Test
+    public void testWithNauticalMiles(){
+        Map origin = new LinkedHashMap();
+        origin.put("latitude", 45);
+        origin.put("longitude", 90);
+
+        Map destination = new LinkedHashMap();
+        destination.put("latitude", -45);
+        destination.put("longitude", -90);
+
+        double earthRadius = 3440;
+
+        GreatCircleDistance calculator = new GreatCircleDistance();
+        assertEquals(10807, calculator.calculateGreatCircleDistance(origin, destination, earthRadius).intValue());
+    }
 
     @Test
     public void testMapsWithMultipleValues(){
