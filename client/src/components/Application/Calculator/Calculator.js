@@ -146,21 +146,15 @@ export default class Calculator extends Component {
   }
 
   calculateDistance() {
-      const originLat = magellan(this.state.origin.latitude.toUpperCase()).latitude();
-      const originLon = magellan(this.state.origin.longitude.toUpperCase()).longitude();
+      const originLat = magellan(this.state.origin.latitude.toUpperCase());
+      const originLon = magellan(this.state.origin.longitude.toUpperCase());
 
-      const destinationLat = magellan(this.state.destination.latitude.toUpperCase()).latitude();
-      const destinationLon = magellan(this.state.destination.longitude.toUpperCase()).longitude();
+      const destinationLat = magellan(this.state.destination.latitude.toUpperCase());
+      const destinationLon = magellan(this.state.destination.longitude.toUpperCase());
 
       if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
 
-           this.setState({
-               errorMessage: this.props.createErrorBanner(
-                   'Bad Request',
-                   400,
-                   `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
-               )
-           });
+
       }
 
       else {
