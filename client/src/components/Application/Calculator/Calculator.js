@@ -154,13 +154,13 @@ export default class Calculator extends Component {
 
       if (originLat === null || originLon === null || destinationLat === null || destinationLon === null) {
 
-          // this.setState({
-          //     errorMessage: this.props.createErrorBanner(
-          //         'Bad Request',
-          //         400,
-          //         `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
-          //     )
-          // });
+           this.setState({
+               errorMessage: this.props.createErrorBanner(
+                   'Bad Request',
+                   400,
+                   `Bad longitude and latitude format. Port: ${this.props.settings.serverPort}.`
+               )
+           });
       }
 
       else {

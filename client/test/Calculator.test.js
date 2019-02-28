@@ -2,19 +2,34 @@ import './enzyme.config.js';
 import React from 'react';
 import {mount} from 'enzyme';
 import Calculator from '../src/components/Application/Calculator/Calculator';
+import ErrorBanner from '../src/components/Application/ErrorBanner';
 
 
 const startProperties = {
-  'options': {
-    'units': {'miles': 3959, 'kilometers': 6371},
-    'activeUnit': 'miles',
+  'serverConfig': null,
+  'planOptions': {
+    'units': {'miles':3959, 'kilometers': 6371, 'nautical miles': 3440},
+    'activeUnit': 'miles'
+  },
+  'clientSettings': {
     'serverPort': 'black-bottle.cs.colostate.edu:31400'
-  }
+  },
+  'errorMessage': null
 };
+
+function createErrorBanner(statusText, statusCode, message) {
+  return (
+      <ErrorBanner statusText={statusText}
+                   statusCode={statusCode}
+                   message={message}/>
+  );
+}
 
 function testCreateInputFields() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Calculator options={startProperties.planOptions}
+                  settings={startProperties.clientSettings}
+                  createErrorBanner={createErrorBanner}/>
   ));
 
   let numberOfInputs = calculator.find('Input').length;
@@ -38,7 +53,9 @@ test('Testing the createForm() function in Calculator', testCreateInputFields);
 
 function testInputsOnChange() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Calculator options={startProperties.planOptions}
+                  settings={startProperties.clientSettings}
+                  createErrorBanner={createErrorBanner}/>
   ));
 
   for (let inputIndex = 0; inputIndex < 4; inputIndex++){
