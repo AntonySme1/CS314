@@ -89,35 +89,38 @@ These Epics were not completed.
 
 #### What went well
 
-The cookies and adding multiple markers.  Geolocation helped us become much more familiar with react.
+* The cookies on the calculator page.
+* adding multiple markers based off of the users itinerary.  
+* Geolocation helped us become much more familiar with react.
 
 
 #### Problems encountered and resolutions
 
-The geolocation epic turned out to be more tasks the originally anticipated.
-
+* The geolocation epic turned out to be more tasks than originally anticipated.
+* We were not prioritizing the itinerary epic at first, but we still managed to get most of it finished.
 
 
 ## Retrospective (focus on people, process, tools)
 
-In this sprint, we began working together a team more. We also realized we have to better plan out our sprint and focus on the main epics. 
+* In this sprint, we began working together as a team more.
+* We realized we have to better plan out our sprint and focus on the main epics. 
 
 #### What we changed this sprint
 
-Our changes for this sprint included adding a way to upload an itinerary json file to show the entire trip on the home page map.
-
-We added browser geolocation support for this sprint.  
+* We planned our epics as a group at the beginning of the sprint.
+* We spent some time working together.  
 
 #### What we did well
 
-We stated working together more as a team and planning better.
+* We stated working together more as a team and planning better.
+* The team communicated well throughout the sprint.
 
 #### What we need to work on
 
-We could improve ...
-Focusing on what the main epic of the sprint are instead of doing what looks the most fun.
+* Focusing on what the main epics of the sprint are instead of doing what looks fun.
+* We need to work on working together (pair programming).
 
 #### What we will change next sprint
 
-We will change ...
-Doing the main epics of the sprint before doing any others to keep us on track. Work more together as a team.
+* Doing the main epics of the sprint before doing any others to keep us on track. 
+* Spend more time doing pair programming.
