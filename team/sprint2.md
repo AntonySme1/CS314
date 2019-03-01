@@ -44,7 +44,8 @@ This sprint will complete the following Epics.
 * *#83 User: The calculator data shouldn't go away when units change.*
 * *#84 User: It would be nice to see a map with the calculator.*
 * *#90 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
-* *#33 User: I want to know where I am on the map #33*
+* *#33 User: I want to know where I am on the map*
+* *#84 User: let me choose from different map backgrounds.*
 
 
 
@@ -55,9 +56,9 @@ Time management and team work. Also ensuring we can get the epics we have planne
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* |
-| Story Points |  *value*  | *value* |
+| Epics | *5* | *2* |
+| Tasks |  *26*   | *22* |
+| Story Points |  *31*  | *27* |
 
 
 ## Scrums
@@ -92,18 +93,20 @@ These Epics were not completed.
 * The cookies on the calculator page.
 * adding multiple markers based off of the users itinerary.  
 * Geolocation helped us become much more familiar with react.
+* Setting up the server for itinerary
 
 
 #### Problems encountered and resolutions
 
 * The geolocation epic turned out to be more tasks than originally anticipated.
 * We were not prioritizing the itinerary epic at first, but we still managed to get most of it finished.
-
+* The epic for the map on the Calculator page had more tasks than planned, and we did not have enough information to complete epic
 
 ## Retrospective (focus on people, process, tools)
 
 * In this sprint, we began working together as a team more.
 * We realized we have to better plan out our sprint and focus on the main epics. 
+* The process went more smoothly since we learned how to estimate times for tasks and create issues for tasks
 
 #### What we changed this sprint
 
@@ -112,15 +115,18 @@ These Epics were not completed.
 
 #### What we did well
 
-* We stated working together more as a team and planning better.
+* We started working together more as a team and planning better.
 * The team communicated well throughout the sprint.
+* We were able to help each other learn the tools to do our parts.
 
 #### What we need to work on
 
 * Focusing on what the main epics of the sprint are instead of doing what looks fun.
 * We need to work on working together (pair programming).
+* Reading the epics more and planning them out better to break them down into a more accurate amount of tasks.
 
 #### What we will change next sprint
 
 * Doing the main epics of the sprint before doing any others to keep us on track. 
 * Spend more time doing pair programming.
+* We will plan out our sprint better by breaking down epics more.
