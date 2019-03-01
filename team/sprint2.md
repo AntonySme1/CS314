@@ -65,7 +65,16 @@ Time management and team work. Also ensuring we can get the epics we have planne
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* |
+| *Feb 8* | *#* | *#85, 87* | *none* |
+| *Feb 11* | *#85,87* | *#92,91,95,37* | *none* |
+| *Feb 13* | *#91,94,92* | *#110,96,82* | *none* |
+| *Feb 15* | *#95,110* | *#115,117,120* | *none* |
+| *Feb 18* | *#96* | *#123* | *none* |
+| *Feb 20* | *#37,115, 117,123* | *#102,103,99* | *none* |
+| *Feb 22* | *#83,99,101,120* | *#131,135* | *none* |
+| *Feb 25* | *#102,131,135* | *#34,141,145,142,137* | *none* |
+| *Feb 27* | *#103,137,34,141,145* | *#33* | *none* |
+| *Feb 28* | *#33,90,139,142,153,155,157* | *#task, ...* | *none* |
 
 
 ## Review (focus on solution and technology)
