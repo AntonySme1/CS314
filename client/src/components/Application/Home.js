@@ -164,8 +164,13 @@ export default class Home extends Component {
       enableHighAccuracy: true,
       maximumAge: 0
     };
+      try {
 
-     navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+      }
+      catch (e) {
+        navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+      }
+
   }
 
   success(pos) {
