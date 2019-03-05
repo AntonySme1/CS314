@@ -80,6 +80,9 @@ the file. In #89, we plan to add the markers for origin and destination
 and validate the user input before adding a marker to the map. We plan to do
 the epics #162, #166.
 
+We are going to create a new page for uploading, editing and displaying itineraries:
+![](images/itinerarydrawing.jpeg)
+
 
 ## Metrics
 
