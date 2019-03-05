@@ -1,9 +1,9 @@
-# Sprint e - *your team number* - *your team name*
+# Sprint 3 - *T10* - *finiteLoop*
 
 ## Goal
 
 ### Shorter trips to more places!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Jonathan Perea*
 
 ## Definition of Done
 
@@ -42,10 +42,43 @@
 
 This sprint will complete the following Epics.
 
-* *#0 epic title: description*
-*
+* *#32 User: I may need distances in other units of measure*
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
+        * Let the user configure other units of measure for distance from the user interface.
+    
+* *#100 User: Show me a map and itinerary for my trip*
+    
+        * My itinerary is in a file created by a tool. The file format is described somewhere (tip.md).
+        * I should be able to load the itinerary from a file.
+        * I'd like to see the leg and cumulative distances at each stage in the itinerary.
+        * I'd like to see an interactive map showing my entire trip on the screen.
+        * I'd like to be able to choose what to display for each destination in the itinerary.
+        * I'd like to save the itinerary with the leg distances to a file for future reference or use in another tool. - The new file should maintain the original values for the latitude and longitude.
+    
+* *#89 User: It would be nice to see a map with the calculator.*
+
+        * Add markers for origin and destination
+        * Validate input
+        
+* *#162 User: Make my trip shorter*
+
+        * Allow an optional optimization.
+        * Use the nearest neighbor algorithm to shorten the trip.
+        
+* *#166 User: Data shouldn't go away when I change tabs.*
+
+        * it's not just the calculator anymore.
+
+        
+
+#### Discussion for Plan
+
+We planned on doing 5 epics this sprint. For epic #32, we need to add the option
+to allow the user to pick the units they wish to use. For epic #100, we plan to
+finish adding options to the table and adding a save button to save
+the file. In #89, we plan to add the markers for origin and destination
+and validate the user input before adding a marker to the map. We plan to do
+the epics #162, #166.
 
 
 ## Metrics
