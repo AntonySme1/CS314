@@ -86,8 +86,8 @@ the epics #162, #166.
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *5* | *value* |
-| Tasks |  *8*   | *value* | 
-| Story Points |  *8*  | *value* | 
+| Tasks |  *13*   | *value* | 
+| Story Points |  *14*  | *value* | 
 
 
 ## Scrums
