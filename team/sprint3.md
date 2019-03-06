@@ -84,7 +84,8 @@ We are going to create a new page for uploading, editing and displaying itinerar
 ![](images/itinerarydrawing.jpeg)
 
 ![](images/ServerDiagram.jpeg)(Diagram of Server Hierarchy)
-
+![](images/componentHierarchy.jpg)
+###### *Diagram of Client Hierarchy*
 ## Metrics
 
 | Statistic | # Planned | # Completed |
