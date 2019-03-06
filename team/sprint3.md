@@ -83,6 +83,7 @@ the epics #162, #166.
 We are going to create a new page for uploading, editing and displaying itineraries:
 ![](images/itinerarydrawing.jpeg)
 
+![](images/ServerDiagram.jpeg)(Diagram of Server Hierarchy)
 
 ## Metrics
 
