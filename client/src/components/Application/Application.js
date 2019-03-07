@@ -8,6 +8,7 @@ import Settings from './Settings/Settings';
 import {getOriginalServerPort, sendServerRequest} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
 import About from './About/About';
+import Itinerary from "./Itinerary/Itinerary";
 
 
 /* Renders the application.
@@ -85,6 +86,10 @@ export default class Application extends Component {
                       createErrorBanner={this.createErrorBanner}/>;
       case 'calc':
         return <Calculator options={this.state.planOptions}
+                           settings={this.state.clientSettings}
+                           createErrorBanner={this.createErrorBanner}/>;
+      case 'itinerary':
+        return <Itinerary options={this.state.planOptions}
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}/>;
       case 'options':

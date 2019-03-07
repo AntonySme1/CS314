@@ -13,6 +13,7 @@ export default class App extends Component {
     this.pages = [
       { title: 'T10 finiteLoop', page: ''},
       { title: 'About', page: 'about'},
+      { title: 'Itinerary', page: 'itinerary'},
       { title: 'Calculator', page: 'calc'},
       { title: 'Options', page: 'options'},
       { title: '\u2699', page: 'settings' }
