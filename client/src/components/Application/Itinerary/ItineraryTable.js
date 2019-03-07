@@ -1,10 +1,9 @@
 import React from 'react';
 import {Table} from "reactstrap";
 
-
 const  ItineraryTable = (props) => {
     return (
-        <Table responsive hover boderless>
+        <Table responsive hover borderless>
             <thead>
             <tr>
                 <th>#</th>
@@ -12,27 +11,24 @@ const  ItineraryTable = (props) => {
                 <th>Latitude</th>
                 <th>Longitude</th>
                 <th>Leg Distance</th>
-
+                <th>Cumulative Distance</th>
             </tr>
             </thead>
             <tbody>
-
                 {generateTableData (props.itinerary)}
-
-
-
             <tr>
-                <th colSpan="4" scope="row">Grand Total</th>
-
-
+            </tr>
+            <tr>
+                <th colSpan="5" scope="row">Grand Total</th>
                 <td>{getTotalDistance(props.itinerary) }</td>
             </tr>
             </tbody>
         </Table>);
 };
 const generateTableData = (itinerary) =>{
-
-
+    let cumulativeArray = [];
+    getCumulativeDistance(itinerary, cumulativeArray);
+    console.log(cumulativeArray);
     if (itinerary != null){
         return(
         itinerary.places.map((place,index) => {
@@ -42,23 +38,32 @@ const generateTableData = (itinerary) =>{
                 <td>{place.latitude}</td>
                 <td>{place.longitude}</td>
                 <td>{itinerary.distances[index]}</td>
+                <td>{cumulativeArray[index]}</td>
             </tr>)
         }))
     }
-
 };
+
+const getCumulativeDistance = (itinerary, cumulativeArray) => {
+    if (itinerary != null){
+        let sum = 0;
+        itinerary.distances.forEach((item) => {
+                sum += item;
+                cumulativeArray.push(sum);
+            }
+        );
+    }
+};
+
 const getTotalDistance = (itinerary) => {
     if (itinerary != null){
         let sum = 0;
-
         itinerary.distances.forEach((item) => {
-            sum += item
+            sum += item;
             }
-
         );
-
-        return sum
+        return sum;
     }
+};
 
-}
 export default ItineraryTable;
