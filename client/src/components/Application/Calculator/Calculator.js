@@ -104,7 +104,7 @@ export default class Calculator extends Component {
     );
   }
 
-  createInputField(stateVar, coordinate) {
+    createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
         document.cookie = stateVar.charAt(0) + event.target.name + "=" + event.target.value;
         this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
@@ -232,6 +232,7 @@ export default class Calculator extends Component {
         );
     }
 
+    //Map background from https://leafletjs.com/examples/zoom-levels/
     renderLeafletMap() {
       let latlng = [this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude), this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)];
         return (
