@@ -114,9 +114,11 @@ export default class Calculator extends Component {
     return (
       <Input name={coordinate} placeholder={capitalizedCoordinate}
              id={`${stateVar}${capitalizedCoordinate}`}
-             value={this.state[stateVar][coordinate]}
-             onChange={updateStateVarOnChange}
-             style={{width: "100%"}} />
+             defaultValue={this.state[stateVar][coordinate]}
+             onBlur={updateStateVarOnChange}
+             style={{width: "100%"}}
+             placeholder={"Enter coordinate"}
+      />
     );
 
   }
@@ -218,10 +220,10 @@ export default class Calculator extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
-    let location = Object.assign({}, this.state[stateVar]);
-    location[field] = value;
-    this.setState({[stateVar]: location});
-  }
+          let location = Object.assign({}, this.state[stateVar]);
+          location[field] = value;
+          this.setState({[stateVar]: location});
+      }
 
     renderMap() {
         return (
@@ -231,13 +233,31 @@ export default class Calculator extends Component {
     }
 
     renderLeafletMap() {
+      let latlng = [this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude), this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)];
         return (
             <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
+                <Marker position={this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude)}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">Origin</Popup>
+                </Marker>
+                <Marker position={this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">Destination</Popup>
+                </Marker>
+                <Polyline positions={latlng} color={'red'}/>
             </Map>
         )
+    }
+
+    getOriginMarker(latitude, longitude){
+        return L.latLng(latitude, longitude);
+    }
+
+    getDestMarker(latitude, longitude){
+        return L.latLng(latitude, longitude);
     }
 
 
