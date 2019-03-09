@@ -219,9 +219,9 @@ export default class Calculator extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
-          let location = Object.assign({}, this.state[stateVar]);
-          location[field] = value;
-          this.setState({[stateVar]: location});
+      let location = Object.assign({}, this.state[stateVar]);
+      location[field] = value;
+      this.setState({[stateVar]: location});
       }
 
     renderMap() {
@@ -239,11 +239,11 @@ export default class Calculator extends Component {
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude)}
+                <Marker position={this.getOriginMarker()}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Origin</Popup>
                 </Marker>
-                <Marker position={this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)}
+                <Marker position={this.getDestMarker()}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Destination</Popup>
                 </Marker>
@@ -252,13 +252,41 @@ export default class Calculator extends Component {
         )
     }
 
-    getOriginMarker(latitude, longitude){
-        return L.latLng(latitude, longitude);
+    getOriginMarker(){
+          let olat = this.state.origin.latitude;
+          let olon = this.state.origin.longitude;
+
+          if (isNaN(olat)) {
+              let parsedOlat = coordParser(this.state.origin.latitude);
+              olat = parsedOlat.lat;
+          }
+          if (isNaN(olon)) {
+              let parsedOlon = coordParser(this.state.origin.longitude);
+              olon = parsedOlon.lon;
+          }
+
+          console.log("Olat: " + typeof olat + " " + typeof parseInt(olat) + " " + olat);
+          console.log("Olon: " + typeof olon + " " + typeof parseInt(olon) + " " + olon);
+          return L.latLng(olat, olon);
     }
 
-    getDestMarker(latitude, longitude){
-        return L.latLng(latitude, longitude);
-    }
+    getDestMarker(){
+            let dlat = this.state.destination.latitude;
+            let dlon = this.state.destination.longitude;
+
+            if (isNaN(dlat)) {
+                let parsedDlat = coordParser(this.state.destination.latitude);
+                dlat = parsedDlat.lat;
+            }
+            if (isNaN(dlon)) {
+                let parsedDlon = coordParser(this.state.destination.longitude);
+                dlon = parsedDlon.lon;
+            }
+
+            console.log("Dlat: " + typeof dlat + " " + typeof parseInt(dlat) + " " + dlat);
+            console.log("Dlon: " + typeof dlon + " " + typeof parseInt(dlon) + " " + dlon);
+            return L.latLng(dlat, dlon);
+  }
 
 
     markerIcon() {
