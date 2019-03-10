@@ -10,7 +10,7 @@ export default class Units extends Component {
   render() {
     return(
       <React.Fragment>
-      <Card className='text-center'>
+      <Card className='text-center mb-4'>
           <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Units</CardHeader>
           <CardBody>
               <ButtonGroup vertical className='w100'>
@@ -48,8 +48,12 @@ export default class Units extends Component {
               required
           />
         </FormGroup>
-        <Input type="submit" value="Submit"/>
-          <Input type="reset"/>
+        <FormGroup>
+        <Input className={"btn-csu"} type="submit" value="Submit" />
+        </FormGroup>
+        <FormGroup>
+          <Input className={"btn-csu"} type="reset"/>
+        </FormGroup>
       </Form>
     </CardBody>
     </Card>

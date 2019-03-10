@@ -16,7 +16,7 @@ export default class Options extends Component{
   render() {
     return(
         <Container>
-          <Row>
+          <Row className = 'mb-4'>
             <Col xs="12">
               {this.heading()}
             </Col>
@@ -35,7 +35,7 @@ export default class Options extends Component{
 
   heading() {
     return (
-        <Pane header={'Options'}
+        <Pane  header={'Options'}
               bodyJSX={'Select ...'}/>
     );
   }
