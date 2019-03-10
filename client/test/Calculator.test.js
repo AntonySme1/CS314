@@ -75,8 +75,6 @@ function testCreateInputFields() {
     'longitude'
   ];
 
-  console.log(actualInputs);
-  console.log(expectedInputs);
   expect(actualInputs).toEqual(expectedInputs);
 }
 
