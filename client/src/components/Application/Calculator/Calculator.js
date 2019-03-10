@@ -104,7 +104,7 @@ export default class Calculator extends Component {
     );
   }
 
-  createInputField(stateVar, coordinate) {
+    createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
         document.cookie = stateVar.charAt(0) + event.target.name + "=" + event.target.value;
         this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
@@ -114,9 +114,10 @@ export default class Calculator extends Component {
     return (
       <Input name={coordinate} placeholder={capitalizedCoordinate}
              id={`${stateVar}${capitalizedCoordinate}`}
-             value={this.state[stateVar][coordinate]}
-             onChange={updateStateVarOnChange}
-             style={{width: "100%"}} />
+             defaultValue={this.state[stateVar][coordinate]}
+             onBlur={updateStateVarOnChange}
+             style={{width: "100%"}}
+      />
     );
 
   }
@@ -218,10 +219,10 @@ export default class Calculator extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
-    let location = Object.assign({}, this.state[stateVar]);
-    location[field] = value;
-    this.setState({[stateVar]: location});
-  }
+      let location = Object.assign({}, this.state[stateVar]);
+      location[field] = value;
+      this.setState({[stateVar]: location});
+      }
 
     renderMap() {
         return (
@@ -230,15 +231,62 @@ export default class Calculator extends Component {
         );
     }
 
+    //Map background from https://leafletjs.com/examples/zoom-levels/
     renderLeafletMap() {
+      // let coordinates = [this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude), this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)];
         return (
-            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}}>
+            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}} >
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
+                <Marker position={this.getOriginMarker()}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">Origin</Popup>
+                </Marker>
+                <Marker position={this.getDestMarker()}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">Destination</Popup>
+                </Marker>
+                {/*<Polyline positions={coordinates}/>*/}
             </Map>
         )
     }
+
+    getOriginMarker(){
+          let olat = this.state.origin.latitude;
+          let olon = this.state.origin.longitude;
+
+          if (isNaN(olat)) {
+              let parsedOlat = coordParser(this.state.origin.latitude);
+              olat = parsedOlat.lat;
+          }
+          if (isNaN(olon)) {
+              let parsedOlon = coordParser(this.state.origin.longitude);
+              olon = parsedOlon.lon;
+          }
+
+          console.log("Olat: " + typeof olat + " " + typeof parseInt(olat) + " " + olat);
+          console.log("Olon: " + typeof olon + " " + typeof parseInt(olon) + " " + olon);
+          return L.latLng(olat, olon);
+    }
+
+    getDestMarker(){
+            let dlat = this.state.destination.latitude;
+            let dlon = this.state.destination.longitude;
+
+            if (isNaN(dlat)) {
+                let parsedDlat = coordParser(this.state.destination.latitude);
+                dlat = parsedDlat.lat;
+            }
+            if (isNaN(dlon)) {
+                let parsedDlon = coordParser(this.state.destination.longitude);
+                dlon = parsedDlon.lon;
+            }
+
+            console.log("Dlat: " + typeof dlat + " " + typeof parseInt(dlat) + " " + dlat);
+            console.log("Dlon: " + typeof dlon + " " + typeof parseInt(dlon) + " " + dlon);
+            return L.latLng(dlat, dlon);
+  }
 
 
     markerIcon() {

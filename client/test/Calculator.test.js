@@ -61,7 +61,6 @@ function testInputsOnChange() {
   for (let inputIndex = 0; inputIndex < 4; inputIndex++){
     simulateOnChangeEvent(inputIndex, calculator);
   }
-
   expect(calculator.state().origin.latitude).toEqual(0);
   expect(calculator.state().origin.longitude).toEqual(1);
   expect(calculator.state().destination.latitude).toEqual(2);
@@ -73,16 +72,16 @@ function simulateOnChangeEvent(inputIndex, reactWrapper) {
   let event = {target: {name: eventName, value: inputIndex}};
   switch(inputIndex) {
     case 0:
-      reactWrapper.find('#originLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#originLatitude').at(0).simulate('blur', event);
       break;
     case 1:
-      reactWrapper.find('#originLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#originLatitude').at(0).simulate('blur', event);
       break;
     case 2:
-      reactWrapper.find('#destinationLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#destinationLatitude').at(0).simulate('blur', event);
       break;
     case 3:
-      reactWrapper.find('#destinationLongitude').at(0).simulate('change', event);
+      reactWrapper.find('#destinationLongitude').at(0).simulate('blur', event);
       break;
     default:
   }
