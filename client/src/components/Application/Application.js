@@ -21,7 +21,7 @@ export default class Application extends Component {
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
-
+    this.myCallBack = this.myCallBack.bind(this);
     this.state = {
       serverConfig: null,
       planOptions: {
@@ -39,14 +39,22 @@ export default class Application extends Component {
 
   render() {
     let pageToRender = this.state.serverConfig ? this.props.page : 'settings';
-
+    console.log(this.state);
     return (
       <div className='application-width'>
         { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
       </div>
     );
   }
+  myCallBack (data)  {
+  console.log(data);
+  let jasper = Object.assign(this.state.planOptions.units, data);
 
+    console.log(jasper);
+    //this.setState({jasper});
+
+
+}
   updateClientSetting(field, value) {
     if(field === 'serverPort')
       this.setState({clientSettings: {serverPort: value}}, this.updateServerConfig);
@@ -95,7 +103,8 @@ export default class Application extends Component {
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
-                        updateOption={this.updatePlanOption}/>;
+                        updateOption={this.updatePlanOption}
+                        callbackFromParent={this.myCallBack}/>;
       case 'settings':
         return <Settings settings={this.state.clientSettings}
                          serverConfig={this.state.serverConfig}

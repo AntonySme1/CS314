@@ -4,7 +4,9 @@ import { Row, Col,Form, FormGroup,Input, Button,CustomInput, Label, ButtonGroup 
 
 export default class Units extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    //this.props.callbackFromParent = this.props.callbackFromParent.bind(this);
+    this.processForm = this.processForm.bind(this);
   }
 
   render() {
@@ -21,7 +23,7 @@ export default class Units extends Component {
         <Card className='text-center'>
         <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Add Units</CardHeader>
     <CardBody>
-      <Form>
+      <Form onSubmit = {this.processForm}>
 
         <FormGroup>
           <Label for="addUnitNumber">Unit Value</Label>
@@ -75,5 +77,16 @@ export default class Units extends Component {
       </Button>
     );
   }
+
+  processForm (event) {
+        event.preventDefault();
+        console.log("Unit Value:", event.target[0].value);
+        console.log("Unit Name:", event.target[1].value);
+        const newUnitValue = parseFloat(event.target[0].value);
+        const newUnitName = event.target[1].value;
+        const newUnit = { [newUnitName]:newUnitValue};
+        console.log(newUnit);
+        this.props.callbackFromParent(newUnit);
+}
 
 }
