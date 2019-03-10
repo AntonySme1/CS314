@@ -233,9 +233,9 @@ export default class Calculator extends Component {
 
     //Map background from https://leafletjs.com/examples/zoom-levels/
     renderLeafletMap() {
-      // let coordinates = [this.getOriginMarker(this.state.origin.latitude, this.state.origin.longitude), this.getDestMarker(this.state.destination.latitude, this.state.destination.longitude)];
+      let coordinates = [this.getOriginMarker(), this.getDestMarker()];
         return (
-            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}} >
+            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}} preferCanvas={true}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
@@ -247,7 +247,7 @@ export default class Calculator extends Component {
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Destination</Popup>
                 </Marker>
-                {/*<Polyline positions={coordinates}/>*/}
+                <Polyline positions={coordinates}/>
             </Map>
         )
     }
@@ -265,8 +265,6 @@ export default class Calculator extends Component {
               olon = parsedOlon.lon;
           }
 
-          console.log("Olat: " + typeof olat + " " + typeof parseInt(olat) + " " + olat);
-          console.log("Olon: " + typeof olon + " " + typeof parseInt(olon) + " " + olon);
           return L.latLng(olat, olon);
     }
 
@@ -283,8 +281,6 @@ export default class Calculator extends Component {
                 dlon = parsedDlon.lon;
             }
 
-            console.log("Dlat: " + typeof dlat + " " + typeof parseInt(dlat) + " " + dlat);
-            console.log("Dlon: " + typeof dlon + " " + typeof parseInt(dlon) + " " + dlon);
             return L.latLng(dlat, dlon);
   }
 
