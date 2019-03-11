@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import Units from './Units'
-
+import AddUnit from './AddUnit';
 /* Options allows the user to change the parameters for planning
  * and rendering the trip map and itinerary.
  * The options reside in the parent object so they may be shared with the Distance object.
@@ -26,7 +26,16 @@ export default class Options extends Component{
               <Units options={this.props.options}
                      activeUnit={this.props.options.activeUnit}
                      updateOption={this.props.updateOption}
-                     callbackFromParent={this.props.callbackFromParent}/>
+                   />
+            </Col>
+
+          </Row>
+          <Row>
+            <Col xs="12" sm="12" md="6" lg="4" xl="3">
+              <AddUnit options={this.props.options}
+                       activeUnit={this.props.options.activeUnit}
+                       updateOption={this.props.updateOption}
+                       addUnit={this.props.addUnit}/>
             </Col>
           </Row>
         </Container>
