@@ -7,6 +7,8 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from '../Pane'
 import ItineraryForm from "./ItineraryForm";
 import ItineraryTable from   "./ItineraryTable";
+import{getCurrentCoordinates, currentLocationPopup} from '../Geolocation';
+
 /*
  * Renders the itinerary page.
  */
@@ -96,15 +98,16 @@ export default class Itinerary extends Component {
         // initial map placement can use either of these approaches:
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
+        const currentCoordinates = getCurrentCoordinates();
         return (
-            <Map center={this.getCurrentCoordinates()} zoom={10}
+            <Map center={currentCoordinates} zoom={10}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                <Marker position={this.getCurrentCoordinates()}
+                <Marker position={currentCoordinates}
                         icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">{this.currentLocationPopup()}</Popup>
+                    <Popup className="font-weight-extrabold">{currentLocationPopup()}</Popup>
                 </Marker>
                 {this.generateTripMarkers()}
                 {this.drawLinesBetweenMarkers()}
@@ -146,42 +149,6 @@ export default class Itinerary extends Component {
 
     convertCoordinates(latitude, longitude){
         return L.latLng(latitude, longitude);
-    }
-
-    getCurrentCoordinates() {
-        return L.latLng(this.state.latitude, this.state.longitude);
-    }
-
-    currentLocationPopup() {
-        return this.state.location;
-    }
-
-    renderGeolocation() {
-        var options = {
-            enableHighAccuracy: true,
-            maximumAge: 0
-        };
-        try {
-            navigator.geolocation.getCurrentPosition(this.success, this.error, options);
-        }
-        catch (e) {
-
-        }
-
-    }
-
-    success(pos) {
-        var crd = pos.coords;
-
-        this.setState({latitude: crd.latitude, longitude: crd.longitude, location: 'your location'});
-        console.log('Your current position is:');
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
-    }
-
-    error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
     coloradoGeographicBoundaries() {
