@@ -7,7 +7,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from '../Pane'
 import ItineraryForm from "./ItineraryForm";
 import ItineraryTable from   "./ItineraryTable";
-import{getCurrentCoordinates, currentLocationPopup} from '../Geolocation';
+import Geolocation from '../Geolocation';
 
 /*
  * Renders the itinerary page.
@@ -17,11 +17,9 @@ export default class Itinerary extends Component {
     constructor(props) {
         super(props);
 
-        this.success = this.success.bind(this);
         this.getItineraryData = this.getItineraryData.bind(this);
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
-        this.renderGeolocation = this.renderGeolocation.bind(this);
         this.state = {latitude: 40.576179,
             longitude: -105.080773,
             location: 'Colorado State University',
@@ -34,8 +32,6 @@ export default class Itinerary extends Component {
         return (
 
             <Container>
-
-                {this.renderGeolocation()}
 
                 <Row>
                     <Col xs={12}>
@@ -98,17 +94,14 @@ export default class Itinerary extends Component {
         // initial map placement can use either of these approaches:
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
-        const currentCoordinates = getCurrentCoordinates();
         return (
-            <Map center={currentCoordinates} zoom={10}
+            <Map center={this.csuOvalGeographicCoordinates()}
+                 zoom={10}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                <Marker position={currentCoordinates}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">{currentLocationPopup()}</Popup>
-                </Marker>
+                <Geolocation/>
                 {this.generateTripMarkers()}
                 {this.drawLinesBetweenMarkers()}
             </Map>
