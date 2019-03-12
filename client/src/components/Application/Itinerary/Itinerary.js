@@ -20,9 +20,8 @@ export default class Itinerary extends Component {
         this.getItineraryData = this.getItineraryData.bind(this);
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
-        this.state = {latitude: 40.576179,
-            longitude: -105.080773,
-            location: 'Colorado State University',
+
+        this.state = {
             itinerary: null
         };
     }
@@ -86,7 +85,7 @@ export default class Itinerary extends Component {
         if (this.state.itinerary){
             return (<ItineraryTable settings = {this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
-                                    itinerary={this.state.itinerary} />)
+                                    itinerary={this.state.itinerary}/>)
         }
     }
 

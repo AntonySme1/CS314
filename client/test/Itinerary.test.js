@@ -30,10 +30,6 @@ function mapExistenceTest() {
     const itinerary = mount(<Itinerary options={startProperties.planOptions}
                                        settings={startProperties.clientSettings}
                                        createErrorBanner={createErrorBanner}/>);
-    /*expect(itinerary.contains(
-        <Map zoom={10}
-             style={{height: 500, maxwidth: 700}}/>)).toEqual(true);
-    */
 }
 
 test('Testing the renderMap() function in the Itinerary component', mapExistenceTest);

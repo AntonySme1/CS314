@@ -15,12 +15,8 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.success = this.success.bind(this);
     this.getItineraryData = this.getItineraryData.bind(this);
-    this.renderGeolocation = this.renderGeolocation.bind(this);
-    this.state = {latitude: 40.576179,
-      longitude: -105.080773,
-      location: 'Colorado State University',
+    this.state = {
       itinerary: null
     };
   }
@@ -30,8 +26,6 @@ export default class Home extends Component {
     return (
 
       <Container>
-
-        {this.renderGeolocation()}
 
         <Row>
           <Col xs={12} sm={12} md={7} lg={8} xl={9}>
@@ -75,10 +69,6 @@ export default class Home extends Component {
 
   convertCoordinates(latitude, longitude){
     return L.latLng(latitude, longitude);
-  }
-
-  getCurrentCoordinates() {
-    return L.latLng(this.state.latitude, this.state.longitude);
   }
 
   renderIntro() {
