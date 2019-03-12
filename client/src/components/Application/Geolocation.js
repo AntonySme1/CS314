@@ -101,11 +101,6 @@ export default class Geolocation extends Component {
         document.cookie = `geoLatitude=${crd.latitude}`;
         document.cookie = `geoLongitude=${crd.longitude}`;
         document.cookie = `geoFlag=true`;
-
-        console.log('Your current position is:');
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
     }
 
     error(err) {
