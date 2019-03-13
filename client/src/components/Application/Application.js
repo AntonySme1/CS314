@@ -21,7 +21,7 @@ export default class Application extends Component {
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
-
+    this.addUnit = this.addUnit.bind(this);
     this.state = {
       serverConfig: null,
       planOptions: {
@@ -46,7 +46,15 @@ export default class Application extends Component {
       </div>
     );
   }
+  addUnit (data)  {
+  console.log(data);
+  let jasper = Object.assign(this.state.planOptions.units, data);
 
+    console.log(jasper);
+    this.setState({jasper});
+
+
+}
   updateClientSetting(field, value) {
     if(field === 'serverPort')
       this.setState({clientSettings: {serverPort: value}}, this.updateServerConfig);
@@ -95,7 +103,8 @@ export default class Application extends Component {
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
-                        updateOption={this.updatePlanOption}/>;
+                        updateOption={this.updatePlanOption}
+                        addUnit={this.addUnit}/>;
       case 'settings':
         return <Settings settings={this.state.clientSettings}
                          serverConfig={this.state.serverConfig}

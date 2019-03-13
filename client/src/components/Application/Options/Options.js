@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import Units from './Units'
-
+import AddUnit from './AddUnit';
 /* Options allows the user to change the parameters for planning
  * and rendering the trip map and itinerary.
  * The options reside in the parent object so they may be shared with the Distance object.
@@ -16,7 +16,7 @@ export default class Options extends Component{
   render() {
     return(
         <Container>
-          <Row>
+          <Row className = 'mb-4'>
             <Col xs="12">
               {this.heading()}
             </Col>
@@ -25,7 +25,14 @@ export default class Options extends Component{
             <Col xs="12" sm="12" md="6" lg="4" xl="3">
               <Units options={this.props.options}
                      activeUnit={this.props.options.activeUnit}
-                     updateOption={this.props.updateOption}/>
+                     updateOption={this.props.updateOption}
+                   />
+            </Col>
+
+          </Row>
+          <Row>
+            <Col xs="12" sm="12" md="6" lg="4" xl="3">
+              <AddUnit addUnit={this.props.addUnit}/>
             </Col>
           </Row>
         </Container>
@@ -35,7 +42,7 @@ export default class Options extends Component{
 
   heading() {
     return (
-        <Pane header={'Options'}
+        <Pane  header={'Options'}
               bodyJSX={'Select ...'}/>
     );
   }
