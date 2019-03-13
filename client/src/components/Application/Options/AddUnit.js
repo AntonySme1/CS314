@@ -19,18 +19,14 @@ export default class Units extends Component {
 
                 <FormGroup>
                   <Label for="addUnitNumber">Unit Value</Label>
-                  <Input type="number" name="unitValue" id="addUnitValue" min = "0"
-                         step = "any"
-                         placeholder="0.00"
-                         required/>
+                  <Input type="number" name="unitValue" id="addUnitValue" min = "0" step = "any"
+                         placeholder="0.00" required/>
                 </FormGroup>
 
                 <FormGroup>
                   <Label for="addUnitName">Unit Name</Label>
-                  <Input type="text" name="unitName" id="addUnitName" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
-                         title={"Please type alphabets only."}
-                         placeholder={"Unit Name"}
-                         required/>
+                  <Input type="text" name="unitName" id="addUnitName" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" title={"Please type alphabets only."}
+                         placeholder={"Unit Name"} required/>
                 </FormGroup>
 
                 <FormGroup>
