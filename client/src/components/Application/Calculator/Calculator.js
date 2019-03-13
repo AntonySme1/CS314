@@ -252,36 +252,41 @@ export default class Calculator extends Component {
         )
     }
 
+    buildMarker(latitude, longitude) {
+        if (isNaN(latitude)) {
+            let parsedCoordinate = coordParser(latitude);
+            latitude = parsedCoordinate.lat;
+        }
+
+        if (isNaN(longitude)) {
+            console.log("Lon: " + longitude);
+            let parsedCoordinate = coordParser(longitude);
+            longitude = parsedCoordinate.lon;
+        }
+
+        return L.latLng(latitude, longitude);
+    }
+
     getOriginMarker(){
           let olat = this.state.origin.latitude;
           let olon = this.state.origin.longitude;
 
-          if (isNaN(olat)) {
-              let parsedOlat = coordParser(this.state.origin.latitude);
-              olat = parsedOlat.lat;
-          }
-          if (isNaN(olon)) {
-              let parsedOlon = coordParser(this.state.origin.longitude);
-              olon = parsedOlon.lon;
+          if(!(/\d/.test(olat)) || !(/\d/.test(olon))){
+                return L.latLng(0, 0);
           }
 
-          return L.latLng(olat, olon);
+          return this.buildMarker(olat, olon);
     }
 
     getDestMarker(){
             let dlat = this.state.destination.latitude;
             let dlon = this.state.destination.longitude;
 
-            if (isNaN(dlat)) {
-                let parsedDlat = coordParser(this.state.destination.latitude);
-                dlat = parsedDlat.lat;
-            }
-            if (isNaN(dlon)) {
-                let parsedDlon = coordParser(this.state.destination.longitude);
-                dlon = parsedDlon.lon;
+            if(!(/\d/.test(dlat)) || !(/\d/.test(dlon))){
+                return L.latLng(0, 0);
             }
 
-            return L.latLng(dlat, dlon);
+            return this.buildMarker(dlat, dlon);
   }
 
 
