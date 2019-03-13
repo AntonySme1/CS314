@@ -253,15 +253,22 @@ export default class Calculator extends Component {
     }
 
     buildMarker(latitude, longitude) {
-        if (isNaN(latitude)) {
+        if (isNaN(latitude) && /[NSns]/.test(latitude)) {
             let parsedCoordinate = coordParser(latitude);
             latitude = parsedCoordinate.lat;
         }
 
-        if (isNaN(longitude)) {
-            console.log("Lon: " + longitude);
+        if (isNaN(latitude) && !(/[NSns]/.test(latitude))) {
+            return L.latLng(0,0);
+        }
+
+        if (isNaN(longitude) && /[WEwe]/.test(longitude)) {
             let parsedCoordinate = coordParser(longitude);
             longitude = parsedCoordinate.lon;
+        }
+
+        if (isNaN(longitude) && !(/[WEwe]/.test(latitude))) {
+            return L.latLng(0,0);
         }
 
         return L.latLng(latitude, longitude);
