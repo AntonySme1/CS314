@@ -35,7 +35,7 @@ export default class About extends Component{
                 description: "I'm currently a junior at CSU studying Computer Science",
                 imageSource: "https://i.ibb.co/JKWx0RP/jacks-avatar.png"
             }
-        }
+        };
     }
 
     /*
