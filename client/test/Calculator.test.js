@@ -25,6 +25,36 @@ function createErrorBanner(statusText, statusCode, message) {
   );
 }
 
+//Jest fix for Polyline issue from: https://github.com/Leaflet/Leaflet/issues/6297
+Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+  value: () => {
+    return {
+      fillRect: function() {},
+      clearRect: function(){},
+      putImageData: function() {},
+      createImageData: function(){ return []},
+      setTransform: function(){},
+      drawImage: function(){},
+      save: function(){},
+      fillText: function(){},
+      restore: function(){},
+      beginPath: function(){},
+      moveTo: function(){},
+      lineTo: function(){},
+      closePath: function(){},
+      stroke: function(){},
+      translate: function(){},
+      scale: function(){},
+      rotate: function(){},
+      arc: function(){},
+      fill: function(){},
+      transform: function(){},
+      rect: function(){},
+      clip: function(){},
+    }
+  }
+});
+
 function testCreateInputFields() {
   const calculator = mount((
       <Calculator options={startProperties.planOptions}
@@ -61,7 +91,6 @@ function testInputsOnChange() {
   for (let inputIndex = 0; inputIndex < 4; inputIndex++){
     simulateOnChangeEvent(inputIndex, calculator);
   }
-
   expect(calculator.state().origin.latitude).toEqual(0);
   expect(calculator.state().origin.longitude).toEqual(1);
   expect(calculator.state().destination.latitude).toEqual(2);
@@ -73,16 +102,16 @@ function simulateOnChangeEvent(inputIndex, reactWrapper) {
   let event = {target: {name: eventName, value: inputIndex}};
   switch(inputIndex) {
     case 0:
-      reactWrapper.find('#originLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#originLatitude').at(0).simulate('blur', event);
       break;
     case 1:
-      reactWrapper.find('#originLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#originLatitude').at(0).simulate('blur', event);
       break;
     case 2:
-      reactWrapper.find('#destinationLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#destinationLatitude').at(0).simulate('blur', event);
       break;
     case 3:
-      reactWrapper.find('#destinationLongitude').at(0).simulate('change', event);
+      reactWrapper.find('#destinationLongitude').at(0).simulate('blur', event);
       break;
     default:
   }
