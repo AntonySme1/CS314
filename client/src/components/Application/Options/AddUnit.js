@@ -19,7 +19,7 @@ export default class Units extends Component {
 
                 <FormGroup>
                   <Label for="addUnitNumber">Unit Value</Label>
-                  <Input type="number" name="number" id="addUnitNumber" min = "0"
+                  <Input type="number" name="unitValue" id="addUnitValue" min = "0"
                          step = "any"
                          placeholder="0.00"
                          required/>
@@ -52,9 +52,9 @@ export default class Units extends Component {
 
   processForm (event) {
     event.preventDefault();
-
-    const newUnitValue = parseFloat(event.target[0].value);
-    const newUnitName = event.target[1].value;
+    const unit = new FormData(event.target);
+    const newUnitValue = parseFloat(unit.get('unitValue').toString());
+    const newUnitName = unit.get('unitName');
     const newUnit = { [newUnitName]:newUnitValue};
 
     this.props.addUnit(newUnit);

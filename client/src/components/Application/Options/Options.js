@@ -32,10 +32,7 @@ export default class Options extends Component{
           </Row>
           <Row>
             <Col xs="12" sm="12" md="6" lg="4" xl="3">
-              <AddUnit options={this.props.options}
-                       activeUnit={this.props.options.activeUnit}
-                       updateOption={this.props.updateOption}
-                       addUnit={this.props.addUnit}/>
+              <AddUnit addUnit={this.props.addUnit}/>
             </Col>
           </Row>
         </Container>
