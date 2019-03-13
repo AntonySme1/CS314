@@ -52,46 +52,10 @@ export default class About extends Component{
                         {this.heading()}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs="12">
-                        {this.createEmptySpace()}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.teamMember(this.state.Jon.name, this.state.Jon.description, this.state.Jon.imageSource)}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs="12">
-                        {this.createEmptySpace()}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.teamMember(this.state.Patrick.name, this.state.Patrick.description, this.state.Patrick.imageSource)}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs="12">
-                        {this.createEmptySpace()}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.teamMember(this.state.Saurav.name, this.state.Saurav.description, this.state.Saurav.imageSource)}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs="12">
-                        {this.createEmptySpace()}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.teamMember(this.state.Jack.name, this.state.Jack.description, this.state.Jack.imageSource)}
-                    </Col>
-                </Row>
+                {this.addTeamMember(this.state.Jon)}
+                {this.addTeamMember(this.state.Patrick)}
+                {this.addTeamMember(this.state.Saurav)}
+                {this.addTeamMember(this.state.Jack)}
             </Container>
         )
     }
@@ -104,11 +68,30 @@ export default class About extends Component{
         );
     }
 
+    addTeamMember(teammate){
+        return (
+            <div>
+                <Row>
+                    <Col xs="12">
+                        {this.createEmptySpace()}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm="12" md={{size: 6, offset: 3}}>
+                        {this.teamMember(teammate.name, teammate.description, teammate.imageSource)}
+                    </Col>
+                </Row>
+            </div>
+        );
+    }
+
     createEmptySpace() {
-        return (<div>
-            <CardBody>
-            </CardBody>
-        </div>);
+        return (
+            <div>
+                <CardBody>
+                </CardBody>
+            </div>
+        );
     }
 
     teamMember(name, description, imageSource){
