@@ -10,6 +10,32 @@ import { Card, CardImg, CardText, CardBody } from 'reactstrap';
 export default class About extends Component{
     constructor(props) {
         super(props);
+
+        this.state = {
+            Jon: {
+                name: "Jon",
+                description: "I'm a senior at CSU studying Applied Computing Technologies. I work four jobs at the Lincoln Center. In my free time," +
+                             "I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tv," +
+                             "or working out.",
+                imageSource: "https://photos.gurushots.com/unsafe/500x500/ccce38a7b1b46939b00b63dfd0fe0fea/3_04e86ebfb135035a652071581e8490bb.jpg"
+            },
+            Patrick:{
+                name: "Patrick",
+                description: "I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits." +
+                             "I also enjoy video games and drones.",
+                imageSource: "http://i68.tinypic.com/xldo2b.jpg"
+            },
+            Saurav: {
+                name: "Saurav",
+                description: "I am a senior CSU student studying Applied Computing Technology.",
+                imageSource: "https://i.ibb.co/JcFhMwp/saurav.png"
+            },
+            Jack: {
+                name: "Jack",
+                description: "I'm currently a junior at CSU studying Computer Science",
+                imageSource: "https://i.ibb.co/JKWx0RP/jacks-avatar.png"
+            }
+        }
     }
 
     /*
@@ -33,7 +59,7 @@ export default class About extends Component{
                 </Row>
                 <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.memberOne()}
+                        {this.teamMember(this.state.Jon.name, this.state.Jon.description, this.state.Jon.imageSource)}
                     </Col>
                 </Row>
                 <Row>
@@ -43,7 +69,7 @@ export default class About extends Component{
                 </Row>
                 <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.memberTwo()}
+                        {this.teamMember(this.state.Patrick.name, this.state.Patrick.description, this.state.Patrick.imageSource)}
                     </Col>
                 </Row>
                 <Row>
@@ -53,7 +79,7 @@ export default class About extends Component{
                 </Row>
                 <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.memberThree()}
+                        {this.teamMember(this.state.Saurav.name, this.state.Saurav.description, this.state.Saurav.imageSource)}
                     </Col>
                 </Row>
                 <Row>
@@ -63,7 +89,7 @@ export default class About extends Component{
                 </Row>
                 <Row>
                     <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.memberFour()}
+                        {this.teamMember(this.state.Jack.name, this.state.Jack.description, this.state.Jack.imageSource)}
                     </Col>
                 </Row>
             </Container>
@@ -85,74 +111,22 @@ export default class About extends Component{
         </div>);
     }
 
-    /*
-     * member# functions build a card for each teammate which acts like the <Pane/>,
-     * but instead uses a card to allow for images along with text information to be added
-     * Images will be as wide as cards, and every card will be centered and responsive.
-     * Smaller screens will lock the size at which is equal to the header length.
-     */
-    memberOne(){
+    teamMember(name, description, imageSource){
         return (
             <div>
                 <Card>
                     <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {'Jon'}
+                        {name}
                     </CardHeader>
-                    <CardImg top width="100%" src="https://photos.gurushots.com/unsafe/500x500/ccce38a7b1b46939b00b63dfd0fe0fea/3_04e86ebfb135035a652071581e8490bb.jpg" alt="Picture of Jonathan Perea" />
+                    <CardImg top width="100%" src={imageSource} alt={`Image of ${name}`} />
                     <CardBody>
-                        <CardText>I'm a senior at CSU studying Applied Computing Technologies. I work four jobs at the Lincoln Center. In my free time,
-                            I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tv,
-                            or working out.</CardText>
-                    </CardBody>
-                </Card>
-                <p></p>
-            </div>
-        );
-    }
-    memberTwo(){
-        return (
-            <div>
-                <Card>
-                    <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {'Patrick'}
-                    </CardHeader>
-                    <CardImg top width="100%" src="http://i68.tinypic.com/xldo2b.jpg"  />
-                    <CardBody>
-                        <CardText>I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits.
-                            I also enjoy video games and drones.</CardText>
-                    </CardBody>
-                </Card>
-            </div>
-        );
-    }
-    memberThree(){
-        return (
-            <div>
-                <Card>
-                    <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {'Saurav'}
-                    </CardHeader>
-                    <CardImg top width="100%" src="https://i.ibb.co/JcFhMwp/saurav.png" alt="Image of Saurav" />
-                    <CardBody>
-                        <CardText> I am a senior CSU student studying Applied Computing Technology. </CardText>
-                    </CardBody>
-                </Card>
-            </div>
-        );
-    }
-    memberFour(){
-        return (
-            <div>
-                <Card>
-                    <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {'Jack'}
-                    </CardHeader>
-                    <CardImg top width="100%" src="https://i.ibb.co/JKWx0RP/jacks-avatar.png" alt="Jack's photo" />
-                    <CardBody>
-                        <CardText>I'm currently a junior at CSU studying Computer Science</CardText>
+                        <CardText>{description}</CardText>
                     </CardBody>
                 </Card>
             </div>
         );
     }
 }
+
+
+
