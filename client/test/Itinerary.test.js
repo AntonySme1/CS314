@@ -2,6 +2,7 @@ import './enzyme.config.js';
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 import Itinerary from '../src/components/Application/Itinerary/Itinerary';
+import ItineraryTable from '../src/components/Application/Itinerary/ItineraryTable';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import Geolocation from '../src/components/Application/Geolocation'
 import {getOriginalServerPort} from '../src/api/restfulAPI';
@@ -62,10 +63,9 @@ function itineraryTableTest() {
                                        createErrorBanner={createErrorBanner}/>);
 
     itinerary.setState(itineraryData);
-    console.error(itinerary.state());
     itinerary.update();
 
-    console.error(itinerary.debug());
+    expect(itinerary.containsMatchingElement(<ItineraryTable/>)).toEqual(true);
 }
 
 test('Testing that the itineraryTable component gets rendered', itineraryTableTest);
