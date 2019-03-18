@@ -1,6 +1,6 @@
 import './enzyme.config.js';
 import React from 'react';
-import {mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import Geolocation from '../src/components/Application/Geolocation'
@@ -45,3 +45,27 @@ function mapExistenceTest() {
 }
 
 test('Testing the renderMap() function in the Itinerary component', mapExistenceTest);
+
+function itineraryTableTest() {
+    const itineraryData = {
+        "itinerary": {
+            "places": [
+                {"name": "Denver", "latitude": "39.7", "longitude": "-105.0"},
+                {"name": "Boulder", "latitude": "40.0", "longitude": "-105.4"},
+                {"name": "Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],
+            "distances": [24, 41, 59]
+        }
+    };
+
+    const itinerary = shallow(<Itinerary options={startProperties.planOptions}
+                                       settings={startProperties.clientSettings}
+                                       createErrorBanner={createErrorBanner}/>);
+
+    itinerary.setState(itineraryData);
+    console.error(itinerary.state());
+    itinerary.update();
+
+    console.error(itinerary.debug());
+}
+
+test('Testing that the itineraryTable component gets rendered', itineraryTableTest);
