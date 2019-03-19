@@ -18,7 +18,7 @@ export default class Calculator extends Component {
       this.calculateDistance = this.calculateDistance.bind(this);
       this.createInputField = this.createInputField.bind(this);
       this.updateStateWithCookieCoord = this.updateStateWithCookieCoord.bind(this);
-
+      this.checkValidLatLonRange = this.checkValidLatLonRange.bind(this);
       this.state = {
           origin: {latitude: '', longitude: ''},
           destination: {latitude: '', longitude: ''},
@@ -29,42 +29,6 @@ export default class Calculator extends Component {
       let cookieInformation = document.cookie.split(';');
       this.parseCookieInformation(cookieInformation);
       this.calculateDistance();
-  }
-
-
-  parseCookieInformation(cookieInformation){
-      for (let i = 0; i < cookieInformation.length; i++) {
-          let coordinate = cookieInformation[i];
-          while (coordinate.charAt(0) === ' ') {
-              coordinate = coordinate.substring(1);
-          }
-          this.updateStateWithCookieCoord(coordinate);
-      }
-  }
-
-  updateStateWithCookieCoord(coordinate) {
-      let origOrDest = coordinate.charAt(0);
-      if(origOrDest === 'o') {
-          coordinate = coordinate.substring(1);
-          coordinate = coordinate.split('=');
-          if (coordinate[0] === "latitude") {
-              this.state.origin.latitude = coordinate[1];
-          }
-
-          else {
-              this.state.origin.longitude = coordinate[1];
-          }
-      }
-      if(origOrDest === 'd') {
-          coordinate = coordinate.substring(1);
-          coordinate = coordinate.split('=');
-          if (coordinate[0] === "latitude") {
-              this.state.destination.latitude = coordinate[1];
-          }
-          else {
-              this.state.destination.longitude = coordinate[1];
-          }
-      }
   }
 
   render() {
@@ -151,15 +115,11 @@ export default class Calculator extends Component {
 
       const destinationLatLon = this.state.destination.latitude + ", " + this.state.destination.longitude;
         
-      let originLat;
-      let originLon;
-      let destinationLat;
-      let destinationLon;
+      let originLat,originLon,destinationLat,destinationLon;
 
       try {
           const parsedOrigin = coordParser(originLatLon);
           const parsedDestination = coordParser(destinationLatLon);
-
 
           originLat = parsedOrigin.lat;
           originLon = parsedOrigin.lon;
@@ -169,6 +129,7 @@ export default class Calculator extends Component {
       catch (e) {
 
       }
+
       const checkIfDefined = typeof originLat === "undefined" || typeof originLon === "undefined" || typeof destinationLat === "undefined" || typeof destinationLon === "undefined"
       if (checkIfDefined) {
 
@@ -176,21 +137,20 @@ export default class Calculator extends Component {
       }
 
       else {
-          const checkLatRange = parseInt(originLat) >= -90 && parseInt(originLat) <= 90 && parseInt(destinationLat) >= -90 && parseInt(destinationLat) <= 90;
-          const checkLonRange = parseInt(originLon) >= -180 && parseInt(originLon) <= 180 && parseInt(destinationLon) >= -180 && parseInt(destinationLon) <= 180;
+          const checkOrgRange = this.checkValidLatLonRange(parseFloat(originLat),parseFloat(originLon));
+          const checkDestRange = this.checkValidLatLonRange(parseFloat(destinationLat),parseFloat(destinationLon));
 
-          if (checkLatRange && checkLonRange) {
+          if (checkOrgRange && checkDestRange) {
 
 
           const updatedOrigin = {latitude: originLat, longitude: originLon};
           const updatedDestination = {latitude: destinationLat, longitude: destinationLon};
 
-          console.log(updatedOrigin);
-          console.log(updatedDestination);
+          console.log(updatedOrigin, updatedDestination);
 
           const tipConfigRequest = {
               'type': 'distance',
-              'version': 1,
+              'version': 3,
               'origin': updatedOrigin,
               'destination': updatedDestination,
               'earthRadius': this.props.options.units[this.props.options.activeUnit]
@@ -233,17 +193,17 @@ export default class Calculator extends Component {
 
     //Map background from https://leafletjs.com/examples/zoom-levels/
     renderLeafletMap() {
-      let coordinates = [this.getOriginMarker(), this.getDestMarker()];
+      let coordinates = [this.getMarker(this.state.origin.latitude,this.state.origin.longitude), this.getMarker(this.state.destination.latitude,this.state.destination.longitude)];
         return (
             <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}} preferCanvas={true}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.getOriginMarker()}
+                <Marker position={this.getMarker(this.state.origin.latitude,this.state.origin.longitude)}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Origin</Popup>
                 </Marker>
-                <Marker position={this.getDestMarker()}
+                <Marker position={this.getMarker(this.state.destination.latitude,this.state.destination.longitude)}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Destination</Popup>
                 </Marker>
@@ -274,27 +234,14 @@ export default class Calculator extends Component {
         return L.latLng(latitude, longitude);
     }
 
-    getOriginMarker(){
-          let olat = this.state.origin.latitude;
-          let olon = this.state.origin.longitude;
+    getMarker(lat,lon){
 
-          if(!(/\d/.test(olat)) || !(/\d/.test(olon))){
+          if(!(/\d/.test(lat)) || !(/\d/.test(lon))){
                 return L.latLng(0, 0);
           }
 
-          return this.buildMarker(olat, olon);
+          return this.buildMarker(lat, lon);
     }
-
-    getDestMarker(){
-            let dlat = this.state.destination.latitude;
-            let dlon = this.state.destination.longitude;
-
-            if(!(/\d/.test(dlat)) || !(/\d/.test(dlon))){
-                return L.latLng(0, 0);
-            }
-
-            return this.buildMarker(dlat, dlon);
-  }
 
 
     markerIcon() {
@@ -306,5 +253,49 @@ export default class Calculator extends Component {
             iconAnchor: [12,40]  // for proper placement
         })
     }
+
+    checkValidLatLonRange(lat,lon){
+      const checkLatRange = parseInt(lat) >= -90 && parseInt(lat) <= 90;
+      const checkLonRange = parseInt(lon) >= -180 && parseInt(lon) <= 180;
+      return checkLatRange && checkLonRange;
+                }
+
+  parseCookieInformation(cookieInformation){
+    for (let i = 0; i < cookieInformation.length; i++) {
+      let coordinate = cookieInformation[i];
+      while (coordinate.charAt(0) === ' ') {
+        coordinate = coordinate.substring(1);
+      }
+      this.updateStateWithCookieCoord(coordinate);
+    }
+  }
+
+  updateStateWithCookieCoord(coordinate) {
+    let origOrDest = coordinate.charAt(0);
+    if(origOrDest === 'o') {
+      coordinate = coordinate.substring(1);
+      coordinate = coordinate.split('=');
+      if (coordinate[0] === "latitude") {
+        this.state.origin.latitude = coordinate[1];
+      }
+
+      else {
+        this.state.origin.longitude = coordinate[1];
+      }
+    }
+    if(origOrDest === 'd') {
+      coordinate = coordinate.substring(1);
+      coordinate = coordinate.split('=');
+      if (coordinate[0] === "latitude") {
+        this.state.destination.latitude = coordinate[1];
+      }
+      else {
+        this.state.destination.longitude = coordinate[1];
+      }
+    }
+  }
+
+
+
 }
 
