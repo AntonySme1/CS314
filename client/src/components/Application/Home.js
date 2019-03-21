@@ -3,7 +3,7 @@ import {Container, Row, Col} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
+import { Map, TileLayer} from 'react-leaflet';
 import Pane from './Pane'
 import Geolocation from './Geolocation';
 
@@ -42,8 +42,9 @@ export default class Home extends Component {
 
   renderMap() {
     return (
-      <Pane header={'Where Am I?'}
-            bodyJSX={this.renderLeafletMap()} />
+        <Pane header={'Where Am I?'}>
+          {this.renderLeafletMap()}
+        </Pane>
     );
   }
 
@@ -73,8 +74,9 @@ export default class Home extends Component {
 
   renderIntro() {
     return(
-      <Pane header={'Bon Voyage!'}
-            bodyJSX={'Let us help you plan your next trip.'}/>
+        <Pane header={'Bon Voyage!'}>
+          {'Let us help you plan your next trip.'}
+        </Pane>
     );
   }
 

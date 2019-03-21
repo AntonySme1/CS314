@@ -57,17 +57,17 @@ export default class Itinerary extends Component {
 
     renderMap() {
         return (
-            <Pane header={'Itinerary Map'}
-                  bodyJSX={this.renderLeafletMap()} />
+            <Pane header={'Itinerary Map'}>
+                {this.renderLeafletMap()}
+            </Pane>
         );
     }
 
     renderItineraryForm() {
         return (
-            <Pane header={'Itinerary'}
-                  bodyJSX = {this.ItineraryForm()}
-
-            />
+            <Pane header={'Itinerary'}>
+                {this.ItineraryForm()}
+            </Pane>
         );
     }
 

@@ -32,7 +32,7 @@ const generateTableData = (itinerary) =>{
     if (itinerary != null){
         return(
         itinerary.places.map((place,index) => {
-            return (<tr>
+            return (<tr key={index}>
                 <td>{index + 1}</td>
                 <td>{place.name}</td>
                 <td>{place.latitude}</td>

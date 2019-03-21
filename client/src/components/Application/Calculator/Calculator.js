@@ -62,9 +62,11 @@ export default class Calculator extends Component {
 
   createHeader() {
     return (
-        <Pane header={'Calculator'}
-              bodyJSX={<div>Determine the distance between the origin and destination.
-                Change the units on the <b>Options</b> page.</div>}/>
+        <Pane header={'Calculator'}>
+            <div>Determine the distance between the origin and destination.
+                Change the units on the <b>Options</b> page.
+            </div>
+        </Pane>
     );
   }
 
@@ -90,25 +92,24 @@ export default class Calculator extends Component {
 
   createForm(stateVar) {
     return (
-      <Pane header={stateVar.charAt(0).toUpperCase() + stateVar.slice(1)}
-            bodyJSX={
-              <Form >
+        <Pane header={stateVar.charAt(0).toUpperCase() + stateVar.slice(1)}>
+            <Form >
                 {this.createInputField(stateVar, 'latitude')}
                 {this.createInputField(stateVar, 'longitude')}
-              </Form>
-            }
-      />);
+            </Form>
+        </Pane>
+
+    );
   }
 
   createDistance() {
     return(
-      <Pane header={'Distance'}
-            bodyJSX={
-              <div>
-              <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
-              <Button onClick={this.calculateDistance}>Calculate</Button>
-            </div>}
-      />
+        <Pane header={'Distance'}>
+            <div>
+                <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
+                <Button onClick={this.calculateDistance}>Calculate</Button>
+            </div>
+        </Pane>
     );
   }
 
@@ -168,8 +169,9 @@ export default class Calculator extends Component {
 
     renderMap() {
         return (
-            <Pane header={'Calculator Map'}
-                  bodyJSX={this.renderLeafletMap()}/>
+            <Pane header={'Calculator Map'}>
+                {this.renderLeafletMap()}
+            </Pane>
         );
     }
 
