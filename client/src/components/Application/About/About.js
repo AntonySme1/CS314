@@ -62,10 +62,13 @@ export default class About extends Component{
     }
 
     heading() {
-        return (
 
-            <Pane  header={'About'} bodyJSX={'Welcome to finiteLoop'}/>
+        return (
+            <Pane header={'About'}>
+                {'Welcome to finiteLoop'}
+            </Pane>
         );
+
     }
 
     addTeamMember(teammate){
