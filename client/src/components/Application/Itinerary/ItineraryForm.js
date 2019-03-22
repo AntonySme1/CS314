@@ -39,11 +39,12 @@ export default class ItineraryForm extends Component {
             </FormGroup>
             <Col>
                 <FormGroup>
-                    <Row>
-                        {this.legDistanceButton()}
-                        {this.saveItineraryButton()}
-                    </Row>
+                  {this.legDistanceButton()}
                 </FormGroup>
+
+              <FormGroup>
+                  {this.saveItineraryButton()}
+              </FormGroup>
             </Col>
         </Form>
 
@@ -68,11 +69,6 @@ export default class ItineraryForm extends Component {
 
         );
     }
-
-
-
-
-
 
 
 //code from https://blog.shovonhasan.com/using-promises-with-filereader/
@@ -115,8 +111,6 @@ setStateFromFile (fileContent) {
             places: parsedJSON.places
         } )
 }
-
-
 
 //code from https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try
 //Author: Lynn and Matt H.
@@ -175,7 +169,6 @@ calculateLegDistance () {
         'distances': []
     };
 
-
 sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
         .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -195,7 +188,6 @@ sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.setting
                 });
             }
         });
-
 
 }
 

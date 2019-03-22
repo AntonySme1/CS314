@@ -42,9 +42,10 @@ export default class Options extends Component{
 
   heading() {
     return (
-        <Pane header={'Options'}>
-            {'select...'}
-        </Pane>
+
+        <Pane  header={'Options'}
+              bodyJSX={` Selected: ${this.props.options.units[this.props.options.activeUnit]} ${this.props.options.activeUnit} `}/>
+
     );
   }
 

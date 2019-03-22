@@ -3,7 +3,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import 'leaflet/dist/leaflet.css';
 import React, {Component} from 'react';
 import {Marker, Popup} from 'react-leaflet';
-
+import Cookies from 'js-cookie';
 export default class Geolocation extends Component {
     constructor(props){
         super(props);
@@ -20,11 +20,12 @@ export default class Geolocation extends Component {
         };
 
         this.getCurrentCoordinates();
+        this.updateStateWithCookieCoordinates();
+        this.checkGeolocationFlag();
     }
 
     render() {
-        this.parseCookieInformation();
-        this.checkGeolocationFlag();
+
 
         return (
             <Marker position={L.latLng(this.state.latitude, this.state.longitude)}
@@ -34,30 +35,16 @@ export default class Geolocation extends Component {
         );
     }
 
-    parseCookieInformation(){
-        let cookieInformation = document.cookie.split(';');
-        for (let i = 0; i < cookieInformation.length; i++) {
-            let coordinate = cookieInformation[i];
-            while (coordinate.charAt(0) === ' ') {
-                coordinate = coordinate.substring(1);
-            }
-            this.updateStateWithCookieCoordinates(coordinate);
-        }
-    }
-
-    updateStateWithCookieCoordinates(coordinate) {
-        coordinate = coordinate.split('=');
-
-        if(coordinate[0] === "geoLatitude") {
-            this.state.latitude = coordinate[1];
+    updateStateWithCookieCoordinates() {
+        if (Cookies.get().hasOwnProperty('geoLatitude') && Cookies.get().hasOwnProperty('geoLongitude') ){
+            this.setState({
+                latitude: Cookies.get("geoLatitude"),
+                longitude: Cookies.get("geoLongitude")
+            });
         }
 
-        else if(coordinate[0] === "geoLongitude") {
-            this.state.longitude = coordinate[1];
-        }
-
-        else if(coordinate[0] === "geoFlag" && coordinate[1] === "true"){
-            this.state.geolocationFlag = true;
+         if(Cookies.get().hasOwnProperty('geoFlag') ){
+            this.setState({geolocationFlag : Cookies.get('geoFlag') === "true"});
         }
     }
 
@@ -97,10 +84,10 @@ export default class Geolocation extends Component {
             location: 'Your current location',
             geolocationFlag: true
         });
+        Cookies.set('geoLatitude',crd.latitude);
+        Cookies.set('geoLongitude',crd.longitude);
+        Cookies.set('geoFlag','true');
 
-        document.cookie = `geoLatitude=${crd.latitude}`;
-        document.cookie = `geoLongitude=${crd.longitude}`;
-        document.cookie = `geoFlag=true`;
     }
 
     error(err) {
@@ -112,10 +99,9 @@ export default class Geolocation extends Component {
             location: 'Colorado State University',
             geolocationFlag: false
         });
-
-        document.cookie = `geoLatitude=40.576179`;
-        document.cookie = `geoLongitude=-105.080773`;
-        document.cookie = `geoFlag=false`;
+        Cookies.set('geoLatitude', '40.576179');
+        Cookies.set('geoLongitude', '-105.080773');
+        Cookies.set('geoFlag', 'false');
     }
 
     markerIcon() {

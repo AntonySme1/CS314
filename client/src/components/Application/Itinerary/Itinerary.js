@@ -32,19 +32,19 @@ export default class Itinerary extends Component {
 
             <Container>
 
-                <Row>
+                <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderMap()}
                     </Col>
                 </Row>
 
-                <Row>
+                <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderItineraryForm()}
                     </Col>
                 </Row>
 
-                <Row>
+                <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderItineraryTable()}
                     </Col>

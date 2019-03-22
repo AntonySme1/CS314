@@ -45,9 +45,10 @@ export default class About extends Component{
      */
 
     render() {
+
         return(
             <Container>
-                <Row>
+                <Row className = 'mb-4'>
                     <Col sm="12" md={{size: 6, offset: 3}}>
                         {this.heading()}
                     </Col>
@@ -60,56 +61,37 @@ export default class About extends Component{
         )
     }
 
-
     heading() {
+
         return (
             <Pane header={'About'}>
                 {'Welcome to finiteLoop'}
             </Pane>
         );
+
     }
 
     addTeamMember(teammate){
         return (
-            <div>
-                <Row>
-                    <Col xs="12">
-                        {this.createEmptySpace()}
-                    </Col>
-                </Row>
-                <Row>
+                <Row className = 'mb-4'>
                     <Col sm="12" md={{size: 6, offset: 3}}>
-                        {this.teamMember(teammate.name, teammate.description, teammate.imageSource)}
+                        <Card>
+                            <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
+                                {teammate.name}
+                            </CardHeader>
+                            <CardImg top width="100%" src={teammate.imageSource} alt={`Image of ${teammate.name}`} />
+                            <CardBody>
+                                <CardText>{teammate.description}</CardText>
+                            </CardBody>
+                        </Card>
+
                     </Col>
                 </Row>
-            </div>
+
         );
     }
 
-    createEmptySpace() {
-        return (
-            <div>
-                <CardBody>
-                </CardBody>
-            </div>
-        );
-    }
 
-    teamMember(name, description, imageSource){
-        return (
-            <div>
-                <Card>
-                    <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
-                        {name}
-                    </CardHeader>
-                    <CardImg top width="100%" src={imageSource} alt={`Image of ${name}`} />
-                    <CardBody>
-                        <CardText>{description}</CardText>
-                    </CardBody>
-                </Card>
-            </div>
-        );
-    }
 }
 
 
