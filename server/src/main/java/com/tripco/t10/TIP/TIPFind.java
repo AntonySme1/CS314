@@ -1,8 +1,9 @@
 package com.tripco.t10.TIP;
 
 import com.google.gson.JsonObject;
-//import com.google.gson.JsonArray;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -68,22 +69,22 @@ public class TIPFind extends TIPHeader{
     }
 
     private void setURL(){
-//        String isDevelopment = System.getenv("CS314_ENV");
-//        if(isDevelopment != null && isDevelopment.equals("development")) {
+        String isDevelopment = System.getenv("CS314_ENV");
+        if(isDevelopment != null && isDevelopment.equals("development")) {
             url = "jdbc:mysql://127.0.0.1:56247/cs314";
-//        }
-//        else {
-//            url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
-//        }
+        }
+        else {
+            url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
+        }
     }
 
     private String setSearch(){
         String search = "";
         if(limit > 0){
-            search = "select municipality from colorado where municipality like '%" + match + " %' limit " + limit;
+            search = "select municipality, latitude, longitude from colorado where municipality like '%" + match + "%' limit " + limit;
         }
         else if(limit == 0){
-            search = "select municipality from colorado where municipality like '%" + match + " %'";
+            search = "select municipality, latitude, longitude from colorado where municipality like '%" + match + "%'";
         } else {
             //if negative value
             System.err.println("Limit must be an integer of zero or greater.");
@@ -96,7 +97,6 @@ public class TIPFind extends TIPHeader{
         setURL();
         String count = "select count(municipality) from colorado where municipality like '%" + match + "%'";
         String search = setSearch();
-
         try {
             Class.forName(myDriver);
             // connect to the database and query
@@ -109,6 +109,7 @@ public class TIPFind extends TIPHeader{
                 ResultSet rsQuery = stQuery.executeQuery(search);
 
                 setFound(rsCount);
+                setPlaces(rsQuery);
             } catch (Exception e) {
                 System.err.println("Exception, connection failure: " + e.getMessage());
             }
@@ -122,10 +123,26 @@ public class TIPFind extends TIPHeader{
         found = rsCount.getInt(1);
     }
 
+    private void setPlaces(ResultSet rsQuery) throws SQLException{
+        while (rsQuery.next()) {
+            JsonObject place = new JsonObject();
+            String name = rsQuery.getString("municipality");
+            String latitude = rsQuery.getString("latitude");
+            String longitude = rsQuery.getString("longitude");
+
+            place.addProperty("name", name);
+            place.addProperty("latitude", latitude);
+            place.addProperty("longitude", longitude);
+
+            places.add(place);
+        }
+    }
+
     @Override
     public void buildResponse() {
         this.addInfo();
         found = getFound();
+        places = getPlaces();
         log.trace("buildResponse -> {}", this);
     }
 }
