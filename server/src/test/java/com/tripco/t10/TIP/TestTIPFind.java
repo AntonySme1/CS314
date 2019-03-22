@@ -1,6 +1,5 @@
 package com.tripco.t10.TIP;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /** Verifies the operation of the TIP config class and its buildResponse method.
  */

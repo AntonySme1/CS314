@@ -26,10 +26,10 @@ public class TIPFind extends TIPHeader{
     private List<JsonObject> places = new ArrayList<>();
 
     //Connection for Database
-    private final static String myDriver = "com.mysql.jdbc.Driver";
-    private static String url;
-    private final static String user="cs314-db";
-    private final static String pass="eiK5liet1uej";
+    private String myDriver = "com.mysql.jdbc.Driver";
+    private String url;
+    private String user="cs314-db";
+    private String pass="eiK5liet1uej";
 
     public String getMatch() {
         return match;
@@ -68,11 +68,21 @@ public class TIPFind extends TIPHeader{
         this.match = match;
     }
 
-    private void setURL(){
+    private void setDBConnection(){
+        String isTravis = System.getenv("TRAVIS");
         String isDevelopment = System.getenv("CS314_ENV");
-        if(isDevelopment != null && isDevelopment.equals("development")) {
+
+        //running build on travis
+        if(isTravis != null && isTravis.equals("true")) {
+            url = "jdbc:mysql://127.0.0.1/cs314";
+            user = "travis";
+            pass = null;
+        }
+        //running on own machine and connecting through a tunnel
+        else if(isDevelopment != null && isDevelopment.equals("development")){
             url = "jdbc:mysql://127.0.0.1:56247/cs314";
         }
+        //running against production database directly (on campus)
         else {
             url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
         }
@@ -94,7 +104,7 @@ public class TIPFind extends TIPHeader{
 
     //taken from https://github.com/csucs314s19/tripco/blob/master/guides/database/DatabaseGuide.md
     private void addInfo() {
-        setURL();
+        setDBConnection();
         String count = "select count(municipality) from colorado where municipality like '%" + match + "%'";
         String search = setSearch();
         try {

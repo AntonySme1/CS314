@@ -116,5 +116,4 @@ public class TIPItinerary extends TIPHeader{
                 "distances: " + distances +
                 '}';
     }
-
 }
