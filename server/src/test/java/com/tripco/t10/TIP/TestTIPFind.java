@@ -15,7 +15,8 @@ public class TestTIPFind {
     public String match;
     public int limit;
     public ArrayList<JsonObject> itemsExpected;
-
+    
+ 
     public JsonObject makeObject(String name, String latitude, String longitude){
         JsonObject item = new JsonObject();
         item.addProperty("name", name);
@@ -28,9 +29,36 @@ public class TestTIPFind {
     public void makeExpected(){
         itemsExpected = new ArrayList<>();
     }
+    //Connection for Database
+    private String myDriver = "com.mysql.jdbc.Driver";
+    private String url;
+    private String user="cs314-db";
+    private String pass="eiK5liet1uej";
+
+    private void setDBConnection(){
+        String isTravis = System.getenv("TRAVIS");
+        String isDevelopment = System.getenv("CS314_ENV");
+
+        //running build on travis
+        if(isTravis != null && isTravis.equals("true")) {
+            url = "jdbc:mysql://127.0.0.1/cs314";
+            user = "travis";
+            pass = null;
+        }
+        //running on own machine and connecting through a tunnel
+        else if(isDevelopment != null && isDevelopment.equals("development")){
+            url = "jdbc:mysql://127.0.0.1:56247/cs314";
+        }
+        //running against production database directly (on campus)
+        else {
+            url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
+        }
+    }
+     
 
     @Test
     public void testResponse() {
+        setDBConnection();
         match = "Sugar";
         limit = 0;
 
@@ -46,6 +74,7 @@ public class TestTIPFind {
 
     @Test
     public void testWithoutLimit() {
+        setDBConnection();
         match = "Sugar";
 
         TIPFind find = new TIPFind(match);
@@ -60,6 +89,7 @@ public class TestTIPFind {
 
     @Test
     public void testWithSpecificLimit() {
+        setDBConnection();
         match = "fort";
 
         TIPFind find = new TIPFind(match, 1);
@@ -74,6 +104,7 @@ public class TestTIPFind {
 
     @Test
     public void testWithDifferentLimit() {
+        setDBConnection();
         match = "fort";
 
         TIPFind find = new TIPFind(match, 5);
