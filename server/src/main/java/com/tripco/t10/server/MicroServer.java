@@ -6,6 +6,7 @@ import com.tripco.t10.TIP.TIPConfig;
 import com.tripco.t10.TIP.TIPDistance;
 import com.tripco.t10.TIP.TIPHeader;
 import com.tripco.t10.TIP.TIPItinerary;
+import com.tripco.t10.TIP.TIPFind;
 
 import java.lang.reflect.Type;
 
@@ -24,7 +25,6 @@ import org.slf4j.LoggerFactory;
 class MicroServer {
 
   private final Logger log = LoggerFactory.getLogger(MicroServer.class);
-
 
   MicroServer(int serverPort) {
     configureServer(serverPort);
@@ -63,6 +63,7 @@ class MicroServer {
     Spark.get("/api/config", this::processTIPconfigRequest);
     Spark.post("/api/distance", this::processTIPdistanceRequest);
     Spark.post("/api/itinerary", this::processTIPitineraryRequest);
+    Spark.post("/api/find", this::processTIPfindRequest);
     Spark.get("/api/echo", this::echoHTTPrequest);
     log.trace("Restful configuration complete");
   }
@@ -96,6 +97,9 @@ class MicroServer {
     return processTIPrequest(TIPItinerary.class, request, response);
   }
 
+  private String processTIPfindRequest(Request request, Response response) {
+    return processTIPrequest(TIPFind.class, request, response);
+  }
 
   private String processTIPrequest(Type tipType, Request request, Response response) {
     log.info("TIP Request: {}", HTTPrequestToJson(request));

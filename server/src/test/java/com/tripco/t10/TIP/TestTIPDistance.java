@@ -3,8 +3,6 @@ package com.tripco.t10.TIP;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +15,6 @@ public class TestTIPDistance {
   /* Radius and location values shared by test cases */
   private final Double radiusMiles = 6.37E+9;
   private Map<String, Object> csu;
-  private final int version = 1;
 
   @Before
   public void createLocationsForTestCases() {
@@ -29,7 +26,7 @@ public class TestTIPDistance {
 
   @Test
   public void testOriginDestinationSame() {
-    TIPDistance trip = new TIPDistance(version, csu, csu, radiusMiles);
+    TIPDistance trip = new TIPDistance(csu, csu, radiusMiles);
     trip.buildResponse();
     Long expect = 0L;
     Long actual = trip.getDistance();

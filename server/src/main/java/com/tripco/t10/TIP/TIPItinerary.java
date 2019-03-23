@@ -1,14 +1,11 @@
 package com.tripco.t10.TIP;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,20 +13,27 @@ import java.util.Map;
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private ArrayList<Integer> distances;
+    private ArrayList<Integer> distances = new ArrayList<>();
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
-    TIPItinerary(int version, JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+    private TIPItinerary() {
+        this.requestType = "itinerary";
+        this.requestVersion = 3;
+    }
+
+    //for testing purposes, optional distances
+    TIPItinerary(JsonObject options, JsonArray places) {
         this();
-        this.requestVersion = version;
+        this.options = options;
+        this.places = places;
+    }
+
+    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+        this();
         this.options = options;
         this.places = places;
         this.distances = distances;
-    }
-
-    private TIPItinerary() {
-        this.requestType = "itinerary";
     }
 
     public int calculateDistance(int position1, int position2){
@@ -67,7 +71,7 @@ public class TIPItinerary extends TIPHeader{
         return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
     }
 
-    public void fillDistances(){
+    public ArrayList<Integer> fillDistances(){
         for(int i = 0; i < places.size(); ++i){
             int leg_distance = 0;
             if(i == places.size()-1){
@@ -78,28 +82,38 @@ public class TIPItinerary extends TIPHeader{
             log.trace("Leg Distance[ " + i + "] = " + leg_distance);
             this.distances.add(leg_distance);
         }
-
+        return distances;
     }
 
-    Double getEarthRadius(){
+    public Double getEarthRadius(){
         return options.getAsJsonObject().get("earthRadius").getAsDouble();
+    }
+
+    public void setOptimization(){
+        String optimization;
+        try {
+            optimization = options.getAsJsonObject().get("optimizations").getAsString();
+        } catch(NullPointerException e){
+            optimization = "none";
+        }
+    }
+
+    public ArrayList<Integer> getDistances(){
+        return this.distances;
     }
 
     @Override
     public void buildResponse() {
-        getEarthRadius();
-        fillDistances();
+        this.distances = fillDistances();
         log.trace("buildResponse -> {}", this);
     }
 
     @Override
     public String toString() {
-        Gson gson = new Gson();
         return "TIPItinerary{" +
-                "options: " + gson.toJson(options) +
-                "places: " + gson.toJson(places) +
-                "distances" + gson.toJson(distances) +
+                "options: " + options +
+                "places: " + places +
+                "distances: " + distances +
                 '}';
     }
-
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class TIPConfig extends TIPHeader {
   private String serverName;
   private List<String> placeAttributes;
+  private List<String> optimizations;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
@@ -36,6 +37,7 @@ public class TIPConfig extends TIPHeader {
   public void buildResponse() {
     this.serverName = "T10 finiteLoop";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
+    this.optimizations = Arrays.asList("none", "short");
     log.trace("buildResponse -> {}", this);
   }
 
@@ -49,11 +51,16 @@ public class TIPConfig extends TIPHeader {
     return this.placeAttributes;
   }
 
+  List<String> getOptimizations() {
+    return this.optimizations;
+  }
+
   @Override
   public String toString() {
     return "TIPConfig{" +
             "serverName='" + serverName + '\'' +
             ", placeAttributes=" + placeAttributes +
+            ", optimizations=" + optimizations +
             '}';
   }
 
