@@ -1,10 +1,10 @@
-  - mysql -u root -e 'CREATE DATABASE cs314;'
-  - for SQL in server/src/test/resources/*.sql; do mysql cs314 < $SQL; done
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - mysql -u root -e 'CREATE DATABASE cs314;'
+  - for SQL in server/src/test/resources/*.sql; do mysql cs314 < $SQL; done
 
 language: java
 jdk: oraclejdk8
