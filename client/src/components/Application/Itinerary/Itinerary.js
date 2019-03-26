@@ -168,8 +168,8 @@ export default class Itinerary extends Component {
             var training = [];
 
         }
-        //compute the euclidean distance between two vectors
-        //function assumes vectors are arrays of equal length
+        //compute the euclidean distance between two legs
+        //function assumes legs are arrays of equal length
         var dist = function(v1, v2) {
             var sum = 0;
             v1.forEach(function(val, index) {
@@ -177,6 +177,13 @@ export default class Itinerary extends Component {
             });
             return Math.sqrt(sum);
         };
-
+        // find new longest route
+        var updateMax = function(val, arr) {
+            var max = 0;
+            arr.forEach(function(obj) {
+                max = Math.max(max, obj.d);
+            });
+            return max;
+        };
     }
 }
