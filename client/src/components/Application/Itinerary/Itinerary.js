@@ -206,5 +206,8 @@ export default class Itinerary extends Component {
             var obj = { v: vector, lab: label };
             training.push(obj);
         };
+        this.classify = function(v) {
+            var voteBloc = [];
+            var maxD = 0;
     }
 }
