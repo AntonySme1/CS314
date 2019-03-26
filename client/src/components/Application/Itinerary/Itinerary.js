@@ -199,5 +199,12 @@ export default class Itinerary extends Component {
             }
             return result;
         }
+
+
+        //plot the new point
+        this.learn = function(vector, label) {
+            var obj = { v: vector, lab: label };
+            training.push(obj);
+        };
     }
 }
