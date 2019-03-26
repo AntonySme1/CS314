@@ -161,12 +161,22 @@ export default class Itinerary extends Component {
             iconAnchor: [12,40]  // for proper placement
         })
     }
-
+ // credit https://github.com/NathanEpstein/KNear/blob/master/knear-client.js
     nearestNeighbor() {
         var kNear = function (k) {
-            //PRIVATE
+
             var training = [];
 
         }
+        //compute the euclidean distance between two vectors
+        //function assumes vectors are arrays of equal length
+        var dist = function(v1, v2) {
+            var sum = 0;
+            v1.forEach(function(val, index) {
+                sum += Math.pow(val - v2[index], 2);
+            });
+            return Math.sqrt(sum);
+        };
+
     }
 }
