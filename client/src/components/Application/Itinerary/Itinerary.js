@@ -161,4 +161,12 @@ export default class Itinerary extends Component {
             iconAnchor: [12,40]  // for proper placement
         })
     }
+
+    nearestNeighbor() {
+        var kNear = function (k) {
+            //PRIVATE
+            var training = [];
+
+        }
+    }
 }
