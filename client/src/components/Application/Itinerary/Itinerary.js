@@ -224,4 +224,14 @@ export default class Itinerary extends Component {
                             voteBloc.splice(count, 1, o);
                             maxD = updateMax(maxD, voteBloc);
                             bool = false;
+                        } else {
+                            if (count < voteBloc.length - 1) {
+                                count++;
+                            } else {
+                                bool = false;
+                            }
+                        }
+                    }
+                }
+            }
 }}
