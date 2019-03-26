@@ -3,7 +3,6 @@ package com.tripco.t10.TIP;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,14 +21,7 @@ public class TIPFind extends TIPHeader{
     private String match;
     private int limit = 0;
     private int found;
-    //    private JsonArray places = new JsonArray();
     private List<JsonObject> places = new ArrayList<>();
-
-    //Connection for Database
-    private String myDriver = "com.mysql.jdbc.Driver";
-    private String url;
-    private String user="cs314-db";
-    private String pass="eiK5liet1uej";
 
     public String getMatch() {
         return match;
@@ -68,15 +60,13 @@ public class TIPFind extends TIPHeader{
         this.match = match;
     }
 
-    private void setDBConnection(){
+    private String setDBConnection(String url){
         String isTravis = System.getenv("TRAVIS");
         String isDevelopment = System.getenv("CS314_ENV");
 
         //running build on travis
         if(isTravis != null && isTravis.equals("true")) {
             url = "jdbc:mysql://127.0.0.1/cs314";
-            user = "travis";
-            pass = null;
         }
         //running on own machine and connecting through a tunnel
         else if(isDevelopment != null && isDevelopment.equals("development")){
@@ -86,6 +76,7 @@ public class TIPFind extends TIPHeader{
         else {
             url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
         }
+        return url;
     }
 
     private String setSearch(){
@@ -104,7 +95,20 @@ public class TIPFind extends TIPHeader{
 
     //taken from https://github.com/csucs314s19/tripco/blob/master/guides/database/DatabaseGuide.md
     private void addInfo() {
-        setDBConnection();
+        //Connection info
+        String myDriver = "com.mysql.jdbc.Driver";
+        String url = "";
+        String user="cs314-db";
+        String pass="eiK5liet1uej";
+
+        url = setDBConnection(url);
+
+        String isTravis = System.getenv("TRAVIS");
+        if(isTravis != null && isTravis.equals("true")) {
+            user = "travis";
+            pass = null;
+        }
+
         String count = "select count(municipality) from colorado where municipality like '%" + match + "%'";
         String search = setSearch();
         try {
