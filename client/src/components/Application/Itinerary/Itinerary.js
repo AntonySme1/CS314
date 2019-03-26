@@ -209,5 +209,10 @@ export default class Itinerary extends Component {
         this.classify = function(v) {
             var voteBloc = [];
             var maxD = 0;
-    }
-}
+
+        training.forEach(function(obj) {
+            var o = { d: dist(v, obj.v), vote: obj.lab };
+            if (voteBloc.length < k) {
+                voteBloc.push(o);
+                maxD = updateMax(maxD, voteBloc);
+}}
