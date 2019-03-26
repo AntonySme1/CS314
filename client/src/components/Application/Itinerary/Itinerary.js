@@ -234,4 +234,12 @@ export default class Itinerary extends Component {
                     }
                 }
             }
-}}
+        });
+            var votes = [];
+            voteBloc.forEach(function(el) {
+                votes.push(el.vote);
+            });
+            return mode(votes);
+        };
+    };
+}
