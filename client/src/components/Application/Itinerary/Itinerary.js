@@ -215,4 +215,13 @@ export default class Itinerary extends Component {
             if (voteBloc.length < k) {
                 voteBloc.push(o);
                 maxD = updateMax(maxD, voteBloc);
+            } else {
+                if (o.d < maxD) {
+                    var bool = true;
+                    var count = 0;
+                    while (bool) {
+                        if (Number(voteBloc[count].d) === maxD) {
+                            voteBloc.splice(count, 1, o);
+                            maxD = updateMax(maxD, voteBloc);
+                            bool = false;
 }}
