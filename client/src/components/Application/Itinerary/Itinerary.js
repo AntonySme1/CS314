@@ -8,6 +8,8 @@ import Pane from '../Pane'
 import ItineraryForm from "./ItineraryForm";
 import ItineraryTable from   "./ItineraryTable";
 import Geolocation from '../Geolocation';
+import FindForm from '../Find/FindForm';
+import FindTable from "../Find/FindTable";
 
 /*
  * Renders the itinerary page.
@@ -21,8 +23,13 @@ export default class Itinerary extends Component {
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
 
+        this.getFindData = this.getFindData.bind(this);
+        this.renderFindForm = this.renderFindForm.bind(this);
+        this.renderFindTable = this.renderFindTable.bind(this);
+
         this.state = {
-            itinerary: null
+            itinerary: null,
+            find:null
         };
     }
 
@@ -35,6 +42,18 @@ export default class Itinerary extends Component {
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderMap()}
+                    </Col>
+                </Row>
+
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        {this.renderFindForm()}
+                    </Col>
+                </Row>
+
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        {this.renderFindTable()}
                     </Col>
                 </Row>
 
@@ -71,6 +90,14 @@ export default class Itinerary extends Component {
         );
     }
 
+    renderFindForm() {
+        return (
+            <Pane header={'FindForm'}>
+                {this.FindForm()}
+            </Pane>
+        );
+    }
+
 
     ItineraryForm() {
         return (
@@ -81,6 +108,24 @@ export default class Itinerary extends Component {
 
         )
     }
+
+    FindForm(){
+        return (
+            <FindForm settings = {this.props.settings}
+                      createErrorBanner={this.props.createErrorBanner}
+                      getFindData={this.getFindData}/>
+        )
+
+    }
+
+    renderFindTable(){
+        if (this.state.find){
+            return (<FindTable settings = {this.props.settings}
+                                    createErrorBanner={this.props.createErrorBanner}
+                                    find={this.state.find}/>)
+        }
+    }
+
     renderItineraryTable(){
         if (this.state.itinerary){
             return (<ItineraryTable settings = {this.props.settings}
@@ -110,6 +155,11 @@ export default class Itinerary extends Component {
     getItineraryData(itinerary){
         console.log(itinerary);
         this.setState({itinerary: itinerary});
+    }
+
+    getFindData(find){
+        console.log(find);
+        this.setState({find: find});
     }
 
     generateTripMarkers(){
