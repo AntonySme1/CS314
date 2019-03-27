@@ -108,7 +108,7 @@ public class TIPItinerary extends TIPHeader{
     @Override
     public void buildResponse() {
         this.distances = fillDistances();
-
+        this.setOptimization();
         log.trace("buildResponse -> {}", this);
     }
 
