@@ -27,6 +27,7 @@ public class TIPItinerary extends TIPHeader{
         this();
         this.options = options;
         this.places = places;
+
     }
 
     TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
@@ -93,8 +94,10 @@ public class TIPItinerary extends TIPHeader{
         String optimization;
         try {
             optimization = options.getAsJsonObject().get("optimizations").getAsString();
+            options.addProperty("optimization", optimization);
         } catch(NullPointerException e){
             optimization = "none";
+            options.addProperty("optimization", optimization);
         }
     }
 
@@ -105,6 +108,7 @@ public class TIPItinerary extends TIPHeader{
     @Override
     public void buildResponse() {
         this.distances = fillDistances();
+
         log.trace("buildResponse -> {}", this);
     }
 
