@@ -2,6 +2,7 @@ import React from 'react';
 import {Table} from "reactstrap";
 
 const  ItineraryTable = (props) => {
+    console.log("In ItinTable: " + props.itinerary.distances);
     return (
         <Table responsive hover borderless>
             <thead>

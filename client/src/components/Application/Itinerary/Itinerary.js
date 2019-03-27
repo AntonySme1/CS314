@@ -8,6 +8,7 @@ import Pane from '../Pane'
 import ItineraryForm from "./ItineraryForm";
 import ItineraryTable from   "./ItineraryTable";
 import Geolocation from '../Geolocation';
+import Cookies from 'js-cookie';
 
 /*
  * Renders the itinerary page.
@@ -20,14 +21,16 @@ export default class Itinerary extends Component {
         this.getItineraryData = this.getItineraryData.bind(this);
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
+        // this.updateStateWithCookie = this.updateStateWithCookie.bind(this);
 
         this.state = {
             itinerary: null
         };
+
+        // this.updateStateWithCookie();
     }
 
     render() {
-
         return (
 
             <Container>
@@ -86,6 +89,15 @@ export default class Itinerary extends Component {
             return (<ItineraryTable settings = {this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
                                     itinerary={this.state.itinerary}/>)
+        } else if (Cookies.get().hasOwnProperty('itinerary')) {
+            console.log("Itin: " + Cookies.get('itinerary'));
+            let itin = JSON.parse(Cookies.get('itinerary'));
+            console.log("After set state: " + itin.distances);
+            return (<ItineraryTable settings={this.props.settings}
+                                    createErrorBanner={this.props.createErrorBanner}
+                                    itinerary={itin}/>)
+        } else {
+
         }
     }
 
@@ -109,7 +121,17 @@ export default class Itinerary extends Component {
 
     getItineraryData(itinerary){
         console.log(itinerary);
+        Cookies.set(`itinerary`, itinerary);
         this.setState({itinerary: itinerary});
+    }
+
+    updateStateWithCookie(){
+        let stateData = Object.assign({},this.state);
+        if (Cookies.get().hasOwnProperty('itinerary')) {
+            console.log("COOKIES: " + Cookies.get('itinerary'));
+            stateData.itinerary = Cookies.get('itinerary');
+            this.setState({stateData});
+        }
     }
 
     generateTripMarkers(){

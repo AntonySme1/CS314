@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import {Button, Col, Row, FormGroup} from 'reactstrap'
 import { Form, Label, Input, CustomInput} from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
-
-
+import Cookies from 'js-cookie';
 
 export default class ItineraryForm extends Component {
 
@@ -13,6 +12,7 @@ export default class ItineraryForm extends Component {
         this.calculateLegDistance = this.calculateLegDistance.bind(this);
         this.readFile = this.readFile.bind(this);
         this.saveItinerary = this.saveItinerary.bind(this);
+        this.updateItineraryStateWithCookie = this.updateItineraryStateWithCookie.bind(this);
 
         this.state = {
             version: 3,
@@ -24,6 +24,7 @@ export default class ItineraryForm extends Component {
 
         };
 
+        this.updateItineraryStateWithCookie();
     };
 
 
@@ -37,14 +38,12 @@ export default class ItineraryForm extends Component {
                 <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
-            <Col>
+            <Col sm={{ size: 10, offset: 4 }}>
                 <FormGroup>
                   {this.legDistanceButton()}
-                </FormGroup>
-
-              <FormGroup>
+                  <span>    </span>
                   {this.saveItineraryButton()}
-              </FormGroup>
+                </FormGroup>
             </Col>
         </Form>
 
@@ -53,19 +52,14 @@ export default class ItineraryForm extends Component {
 
     legDistanceButton() {
         return (
-            <Col sm={{ size: 10, offset: 4 }}>
                 <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
-            </Col>
         );
     }
 
 
     saveItineraryButton() {
         return (
-
-            <Col sm={{ size: 10, offset: 4 }}>
                 <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
-            </Col>
 
         );
     }
@@ -104,6 +98,8 @@ printJSON  (fileContent)  {
 
 setStateFromFile (fileContent) {
     const parsedJSON = JSON.parse(fileContent);
+    Cookies.set("options", parsedJSON.options);
+    Cookies.set("places", parsedJSON.places);
     this.setState(
         {
             version: parsedJSON.requestVersion,
@@ -159,7 +155,28 @@ saveItinerary(){
        saveData(itinerary, fileName);
     }
 }
+
+    updateItineraryStateWithCookie(){
+        let stateData = Object.assign({},this.state);
+        if (Cookies.get().hasOwnProperty('requestType') && Cookies.get().hasOwnProperty('requestVersion')) {
+            stateData.requestType = Cookies.get('requestType');
+            stateData.requestVersion = Cookies.get('requestVersion');
+            stateData.options = Cookies.get('options');
+            stateData.places = Cookies.get('places');
+            stateData.distances = Cookies.get('distances');
+
+            // console.log("RT: " + stateData.requestType);
+            // console.log("RV: " + stateData.requestVersion);
+            // console.log("O: " + stateData.options);
+            // console.log("P: " + stateData.places);
+            // console.log("D: " + stateData.distances);
+
+            this.setState({stateData});
+        }
+    }
+
 calculateLegDistance () {
+
 
    const tipLegDistanceRequest = {
         'requestType': 'itinerary',
@@ -177,6 +194,9 @@ sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.setting
                     errorMessage: null
                 });
                 console.log(this.state.distances);
+                Cookies.set('distances', this.state.distances);
+                Cookies.set('requestType', 'itinerary');
+                Cookies.set('version', this.state.version);
                 this.props.getItineraryData(this.state);
             } else {
                 this.setState({
@@ -188,7 +208,6 @@ sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.setting
                 });
             }
         });
-
 }
 
 
