@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {Button, Col, Row, FormGroup, CardBody, Table} from 'reactstrap'
-import { Form, Label, Input, CustomInput} from 'reactstrap'
+import {Button, FormGroup,} from 'reactstrap'
+import { Form, Label, Input} from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 
 
@@ -12,7 +12,7 @@ export default class FindForm extends Component {
 
     this.findSearch = this.findSearch.bind(this);
     this.processForm = this.processForm.bind(this);
-
+    this.updateState = this.updateState.bind(this);
     this.state = {
 
       match: "Denver",
@@ -33,12 +33,12 @@ export default class FindForm extends Component {
 
           <FormGroup>
             <Label for="searchTerm">Search Term</Label>
-            <Input type="text" name="searchTerm" id="searchTerm" placeholder={"Search term"} />
+            <Input type="text" name="match" id="searchTerm" placeholder={"Search term"} onChange={this.updateState} />
           </FormGroup>
 
           <FormGroup>
             <Label for="limit">Limit</Label>
-            <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} />
+            <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
           </FormGroup>
 
           <FormGroup>
@@ -51,10 +51,17 @@ export default class FindForm extends Component {
     );}
 
 processForm (event) {
+
   event.preventDefault();
 
   this.findSearch();
 
+}
+updateState (event) {
+            event.persist();
+  console.log(event.target.name);
+  console.log(event.target.value);
+     this.setState({[event.target.name]: event.target.value});
 }
 
   findSearch () {
@@ -76,7 +83,7 @@ processForm (event) {
           found: response.body.found,
           errorMessage: null
         });
-        console.log(this.state.places);
+
         this.props.getFindData(this.state);
       } else {
         this.setState({

@@ -94,11 +94,7 @@ async readFile   (event) {
 
 printJSON  (fileContent)  {
    const parsedJSON = JSON.parse(fileContent);
-   console.log("requestType is ", parsedJSON.requestType);
-   console.log("requestVersion is ", parsedJSON.requestVersion);
-   console.log("options is ", parsedJSON.options);
-   console.log("places is ", parsedJSON.places);
-   console.log("distances is ", parsedJSON.distances);
+
 
 }
 
@@ -176,7 +172,7 @@ sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.setting
                     distances: response.body.distances,
                     errorMessage: null
                 });
-                console.log(this.state.distances);
+
                 this.props.getItineraryData(this.state);
             } else {
                 this.setState({

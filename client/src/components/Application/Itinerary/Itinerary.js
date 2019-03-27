@@ -113,7 +113,8 @@ export default class Itinerary extends Component {
         return (
             <FindForm settings = {this.props.settings}
                       createErrorBanner={this.props.createErrorBanner}
-                      getFindData={this.getFindData}/>
+                      getFindData={this.getFindData}
+            />
         )
 
     }
@@ -121,8 +122,10 @@ export default class Itinerary extends Component {
     renderFindTable(){
         if (this.state.find){
             return (<FindTable settings = {this.props.settings}
-                                    createErrorBanner={this.props.createErrorBanner}
-                                    find={this.state.find}/>)
+                               createErrorBanner={this.props.createErrorBanner}
+                               find={this.state.find}
+                               itinerary={this.state.itinerary}
+                               getItineraryData={this.getItineraryData}/>)
         }
     }
 
@@ -130,7 +133,8 @@ export default class Itinerary extends Component {
         if (this.state.itinerary){
             return (<ItineraryTable settings = {this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
-                                    itinerary={this.state.itinerary}/>)
+                                    itinerary={this.state.itinerary}
+            />)
         }
     }
 

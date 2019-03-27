@@ -11,11 +11,12 @@ const  FindTable = (props) => {
           <th>City</th>
           <th>Latitude</th>
           <th>Longitude</th>
+          <th>Add</th>
 
         </tr>
         </thead>
         <tbody>
-        {generateTableData (props.find.places)}
+        {generateTableData (props)}
         <tr>
         </tr>
 
@@ -23,16 +24,25 @@ const  FindTable = (props) => {
       </Table>);
 };
 
-const generateTableData = (data) =>{
+const generateTableData = (props) =>{
   return(
-      data.map((place,index) => {
+      props.find.places.map((place,index) => {
         return (<tr key={index}>
           <td>{index + 1}</td>
           <td>{place.name}</td>
           <td>{place.latitude}</td>
           <td>{place.longitude}</td>
-          <td><Button className={'btn-csu'}>Add</Button></td>
+          <td><Button className={'btn-csu'} onClick={()=>updateItinerary(props,place)}>Add</Button></td>
         </tr>)
       }))
-}
+};
+
+const updateItinerary = (props,place) => {
+  if (props.itinerary) {
+    let aTest = Object.assign({}, props.itinerary);
+    aTest.places.push(place);
+    console.log(aTest);
+    props.getItineraryData(aTest);
+  }
+};
 export default FindTable;

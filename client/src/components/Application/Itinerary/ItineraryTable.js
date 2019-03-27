@@ -1,5 +1,6 @@
 import React from 'react';
-import {Table} from "reactstrap";
+import {Table,Button} from "reactstrap";
+
 
 const  ItineraryTable = (props) => {
     return (
@@ -12,6 +13,7 @@ const  ItineraryTable = (props) => {
                 <th>Longitude</th>
                 <th>Leg Distance</th>
                 <th>Cumulative Distance</th>
+                <th>Options</th>
             </tr>
             </thead>
             <tbody>
@@ -39,6 +41,7 @@ const generateTableData = (itinerary) =>{
                 <td>{place.longitude}</td>
                 <td>{itinerary.distances[index]}</td>
                 <td>{cumulativeArray[index]}</td>
+                <td><Button className={'btn-csu'}>Delete</Button></td>
             </tr>)
         }))
     }
