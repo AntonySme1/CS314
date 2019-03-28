@@ -50,7 +50,6 @@ export default class ItineraryForm extends Component {
 
     );}
 
-
     legDistanceButton() {
         return (
             <Col sm={{ size: 10, offset: 10 }}>
@@ -69,8 +68,6 @@ export default class ItineraryForm extends Component {
 
         );
     }
-
-
 //code from https://blog.shovonhasan.com/using-promises-with-filereader/
 processFile (file) {
     const reader = new FileReader();
