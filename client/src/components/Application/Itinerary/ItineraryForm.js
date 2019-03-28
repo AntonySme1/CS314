@@ -37,7 +37,7 @@ export default class ItineraryForm extends Component {
                 <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
-            <Row>
+            <Col>
                 <FormGroup>
                   {this.legDistanceButton()}
                 </FormGroup>
@@ -45,14 +45,15 @@ export default class ItineraryForm extends Component {
               <FormGroup>
                   {this.saveItineraryButton()}
               </FormGroup>
-            </Row>
+            </Col>
         </Form>
 
     );}
 
+
     legDistanceButton() {
         return (
-            <Col sm={{ size: 10, offset: 10 }}>
+            <Col sm={{ size: 10, offset: 4 }}>
                 <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
             </Col>
         );
@@ -62,12 +63,14 @@ export default class ItineraryForm extends Component {
     saveItineraryButton() {
         return (
 
-            <Col sm={{ size: 10, offset: 10  }}>
-                <Button className={'btn-csu'} onClick={this.saveItinerary}>Save</Button>
+            <Col sm={{ size: 10, offset: 4 }}>
+                <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
             </Col>
 
         );
     }
+
+
 //code from https://blog.shovonhasan.com/using-promises-with-filereader/
 processFile (file) {
     const reader = new FileReader();
