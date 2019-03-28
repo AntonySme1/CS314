@@ -9,19 +9,7 @@ export default class ItineraryForm extends Component {
 
 
         this.readFile = this.readFile.bind(this);
-
-
-        this.state = {
-          requestVersion: 3,
-          requestType: 'itinerary',
-            options: {"title":"My Trip",
-                "earthRadius":"3958.761316","optimization":"none" },
-            places: [],
-            distances: [],
-            errorMessage: null
-
-        };
-
+        
     };
 
 
