@@ -139,6 +139,9 @@ export default class Calculator extends Component {
                  this.getRequest(response);
               });
       }
+          else {
+            this.setErrorBanner()
+          }
       }
   }
 
