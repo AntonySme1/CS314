@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Row, Col} from 'reactstrap';
+import {Container, Row, Col, FormGroup, Form, Button} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -10,6 +10,7 @@ import ItineraryTable from   "./ItineraryTable";
 import Geolocation from '../Geolocation';
 import FindForm from '../Find/FindForm';
 import FindTable from "../Find/FindTable";
+import {sendServerRequestWithBody} from "../../../api/restfulAPI";
 
 /*
  * Renders the itinerary page.
@@ -26,10 +27,19 @@ export default class Itinerary extends Component {
         this.getFindData = this.getFindData.bind(this);
         this.renderFindForm = this.renderFindForm.bind(this);
         this.renderFindTable = this.renderFindTable.bind(this);
+        this.calculateLegDistance = this.calculateLegDistance.bind(this);
+        this.saveItinerary = this.saveItinerary.bind(this);
 
         this.state = {
-            itinerary: {places: [], distances: []},
-            find:null
+            itinerary: {requestVersion: 3,
+                requestType: 'itinerary',
+                options: {"title":"My Trip",
+                    "earthRadius":"3958.761316","optimization":"none" },
+                places: [],
+                distances: [],
+               },
+            find:null,
+            errorMessage: null
         };
     }
 
@@ -61,6 +71,21 @@ export default class Itinerary extends Component {
                     <Col xs={12}>
                         {this.renderItineraryForm()}
                     </Col>
+                </Row>
+
+
+
+                <Row className = 'mb-4'>
+                    <Form>
+                        <FormGroup>
+                            {this.legDistanceButton()}
+                        </FormGroup>
+
+                        <FormGroup>
+                            {this.saveItineraryButton()}
+                        </FormGroup>
+
+                    </Form>
                 </Row>
 
                 <Row className = 'mb-4'>
@@ -215,5 +240,91 @@ export default class Itinerary extends Component {
             shadowUrl: iconShadow,
             iconAnchor: [12,40]  // for proper placement
         })
+    }
+
+    legDistanceButton() {
+        return (
+            <Col sm={{ size: 10, offset: 4 }}>
+                <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
+            </Col>
+        );
+    }
+
+
+    saveItineraryButton() {
+        return (
+
+            <Col sm={{ size: 10, offset: 4 }}>
+                <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
+            </Col>
+
+        );
+    }
+
+    // credit Koldev https://jsfiddle.net/koldev/cW7W5/
+    saveItinerary(){
+
+
+        const itinerary = {
+            'requestType': 'itinerary',
+            'requestVersion': this.state.itinerary.version,
+            'options': this.state.itinerary.options,
+            'places': this.state.itinerary.places,
+            'distances': this.state.itinerary.distances
+        };
+
+        if(itinerary) {
+
+            var saveData = (function () {
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                return function (data, fileName) {
+                    var json = JSON.stringify(data),
+                        blob = new Blob([json], {type: "octet/stream"}),
+                        url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = fileName;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                };
+            }());
+
+            var fileName = "SavedItinerary.json";
+            saveData(itinerary, fileName);
+        }
+    }
+
+    calculateLegDistance () {
+
+        const tipLegDistanceRequest = {
+            'requestType': 'itinerary',
+            'requestVersion': this.state.itinerary.requestVersion,
+            'options': this.state.itinerary.options,
+            'places': this.state.itinerary.places,
+            'distances': []
+        };
+
+        sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
+        .then((response) => {
+            if (response.statusCode >= 200 && response.statusCode <= 299) {
+                const state = Object.assign({},this.state);
+                state.itinerary.distances = response.body.distances;
+                state.itinerary = null;
+                this.setState({
+                    state });
+
+                //this.props.getItineraryData(this.state);
+            } else {
+                this.setState({
+                    errorMessage: this.props.createErrorBanner(
+                        response.statusText,
+                        response.statusCode,
+                        `Request to ${this.props.settings.serverPort} failed.`
+                    )
+                });
+            }
+        });
+
     }
 }
