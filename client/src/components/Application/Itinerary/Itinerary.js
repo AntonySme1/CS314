@@ -28,7 +28,7 @@ export default class Itinerary extends Component {
         this.renderFindTable = this.renderFindTable.bind(this);
 
         this.state = {
-            itinerary: null,
+            itinerary: {places: [], distances: []},
             find:null
         };
     }
@@ -130,12 +130,13 @@ export default class Itinerary extends Component {
     }
 
     renderItineraryTable(){
-        if (this.state.itinerary){
+       // if (this.state.itinerary){
             return (<ItineraryTable settings = {this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
                                     itinerary={this.state.itinerary}
+                                    getItineraryData={this.getItineraryData}
             />)
-        }
+        //}
     }
 
     renderLeafletMap() {
@@ -162,12 +163,12 @@ export default class Itinerary extends Component {
     }
 
     getFindData(find){
-        console.log(find);
+
         this.setState({find: find});
     }
 
     generateTripMarkers(){
-        if (this.state.itinerary) {
+        if (this.state.itinerary.places.length > 0) {
             return (
                 this.state.itinerary.places.map((place, index) => {
                     return (
@@ -182,7 +183,7 @@ export default class Itinerary extends Component {
     }
 
     drawLinesBetweenMarkers(){
-        if(this.state.itinerary) {
+        if(this.state.itinerary.places.length > 0) {
             let coordinates = this.state.itinerary.places.map((place) => {
                 return [Number(place.latitude), Number(place.longitude)];
             });

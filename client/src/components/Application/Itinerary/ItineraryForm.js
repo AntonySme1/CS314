@@ -15,9 +15,10 @@ export default class ItineraryForm extends Component {
         this.saveItinerary = this.saveItinerary.bind(this);
 
         this.state = {
-            version: 3,
+          requestVersion: 3,
+          requestType: 'itinerary',
             options: {"title":"My Trip",
-                "earthRadius":"3958.761316"},
+                "earthRadius":"3958.761316","optimization":"none" },
             places: [],
             distances: [],
             errorMessage: null
@@ -100,6 +101,7 @@ printJSON  (fileContent)  {
 
 setStateFromFile (fileContent) {
     const parsedJSON = JSON.parse(fileContent);
+
     this.setState(
         {
             version: parsedJSON.requestVersion,

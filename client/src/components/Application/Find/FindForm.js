@@ -58,9 +58,8 @@ processForm (event) {
 
 }
 updateState (event) {
-            event.persist();
-  console.log(event.target.name);
-  console.log(event.target.value);
+            //event.persist();
+
      this.setState({[event.target.name]: event.target.value});
 }
 

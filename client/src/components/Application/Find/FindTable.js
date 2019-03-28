@@ -38,11 +38,12 @@ const generateTableData = (props) =>{
 };
 
 const updateItinerary = (props,place) => {
-  if (props.itinerary) {
-    let aTest = Object.assign({}, props.itinerary);
-    aTest.places.push(place);
-    console.log(aTest);
+
+      let aTest = Object.assign({}, props.itinerary);
+
+        aTest.places.push(place);
+
     props.getItineraryData(aTest);
-  }
+
 };
 export default FindTable;
