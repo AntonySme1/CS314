@@ -6,10 +6,9 @@ export default class ItineraryForm extends Component {
 
     constructor(props) {
         super(props);
-
-
-        this.readFile = this.readFile.bind(this);
         
+        this.readFile = this.readFile.bind(this);
+
     };
 
 

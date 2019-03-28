@@ -310,7 +310,7 @@ export default class Itinerary extends Component {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 const state = Object.assign({},this.state);
                 state.itinerary.distances = response.body.distances;
-                state.itinerary = null;
+                state.errormessage = null;
                 this.setState({
                     state });
 
