@@ -1,30 +1,14 @@
 import React, { Component } from 'react'
 import {Button, Col, Row, FormGroup} from 'reactstrap'
 import { Form, Label, Input, CustomInput} from 'reactstrap'
-import { sendServerRequestWithBody } from '../../../api/restfulAPI'
-import Cookies from 'js-cookie';
 
 export default class ItineraryForm extends Component {
 
     constructor(props) {
         super(props);
-
-        this.calculateLegDistance = this.calculateLegDistance.bind(this);
+        
         this.readFile = this.readFile.bind(this);
-        this.saveItinerary = this.saveItinerary.bind(this);
-        this.updateItineraryStateWithCookie = this.updateItineraryStateWithCookie.bind(this);
 
-        this.state = {
-            version: 3,
-            options: {"title":"My Trip",
-                "earthRadius":"3958.761316"},
-            places: [],
-            distances: [],
-            errorMessage: null
-
-        };
-
-        this.updateItineraryStateWithCookie();
     };
 
 
@@ -38,32 +22,10 @@ export default class ItineraryForm extends Component {
                 <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
-            <Col sm={{ size: 10, offset: 4 }}>
-                <FormGroup>
-                  {this.legDistanceButton()}
-                  <span>    </span>
-                  {this.saveItineraryButton()}
-                </FormGroup>
-            </Col>
+
         </Form>
 
     );}
-
-
-    legDistanceButton() {
-        return (
-                <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
-        );
-    }
-
-
-    saveItineraryButton() {
-        return (
-                <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
-
-        );
-    }
-
 
 //code from https://blog.shovonhasan.com/using-promises-with-filereader/
 processFile (file) {
@@ -88,25 +50,21 @@ async readFile   (event) {
 
 printJSON  (fileContent)  {
    const parsedJSON = JSON.parse(fileContent);
-   console.log("requestType is ", parsedJSON.requestType);
-   console.log("requestVersion is ", parsedJSON.requestVersion);
-   console.log("options is ", parsedJSON.options);
-   console.log("places is ", parsedJSON.places);
-   console.log("distances is ", parsedJSON.distances);
+
 
 }
 
 setStateFromFile (fileContent) {
-    const parsedJSON = JSON.parse(fileContent);
-    Cookies.set("options", parsedJSON.options);
-    Cookies.set("places", parsedJSON.places);
-    this.setState(
-        {
-            version: parsedJSON.requestVersion,
-            options: parsedJSON.options,
-            places: parsedJSON.places
-        } )
+  const parsedJSON = JSON.parse(fileContent);
+  const itineraryObject = {
+    requestVersion: parsedJSON.requestVersion,
+    options: parsedJSON.options,
+    places: parsedJSON.places,
+    distances: []
+  };
+  this.props.getItineraryData(itineraryObject);
 }
+
 
 //code from https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try
 //Author: Lynn and Matt H.
@@ -122,93 +80,8 @@ setStateFromFile (fileContent) {
 
     return false;
 };
-// credit Koldev https://jsfiddle.net/koldev/cW7W5/
-saveItinerary(){
 
 
-    const itinerary = {
-        'requestType': 'itinerary',
-        'requestVersion': this.state.version,
-        'options': this.state.options,
-        'places': this.state.places,
-        'distances': this.state.distances
-    };
-
-    if(itinerary) {
-
-       var saveData = (function () {
-           var a = document.createElement("a");
-           document.body.appendChild(a);
-           a.style = "display: none";
-           return function (data, fileName) {
-               var json = JSON.stringify(data),
-                   blob = new Blob([json], {type: "octet/stream"}),
-                   url = window.URL.createObjectURL(blob);
-               a.href = url;
-               a.download = fileName;
-               a.click();
-               window.URL.revokeObjectURL(url);
-           };
-       }());
-
-       var fileName = "SavedItinerary.json";
-       saveData(itinerary, fileName);
-    }
-}
-
-    updateItineraryStateWithCookie(){
-        let stateData = Object.assign({},this.state);
-        if (Cookies.get().hasOwnProperty('requestType') && Cookies.get().hasOwnProperty('requestVersion')) {
-            stateData.requestType = Cookies.get('requestType');
-            stateData.requestVersion = Cookies.get('requestVersion');
-            stateData.options = Cookies.get('options');
-            stateData.places = Cookies.get('places');
-            stateData.distances = Cookies.get('distances');
-
-            // console.log("RT: " + stateData.requestType);
-            // console.log("RV: " + stateData.requestVersion);
-            // console.log("O: " + stateData.options);
-            // console.log("P: " + stateData.places);
-            // console.log("D: " + stateData.distances);
-
-            this.setState({stateData});
-        }
-    }
-
-calculateLegDistance () {
-
-
-   const tipLegDistanceRequest = {
-        'requestType': 'itinerary',
-        'requestVersion': this.state.version,
-        'options': this.state.options,
-        'places': this.state.places,
-        'distances': []
-    };
-
-sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
-        .then((response) => {
-            if (response.statusCode >= 200 && response.statusCode <= 299) {
-                this.setState({
-                    distances: response.body.distances,
-                    errorMessage: null
-                });
-                console.log(this.state.distances);
-                Cookies.set('distances', this.state.distances);
-                Cookies.set('requestType', 'itinerary');
-                Cookies.set('version', this.state.version);
-                this.props.getItineraryData(this.state);
-            } else {
-                this.setState({
-                    errorMessage: this.props.createErrorBanner(
-                        response.statusText,
-                        response.statusCode,
-                        `Request to ${this.props.settings.serverPort} failed.`
-                    )
-                });
-            }
-        });
-}
 
 
 
