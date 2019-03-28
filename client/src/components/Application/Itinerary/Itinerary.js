@@ -90,9 +90,7 @@ export default class Itinerary extends Component {
                                     createErrorBanner={this.props.createErrorBanner}
                                     itinerary={this.state.itinerary}/>)
         } else if (Cookies.get().hasOwnProperty('itinerary')) {
-            console.log("Itin: " + Cookies.get('itinerary'));
             let itin = JSON.parse(Cookies.get('itinerary'));
-            console.log("After set state: " + itin.distances);
             return (<ItineraryTable settings={this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
                                     itinerary={itin}/>)
