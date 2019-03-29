@@ -17,9 +17,10 @@ public class TestTIPFind {
     public ArrayList<JsonObject> itemsExpected;
 
 
-    public JsonObject makeObject(String name, String latitude, String longitude){
+    public JsonObject makeObject(String name, String municipality, String latitude, String longitude){
         JsonObject item = new JsonObject();
         item.addProperty("name", name);
+        item.addProperty("municipality", municipality);
         item.addProperty("latitude", latitude);
         item.addProperty("longitude", longitude);
         return item;
@@ -64,7 +65,7 @@ public class TestTIPFind {
 
         TIPFind find = new TIPFind(match, limit);
         find.buildResponse();
-        itemsExpected.add(makeObject("Sand Arroya Airport", "38.45280075", "-103.5299988"));
+        itemsExpected.add(makeObject("Sand Arroya Airport", "Sugar City", "38.45280075", "-103.5299988"));
 
         assertEquals("Expected number of items found", 1, find.getFound());
         assertEquals("Expected places to be found", itemsExpected, find.getPlaces());
@@ -79,7 +80,7 @@ public class TestTIPFind {
 
         TIPFind find = new TIPFind(match);
         find.buildResponse();
-        itemsExpected.add(makeObject("Sand Arroya Airport", "38.45280075", "-103.5299988"));
+        itemsExpected.add(makeObject("Sand Arroya Airport", "Sugar City","38.45280075", "-103.5299988"));
 
         assertEquals("Expected number of items found", 1, find.getFound());
         assertEquals("Expected places to be found", itemsExpected, find.getPlaces());
@@ -94,7 +95,7 @@ public class TestTIPFind {
 
         TIPFind find = new TIPFind(match, 1);
         find.buildResponse();
-        itemsExpected.add(makeObject("Colorado Plains Medical Center Heliport", "40.2610917", "-103.7963389"));
+        itemsExpected.add(makeObject("Colorado Plains Medical Center Heliport", "Fort Morgan", "40.2610917", "-103.7963389"));
 
         assertEquals("Expected number of items found", 17, find.getFound());
         assertEquals("Expected match", "fort", find.getMatch());
@@ -108,9 +109,9 @@ public class TestTIPFind {
 
         TIPFind find = new TIPFind(match, 3);
         find.buildResponse();
-        itemsExpected.add(makeObject("Colorado Plains Medical Center Heliport", "40.2610917", "-103.7963389"));
-        itemsExpected.add(makeObject("Geo-Seis Helicopters Heliport", "40.5899009705", "-105.04599762"));
-        itemsExpected.add(makeObject("Century Helicopters Heliport", "40.5854988098", "-105.040000916"));
+        itemsExpected.add(makeObject("Colorado Plains Medical Center Heliport","Fort Morgan", "40.2610917", "-103.7963389"));
+        itemsExpected.add(makeObject("Geo-Seis Helicopters Heliport", "Fort Collins", "40.5899009705", "-105.04599762"));
+        itemsExpected.add(makeObject("Century Helicopters Heliport", "Fort Collins","40.5854988098", "-105.040000916"));
 
         assertEquals("Expected number of items found", 17, find.getFound());
         assertEquals("Expected places to be found", itemsExpected, find.getPlaces());
