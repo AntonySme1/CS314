@@ -165,15 +165,19 @@ In this sprint, ...
 
 #### What we changed this sprint
 
-Our changes for this sprint ...
+* We worked on code together more often
+* We improved our code coverage and became more familiar with writing tests
 
 #### What we did well
 
-We started working as a team better instead of lone wolfing it. We planned very effectively this sprint.  
+* We started working as a team better instead of lone wolfing it. 
+* We planned very effectively this sprint.
+* We did a good job of fixing code climate issues and improving our score   
 
 #### What we need to work on
 
-We could improve time mangement. Not underestimating epics will help us signicantly as we were not able to finish one of the priority epics. 
+* We could improve time mangement. 
+* Not underestimating epics will help us signicantly as we were not able to finish one of the priority epics. 
 
 #### What we will change next sprint 
 
