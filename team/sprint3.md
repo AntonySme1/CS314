@@ -169,11 +169,11 @@ Our changes for this sprint included ...
 
 #### What we did well
 
-We ...
+We started working as a team better instead of lone wolfing it. We planned very effectively this sprint.  
 
 #### What we need to work on
 
-We could improve ...
+We could improve time mangement. Not underestimating epics will help us signicantly as we were not able to finish one of the priority epics. 
 
 #### What we will change next sprint 
 
