@@ -165,7 +165,7 @@ In this sprint, ...
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Our changes for this sprint ...
 
 #### What we did well
 
@@ -177,4 +177,4 @@ We could improve time mangement. Not underestimating epics will help us signican
 
 #### What we will change next sprint 
 
-We will change ...
+We will change how long we expect each epic to take as the difficulty for each one varies. We will assume the priority ones will be the most challenging and plan accordingly.
