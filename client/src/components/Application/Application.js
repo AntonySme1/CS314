@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardHeader, Container} from 'reactstrap';
+import {Container} from 'reactstrap';
 
 import Home from './Home';
 import Options from './Options/Options';
@@ -9,6 +9,7 @@ import {getOriginalServerPort, sendServerRequest} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
 import About from './About/About';
 import Itinerary from "./Itinerary/Itinerary";
+import Cookies from "js-cookie";
 
 
 /* Renders the application.
@@ -22,6 +23,8 @@ export default class Application extends Component {
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
     this.addUnit = this.addUnit.bind(this);
+    this.updateStateWithCookies = this.updateStateWithCookies.bind(this);
+
     this.state = {
       serverConfig: null,
       planOptions: {
@@ -34,6 +37,7 @@ export default class Application extends Component {
       errorMessage: null
     };
 
+    this.updateStateWithCookies();
     this.updateServerConfig();
   }
 
@@ -46,15 +50,15 @@ export default class Application extends Component {
       </div>
     );
   }
+
   addUnit (data)  {
   console.log(data);
   let jasper = Object.assign(this.state.planOptions.units, data);
-
-    console.log(jasper);
-    this.setState({jasper});
-
-
+  Cookies.set('units',jasper);
+  Cookies.set('activeUnit', this.state.planOptions.activeUnit);
+  this.setState({jasper});
 }
+
   updateClientSetting(field, value) {
     if(field === 'serverPort')
       this.setState({clientSettings: {serverPort: value}}, this.updateServerConfig);
@@ -76,6 +80,17 @@ export default class Application extends Component {
       console.log(config);
       this.processConfigResponse(config);
     });
+  }
+
+  updateStateWithCookies(){
+    let stateData = Object.assign({},this.state);
+
+    if (Cookies.get().hasOwnProperty('units')
+        && Cookies.get().hasOwnProperty('activeUnit')) {
+      stateData.planOptions.units = JSON.parse(Cookies.get('units'));
+      stateData.planOptions.activeUnit =Cookies.get('activeUnit');
+      this.setState({stateData});
+    }
   }
 
   createErrorBanner(statusText, statusCode, message) {

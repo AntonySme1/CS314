@@ -82,10 +82,10 @@ public class TIPFind extends TIPHeader{
     private String setSearch(){
         String search = "";
         if(limit > 0){
-            search = "select municipality, latitude, longitude from colorado where municipality like '%" + match + "%' limit " + limit;
+            search = "select name, municipality, latitude, longitude from colorado where name like '%" + match + "%' or municipality like '%" + match + "%' limit " + limit;
         }
         else if(limit == 0){
-            search = "select municipality, latitude, longitude from colorado where municipality like '%" + match + "%'";
+            search = "select name, municipality, latitude, longitude from colorado where name like '%" + match + "%' or municipality like '%" + match + "%'";
         } else {
             //if negative value
             System.err.println("Limit must be an integer of zero or greater.");
@@ -109,7 +109,8 @@ public class TIPFind extends TIPHeader{
             pass = null;
         }
 
-        String count = "select count(municipality) from colorado where municipality like '%" + match + "%'";
+        String count = "select count(*) from colorado where municipality like '%" + match +
+                "%' OR colorado.name like '%" + match + "%'";
         String search = setSearch();
         try {
             Class.forName(myDriver);
@@ -140,11 +141,13 @@ public class TIPFind extends TIPHeader{
     private void setPlaces(ResultSet rsQuery) throws SQLException{
         while (rsQuery.next()) {
             JsonObject place = new JsonObject();
-            String name = rsQuery.getString("municipality");
+            String name = rsQuery.getString("name");
+            String municipality = rsQuery.getString("municipality");
             String latitude = rsQuery.getString("latitude");
             String longitude = rsQuery.getString("longitude");
 
             place.addProperty("name", name);
+            place.addProperty("municipality", municipality);
             place.addProperty("latitude", latitude);
             place.addProperty("longitude", longitude);
 

@@ -9,6 +9,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import Cookies from 'js-cookie';
+
 export default class Calculator extends Component {
   constructor(props) {
       super(props);
@@ -245,7 +246,7 @@ export default class Calculator extends Component {
       const checkLatRange = parseInt(lat) >= -90 && parseInt(lat) <= 90;
       const checkLonRange = parseInt(lon) >= -180 && parseInt(lon) <= 180;
       return checkLatRange && checkLonRange;
-                }
+     }
 
   parseLatLon (){
     const originLatLon = this.state.origin.latitude + ", " + this.state.origin.longitude;
