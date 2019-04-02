@@ -80,6 +80,7 @@ export default class Itinerary extends Component {
 
 
                 <Row className = 'mb-4'>
+                    <Col xs={12}>
                     <Form>
                         <FormGroup>
 
@@ -87,6 +88,7 @@ export default class Itinerary extends Component {
                         </FormGroup>
 
                     </Form>
+                    </Col>
                 </Row>
 
                 <Row className = 'mb-4'>
