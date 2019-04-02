@@ -42,6 +42,7 @@ export default class Itinerary extends Component {
             find:null,
             errorMessage: null
         };
+
         this.updateStateWithCookieCoordinates();
 
     }
@@ -306,7 +307,7 @@ export default class Itinerary extends Component {
                 state.itinerary.distances = response.body.distances;
                 state.errormessage = null;
                 this.setState({
-                    state },()=>Cookies.set('itinerary',JSON.stringify(this.state.itinerary)));
+                    state },()=>{Cookies.set('itinerary',JSON.stringify(this.state.itinerary))});
 
                 //this.props.getItineraryData(this.state);
             } else {
@@ -326,16 +327,14 @@ export default class Itinerary extends Component {
         if (Cookies.get().hasOwnProperty('itinerary')  ){
 
             const parsedCookies = JSON.parse(Cookies.get("itinerary"));
-            //console.log("fromCookies",parsedCookies.places);
 
             let state = Object.assign({},this.state);
-            state.itinerary = parsedCookies;
-            console.log("printState",this.state);
-           // state.itinerary.options = parsedCookies.options;
-           // state.itinerary.places = parsedCookies.places;
-            //state.itinerary.distances = parsedCookies.distances;
-            //console.log("Before",state);
-            this.setState({state},()=> {console.log("print",this.state)});
+
+            state.itinerary.options = parsedCookies.options;
+            state.itinerary.places = parsedCookies.places;
+            state.itinerary.distances = parsedCookies.distances;
+
+            this.setState({state});
 
 
         }
