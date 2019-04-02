@@ -78,8 +78,7 @@ export default class Itinerary extends Component {
                 <Row className = 'mb-4'>
                     <Form>
                         <FormGroup>
-                            {this.legDistanceButton()}
-                            <span> </span>
+
                             {this.saveItineraryButton()}
                         </FormGroup>
 
@@ -182,7 +181,7 @@ export default class Itinerary extends Component {
 
     getItineraryData(itinerary){
         console.log(itinerary);
-        this.setState({itinerary: itinerary});
+        this.setState({itinerary: itinerary},()=>{this.calculateLegDistance()});
     }
 
     getFindData(find){
