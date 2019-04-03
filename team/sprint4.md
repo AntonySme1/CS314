@@ -3,7 +3,7 @@
 ## Goal
 
 ### Worldwide!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Saurav Bhuju*
 
 ## Definition of Done
 
@@ -63,6 +63,9 @@ friendly UI.
 
 New layout for our itinerary table:
 ![](images/newItineraryTableLayout.jpeg)
+
+![](images/clientDiagram.jpg)
+###### *Diagram of Client Hierarchy*
 
 ## Metrics
 
