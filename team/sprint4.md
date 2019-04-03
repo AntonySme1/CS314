@@ -61,6 +61,9 @@ friendly UI.
 
 ![](images/ServerDiagram.jpeg)(Diagram of Server Hierarchy)
 
+New layout for our itinerary table:
+![](images/newItineraryTableLayout.jpeg)
+
 ## Metrics
 
 | Statistic | # Planned | # Completed |
