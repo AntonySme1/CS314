@@ -3,7 +3,7 @@
 ## Goal
 
 ### Worldwide!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Saurav Bhuju*
 
 ## Definition of Done
 
