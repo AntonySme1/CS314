@@ -64,6 +64,9 @@ friendly UI.
 New layout for our itinerary table:
 ![](images/newItineraryTableLayout.jpeg)
 
+![](images/clientDiagram.jpg)
+###### *Diagram of Client Hierarchy*
+
 ## Metrics
 
 | Statistic | # Planned | # Completed |
