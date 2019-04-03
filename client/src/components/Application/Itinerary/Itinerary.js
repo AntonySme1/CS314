@@ -11,6 +11,7 @@ import Geolocation from '../Geolocation';
 import FindForm from '../Find/FindForm';
 import FindTable from "../Find/FindTable";
 import {sendServerRequestWithBody} from "../../../api/restfulAPI";
+import Cookies from "js-cookie";
 
 /*
  * Renders the itinerary page.
@@ -41,6 +42,9 @@ export default class Itinerary extends Component {
             find:null,
             errorMessage: null
         };
+
+        this.updateStateWithCookieCoordinates();
+
     }
 
     render() {
@@ -76,14 +80,15 @@ export default class Itinerary extends Component {
 
 
                 <Row className = 'mb-4'>
+                    <Col xs={12}>
                     <Form>
                         <FormGroup>
-                            {this.legDistanceButton()}
-                            <span> </span>
+
                             {this.saveItineraryButton()}
                         </FormGroup>
 
                     </Form>
+                    </Col>
                 </Row>
 
                 <Row className = 'mb-4'>
@@ -181,8 +186,8 @@ export default class Itinerary extends Component {
     }
 
     getItineraryData(itinerary){
-        console.log(itinerary);
-        this.setState({itinerary: itinerary});
+        //console.log(itinerary);
+        this.setState({itinerary: itinerary},()=>{this.calculateLegDistance()});
     }
 
     getFindData(find){
@@ -304,7 +309,7 @@ export default class Itinerary extends Component {
                 state.itinerary.distances = response.body.distances;
                 state.errormessage = null;
                 this.setState({
-                    state });
+                    state },()=>{Cookies.set('itinerary',JSON.stringify(this.state.itinerary))});
 
                 //this.props.getItineraryData(this.state);
             } else {
@@ -317,6 +322,24 @@ export default class Itinerary extends Component {
                 });
             }
         });
+
+    }
+
+    updateStateWithCookieCoordinates() {
+        if (Cookies.get().hasOwnProperty('itinerary')  ){
+
+            const parsedCookies = JSON.parse(Cookies.get("itinerary"));
+
+            let state = Object.assign({},this.state);
+
+            state.itinerary.options = parsedCookies.options;
+            state.itinerary.places = parsedCookies.places;
+            state.itinerary.distances = parsedCookies.distances;
+
+            this.setState({state});
+
+
+        }
 
     }
 }

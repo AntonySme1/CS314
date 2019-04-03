@@ -44,18 +44,30 @@
 This sprint will complete the following Epics.
 
 * *#0 epic title: description*
-*
+* *#162 User: Make my trip shorter: Implement Nearest Neighbor algorithm*
+* *#166 User: Data shouldn't go away when I change tabs.: Finish using cookies for Itinerary tab*
+* *#235 TripCo: validate all requests sent to the server and responses received by the client: Use schemas to validate json*
+* *#217 User: Let me change my itinerary: Add buttons to move itinerary around*
+* *#100 User: Show me a map and itinerary for my trip: Choose what to display on table*
+* *#234 User: I want to view my trip in other tools.: Write itinerary in CSV and map in KML or SVG*
+* *#232 User: Let me plan trips world wide.: Pull data from other world, region, and country information.*
 
 ***(Include a discussion of you plan with key diagrams here and remove this!)***
+This sprint we will finish four epics from the previous sprints and three from the new sprint. The four from the previous
+sprint are the epics #162, #166, #217, #100. The new epics are #235, #234, and #232. The epics from sprint 3
+will edit the client side itinerary table by moving data around and also implementing the short optimization.
+The new sprints will validate input, pull data from more sources, and allow for the user to have a more 
+friendly UI. 
 
+![](images/ServerDiagram.jpeg)(Diagram of Server Hierarchy)
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* |
-| Story Points |  *value*  | *value* |
+| Epics | *7* | *value* |
+| Tasks |  *6*   | *value* |
+| Story Points |  *8*  | *value* |
 
 
 ## Scrums
