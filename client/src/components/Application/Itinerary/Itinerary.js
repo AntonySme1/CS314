@@ -12,7 +12,7 @@ import FindForm from '../Find/FindForm';
 import FindTable from "../Find/FindTable";
 import {sendServerRequestWithBody} from "../../../api/restfulAPI";
 import Cookies from "js-cookie";
-
+import ItineraryCustomInput from "./ItineraryCustomInput";
 /*
  * Renders the itinerary page.
  */
@@ -77,8 +77,6 @@ export default class Itinerary extends Component {
                     </Col>
                 </Row>
 
-
-
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                     <Form>
@@ -88,6 +86,14 @@ export default class Itinerary extends Component {
                         </FormGroup>
 
                     </Form>
+                    </Col>
+                </Row>
+
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        <ItineraryCustomInput settings = {this.props.settings}
+                                                        createErrorBanner={this.props.createErrorBanner}
+                                                        getItineraryData={this.getItineraryData}/>
                     </Col>
                 </Row>
 
@@ -117,6 +123,7 @@ export default class Itinerary extends Component {
             </Pane>
         );
     }
+
 
     renderFindForm() {
         return (
