@@ -43,7 +43,12 @@ const generateTableData = (props) =>{
                 <td>{place.longitude}</td>
                 <td>{props.itinerary.distances[index]}</td>
                 <td>{cumulativeArray[index]}</td>
-                <td><Button className={'btn-csu'} onClick={ ()=>updateItinerary(props,place,index)}>Delete</Button></td>
+                <td>
+                    <Button className={'btn-csu'} onClick={ ()=>moveToFirst(props,place,index)}>↑↑</Button>
+                    <Button className={'btn-csu'} onClick={ ()=>moveUp(props,place,index)}>↑</Button>
+                    <Button className={'btn-csu'} onClick={ ()=>moveDown(props,place,index)}>↓</Button>
+                    <Button className={'btn-csu'} onClick={ ()=>updateItinerary(props,place,index)}>Delete</Button>
+                </td>
             </tr>)
         }))
 };
@@ -70,6 +75,39 @@ const getTotalDistance = (props) => {
 
 };
 
+const moveToFirst = (props,place,index) => {
+    let itineraryObject = Object.assign({}, props.itinerary);
+
+    if(index !== 0) {
+        let temporaryPlace = itineraryObject.places[index];
+        itineraryObject.places[index] = itineraryObject.places[0];
+        itineraryObject.places[0] = temporaryPlace;
+        props.getItineraryData(itineraryObject);
+    }
+};
+
+const moveUp = (props,place,index) => {
+    let itineraryObject = Object.assign({}, props.itinerary);
+
+    if(index !== 0) {
+        let temporaryPlace = itineraryObject.places[index];
+        itineraryObject.places[index] = itineraryObject.places[index - 1];
+        itineraryObject.places[index - 1] = temporaryPlace;
+        props.getItineraryData(itineraryObject);
+    }
+};
+
+const moveDown = (props,place,index) => {
+    let itineraryObject = Object.assign({}, props.itinerary);
+
+    if(index !== itineraryObject.places.length-1) {
+        let temporaryPlace = itineraryObject.places[index];
+        itineraryObject.places[index] = itineraryObject.places[index + 1];
+        itineraryObject.places[index + 1] = temporaryPlace;
+        props.getItineraryData(itineraryObject);
+    }
+};
+
 const updateItinerary = (props,place,index) => {
 
   let aTest = Object.assign({}, props.itinerary);
@@ -80,6 +118,7 @@ const updateItinerary = (props,place,index) => {
   props.getItineraryData(aTest);
 
 };
+
 const reverseItinerary = (props) => {
 
   let aTest = Object.assign({}, props.itinerary);
