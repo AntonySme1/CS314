@@ -36,7 +36,7 @@ public class SchemaValidator {
     }
 
     /**
-     * Returns a JSONObject that represents the raw JSON schema
+     * Returns a JSONObject that represents the raw JSON schema.
      *
      * @param path          The path of the Schema
      * @return              The raw schema from the InputStream
@@ -61,11 +61,12 @@ public class SchemaValidator {
     }
 
     /**
-     * Performs the validation of a JSON object by checking it against a corresponding JSON schema
+     * Performs the validation of a JSON object by checking it
+     * against a corresponding JSON schema.
      *
-     * @param json          The JSON body from a request or response that will be checked against the schema
+     * @param json          The JSON body from an HTTP request/response
      * @param path          The path to the Schema
-     * @throws Exception    Will throw an exception if the json parameter does not match up with the schema
+     * @throws Exception    throws an exception if request/response is invalid
      */
 
     public void performValidation(JSONObject json, String path) throws Exception {
