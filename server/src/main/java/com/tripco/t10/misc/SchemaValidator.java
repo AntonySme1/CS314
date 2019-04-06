@@ -1,7 +1,7 @@
 package com.tripco.t10.misc;
 
-
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -35,6 +35,13 @@ public class SchemaValidator {
         this.isValid = true;
     }
 
+    /**
+     * Returns a JSONObject that represents the raw JSON schema
+     *
+     * @param path          The path of the Schema
+     * @return              The raw schema from the InputStream
+     * @throws Exception    Throws exception if raw schema is invalid JSON
+     */
     public JSONObject createRawSchema(String path) throws Exception {
         JSONObject rawSchema = new JSONObject("{}");
         try(InputStream inputstream = this.getClass().getResourceAsStream(path)) {
@@ -52,6 +59,14 @@ public class SchemaValidator {
         }
         return rawSchema;
     }
+
+    /**
+     * Performs the validation of a JSON object by checking it against a corresponding JSON schema
+     *
+     * @param json          The JSON body from a request or response that will be checked against the schema
+     * @param path          The path to the Schema
+     * @throws Exception    Will throw an exception if the json parameter does not match up with the schema
+     */
 
     public void performValidation(JSONObject json, String path) throws Exception {
         try {
