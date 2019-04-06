@@ -24,11 +24,25 @@ public class SchemaValidator {
 
     private static final Logger log = LoggerFactory.getLogger(SchemaValidator.class);
 
+    public JSONObject createRawSchema(String path) {
+        JSONObject rawSchema = new JSONObject("{}");
+        try(InputStream inputstream = this.getClass().getResourceAsStream(path)) {
+            rawSchema = new JSONObject(new JSONTokener(inputstream));
+        } catch (JSONException e) {
+            log.error("Caught exception when constructing JSON objects!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            log.error("Caught exception when reading files!");
+            e.printStackTrace();
+        } finally {
+            return rawSchema;
+        }
+    }
 
     public boolean performValidation(JSONObject json, String path) {
         boolean validSchema = true;
-        try(InputStream inputstream = this.getClass().getResourceAsStream(path)) {
-            JSONObject rawSchema = new JSONObject(new JSONTokener(inputstream));
+        try {
+            JSONObject rawSchema = createRawSchema(path);
             Schema schema = SchemaLoader.load(rawSchema);
             schema.validate(json);
         } catch (SchemaException e) {
@@ -44,14 +58,7 @@ public class SchemaValidator {
                 log.error(message);
             }
             validSchema = false;
-        } catch (JSONException e) {
-            log.error("Caught exception when constructing JSON objects!");
-            e.printStackTrace();
-        } catch (IOException e) {
-            log.error("Caught exception when reading files!");
-            e.printStackTrace();
-        }
-        finally {
+        } finally {
             return validSchema;
         }
     }
