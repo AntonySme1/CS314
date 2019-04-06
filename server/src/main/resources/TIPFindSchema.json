@@ -20,6 +20,31 @@
       "type":"string",
       "pattern":"^[a-zA-z0-9 ]+$"
     },
+    "narrow": {
+      "description": "one or more filters that may be applied to finds on the server",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "the name of the filter",
+            "type": "string"
+          },
+          "values": {
+            "description": "the list of possible values that can be used with the filter type",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "values"]
+      },
+      "minItems": 0
+    },
     "limit": {
       "description":"the maximum number of matching places that may be returned.",
       "type":"integer",

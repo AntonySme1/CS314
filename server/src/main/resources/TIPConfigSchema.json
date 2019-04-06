@@ -55,8 +55,7 @@
             "description": "the list of possible values that can be used with the filter type",
             "type": "array",
             "items": {
-              "type": "string",
-              "minLength": 1
+              "type": "string"
             },
             "minItems": 1,
             "uniqueItems": true
