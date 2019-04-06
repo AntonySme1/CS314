@@ -10,8 +10,8 @@ public class TestSchemaValidator {
     @Test
     public void configBadResponseSchemaTest() {
         SchemaValidator sv = new SchemaValidator();
-        JSONObject badConfig = new JSONObject("{}");
-        boolean isValid = sv.performValidation(badConfig, "/TIPConfigSchema.json");
+        JSONObject badConfigResponse = new JSONObject("{}");
+        boolean isValid = sv.performValidation(badConfigResponse, "/TIPConfigSchema.json");
         assertFalse(isValid);
     }
 
@@ -28,8 +28,24 @@ public class TestSchemaValidator {
                                          "]," +
                 "}";
         SchemaValidator sv = new SchemaValidator();
-        JSONObject goodConfig = new JSONObject(configResponse);
-        boolean isValid = sv.performValidation(goodConfig, "/TIPConfigSchema.json");
+        JSONObject goodConfigResponse = new JSONObject(configResponse);
+        boolean isValid = sv.performValidation(goodConfigResponse, "/TIPConfigSchema.json");
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void distanceGoodRequestSchemaTest() {
+        String distanceRequest = "{" +
+                "\"requestType\"    : \"distance\"," +
+                "\"requestVersion\" : 4," +
+                "\"origin\"         : {\"latitude\":  \"40.6\", \"longitude\": \"-105.1\", \"name\":\"Fort Collins, Colorado, USA\"}," +
+                "\"destination\"    : {\"latitude\": \"-33.9\", \"longitude\":  \"151.2\", \"name\":\"Sydney, New South Wales, Australia\"}," +
+                "\"earthRadius\"    : 3958.8," +
+                "\"distance\"       : 0" +
+        "}";
+        SchemaValidator sv = new SchemaValidator();
+        JSONObject goodDistanceRequest = new JSONObject(distanceRequest);
+        boolean isValid = sv.performValidation(goodDistanceRequest, "/TIPDistanceSchema");
         assertTrue(isValid);
     }
 }
