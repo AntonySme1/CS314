@@ -1,3 +1,73 @@
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T124815.200.json
+
+###
+
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T123913.200.json
+
+###
+
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T123457.500.json
+
+###
+
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T123452.500.json
+
+###
+
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T122943.200.json
+
+###
+
+POST http://localhost:8088/api/itinerary
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T121823.200.json
+
+###
+
+POST http://localhost:8088/api/distance
+Accept: */*
+Cache-Control: no-cache
+
+{   "requestType"    : "itinerary",   "requestVersion" : 3,   "options"        : { "title":"My Trip",                         "earthRadius":"3958.8" },   "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},                       {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},                       {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],   "distances"      : [] }
+
+<> 2019-04-06T121436.500.json
+
+###
+
 GET http://localhost:8088/api/config
 Accept: */*
 Cache-Control: no-cache

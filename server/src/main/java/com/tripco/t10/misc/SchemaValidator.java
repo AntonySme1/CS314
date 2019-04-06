@@ -24,7 +24,7 @@ public class SchemaValidator {
 
     private static final Logger log = LoggerFactory.getLogger(SchemaValidator.class);
 
-    public JSONObject createRawSchema(String path) throws IOException {
+    public JSONObject createRawSchema(String path) throws Exception {
         JSONObject rawSchema = new JSONObject("{}");
         try(InputStream inputstream = this.getClass().getResourceAsStream(path)) {
             rawSchema = new JSONObject(new JSONTokener(inputstream));
@@ -40,7 +40,7 @@ public class SchemaValidator {
         return rawSchema;
     }
 
-    public boolean performValidation(JSONObject json, String path) throws IOException {
+    public boolean performValidation(JSONObject json, String path) throws Exception {
         boolean validSchema = true;
         try {
             JSONObject rawSchema = createRawSchema(path);
