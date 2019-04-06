@@ -24,22 +24,23 @@ public class SchemaValidator {
 
     private static final Logger log = LoggerFactory.getLogger(SchemaValidator.class);
 
-    public JSONObject createRawSchema(String path) {
+    public JSONObject createRawSchema(String path) throws IOException {
         JSONObject rawSchema = new JSONObject("{}");
         try(InputStream inputstream = this.getClass().getResourceAsStream(path)) {
             rawSchema = new JSONObject(new JSONTokener(inputstream));
         } catch (JSONException e) {
             log.error("Caught exception when constructing JSON objects!");
             e.printStackTrace();
+            throw e;
         } catch (IOException e) {
             log.error("Caught exception when reading files!");
             e.printStackTrace();
-        } finally {
-            return rawSchema;
+            throw e;
         }
+        return rawSchema;
     }
 
-    public boolean performValidation(JSONObject json, String path) {
+    public boolean performValidation(JSONObject json, String path) throws IOException {
         boolean validSchema = true;
         try {
             JSONObject rawSchema = createRawSchema(path);
@@ -49,6 +50,7 @@ public class SchemaValidator {
             log.error("Caught a schema exception!");
             e.printStackTrace();
             validSchema = false;
+            throw e;
         } catch (ValidationException e){
             log.error("Caught validation exception when validating schema! Root message: {}", e.getErrorMessage());
             log.error("All messages from errors (including nested):");
@@ -58,8 +60,8 @@ public class SchemaValidator {
                 log.error(message);
             }
             validSchema = false;
-        } finally {
-            return validSchema;
+            throw e;
         }
+        return validSchema;
     }
 }
