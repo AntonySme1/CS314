@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class TestSchemaValidator {
 
-    @Test
     public void configBadResponseSchemaTest() {
+        //this test produces several error messages, add the @Test annotation if you would like to run this test
         try {
             SchemaValidator sv = new SchemaValidator();
             JSONObject badConfigResponse = new JSONObject("{}");
