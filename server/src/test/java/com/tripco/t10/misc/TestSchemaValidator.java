@@ -41,11 +41,28 @@ public class TestSchemaValidator {
                 "\"origin\"         : {\"latitude\":  \"40.6\", \"longitude\": \"-105.1\", \"name\":\"Fort Collins, Colorado, USA\"}," +
                 "\"destination\"    : {\"latitude\": \"-33.9\", \"longitude\":  \"151.2\", \"name\":\"Sydney, New South Wales, Australia\"}," +
                 "\"earthRadius\"    : 3958.8," +
-                "\"distance\"       : 0" +
         "}";
         SchemaValidator sv = new SchemaValidator();
         JSONObject goodDistanceRequest = new JSONObject(distanceRequest);
-        boolean isValid = sv.performValidation(goodDistanceRequest, "/TIPDistanceSchema");
+        boolean isValid = sv.performValidation(goodDistanceRequest, "/TIPDistanceSchema.json");
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void itineraryGoodRequestSchemaTest() {
+        String itineraryRequest = "{" +
+                "\"requestType\"    : \"itinerary\"," +
+                "\"requestVersion\" : 4," +
+                "\"options\"        : { \"title\":\"My Trip\"," +
+                                       "\"earthRadius\":\"3958.8\"," +
+                                       "\"optimization\":\"none\" }," +
+                "\"places\"         : [{\"name\":\"Denver\",       \"latitude\": \"39.7\", \"longitude\": \"-105.0\"}," +
+                                      "{\"name\":\"Boulder\",      \"latitude\": \"40.0\", \"longitude\": \"-105.4\"}," +
+                                      "{\"name\":\"Fort Collins\", \"latitude\": \"40.6\", \"longitude\": \"-105.1\"}]" +
+                "}";
+        SchemaValidator sv = new SchemaValidator();
+        JSONObject goodItineraryRequest = new JSONObject(itineraryRequest);
+        boolean isValid = sv.performValidation(goodItineraryRequest, "/TIPItinerarySchema.json");
         assertTrue(isValid);
     }
 }
