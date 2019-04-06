@@ -40,6 +40,32 @@
       "minItems":1,
       "uniqueItems": true,
       "required":["none"]
+    },
+    "filters": {
+      "description": "one or more filters that may be applied to finds on the server",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "the name of the filter",
+            "type": "string"
+          },
+          "values": {
+            "description": "the list of possible values that can be used with the filter type",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "values"]
+      },
+      "minItems": 1
     }
   },
   "required":["requestVersion","requestType","serverName","placeAttributes","optimizations"],
