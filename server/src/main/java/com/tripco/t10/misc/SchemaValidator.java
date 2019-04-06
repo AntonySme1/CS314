@@ -1,23 +1,28 @@
 package com.tripco.t10.misc;
 
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.SchemaException;
-import org.everit.json.schema.ValidationException;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/*
-    The following code is taken mostly from these sites:
-    https://github.com/csucs314s19/tripco/blob/master/guides/schema/SchemaExample/src/main/java/example/SchemaValidator.java
-    https://github.com/everit-org/json-schema#quickstart
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.SchemaException;
+import org.everit.json.schema.ValidationException;
+import org.everit.json.schema.loader.SchemaLoader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ *  A class for validating JSON schemas for HTTP requests and responses on the server-side
+ *  The following code is taken mostly from these sites:
+ *  https://github.com/csucs314s19/tripco/blob/master/guides/schema/SchemaExample/src/main/java/example/SchemaValidator.java
+ *  https://github.com/everit-org/json-schema#quickstart
  */
 
 public class SchemaValidator {

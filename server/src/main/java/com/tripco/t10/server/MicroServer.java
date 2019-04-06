@@ -2,17 +2,18 @@ package com.tripco.t10.server;
 
 import com.google.gson.Gson;
 
+import com.tripco.t10.misc.SchemaValidator;
+
 import com.tripco.t10.TIP.TIPConfig;
 import com.tripco.t10.TIP.TIPDistance;
 import com.tripco.t10.TIP.TIPHeader;
 import com.tripco.t10.TIP.TIPItinerary;
 import com.tripco.t10.TIP.TIPFind;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.tripco.t10.misc.SchemaValidator;
 import org.json.JSONObject;
+
 import spark.Request;
 import spark.Response;
 import spark.Spark;
