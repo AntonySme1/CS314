@@ -67,6 +67,6 @@
       "minItems": 1
     }
   },
-  "required":["requestVersion","requestType","serverName","placeAttributes","optimizations"],
+  "required":["requestVersion","requestType","serverName","placeAttributes","optimizations", "filters"],
   "additionalProperties": false
 }

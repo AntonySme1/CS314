@@ -10,6 +10,8 @@ import com.tripco.t10.TIP.TIPFind;
 
 import java.lang.reflect.Type;
 
+import com.tripco.t10.misc.SchemaValidator;
+import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -79,6 +81,8 @@ class MicroServer {
       TIPConfig tipRequest = new TIPConfig();
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
+      SchemaValidator sv = new SchemaValidator();
+      sv.performValidation(new JSONObject(responseBody), "/TIPConfigSchema.json");
       log.trace("TIP Config response: {}", responseBody);
       return responseBody;
     } catch (Exception e) {
