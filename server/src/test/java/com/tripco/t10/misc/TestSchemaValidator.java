@@ -9,18 +9,20 @@ public class TestSchemaValidator {
 
     public void configBadResponseSchemaTest() {
         //this test produces several error messages, add the @Test annotation if you would like to run this test
+        SchemaValidator sv = new SchemaValidator();
         try {
-            SchemaValidator sv = new SchemaValidator();
             JSONObject badConfigResponse = new JSONObject("{}");
-            boolean isValid = sv.performValidation(badConfigResponse, "/TIPConfigSchema.json");
-            assertFalse(isValid);
+            sv.performValidation(badConfigResponse, "/TIPConfigSchema.json");
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            assertFalse(sv.isValid);
         }
     }
 
     @Test
     public void configGoodResponseSchemaTest() {
+        SchemaValidator sv = new SchemaValidator();
         try {
             String configResponse = "{" +
                     "\"requestType\"        : \"config\"," +
@@ -32,17 +34,19 @@ public class TestSchemaValidator {
                     "\"values\": [\"airport\",\"heliport\",\"balloonport\",\"closed\"]}" +
                     "]," +
                     "}";
-            SchemaValidator sv = new SchemaValidator();
             JSONObject goodConfigResponse = new JSONObject(configResponse);
-            boolean isValid = sv.performValidation(goodConfigResponse, "/TIPConfigSchema.json");
-            assertTrue(isValid);
+            sv.performValidation(goodConfigResponse, "/TIPConfigSchema.json");
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
+        } finally {
+            assertTrue(sv.isValid);
         }
     }
 
     @Test
     public void distanceGoodRequestSchemaTest() {
+        SchemaValidator sv = new SchemaValidator();
         try {
             String distanceRequest = "{" +
                     "\"requestType\"    : \"distance\"," +
@@ -51,17 +55,20 @@ public class TestSchemaValidator {
                     "\"destination\"    : {\"latitude\": \"-33.9\", \"longitude\":  \"151.2\", \"name\":\"Sydney, New South Wales, Australia\"}," +
                     "\"earthRadius\"    : 3958.8," +
                     "}";
-            SchemaValidator sv = new SchemaValidator();
             JSONObject goodDistanceRequest = new JSONObject(distanceRequest);
-            boolean isValid = sv.performValidation(goodDistanceRequest, "/TIPDistanceSchema.json");
-            assertTrue(isValid);
+            sv.performValidation(goodDistanceRequest, "/TIPDistanceSchema.json");
+            assertTrue(sv.isValid);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
+        } finally {
+            assertTrue(sv.isValid);
         }
     }
 
     @Test
     public void itineraryGoodRequestSchemaTest() {
+        SchemaValidator sv = new SchemaValidator();
         try {
             String itineraryRequest = "{" +
                     "\"requestType\"    : \"itinerary\"," +
@@ -73,17 +80,20 @@ public class TestSchemaValidator {
                     "{\"name\":\"Boulder\",      \"latitude\": \"40.0\", \"longitude\": \"-105.4\"}," +
                     "{\"name\":\"Fort Collins\", \"latitude\": \"40.6\", \"longitude\": \"-105.1\"}]" +
                     "}";
-            SchemaValidator sv = new SchemaValidator();
             JSONObject goodItineraryRequest = new JSONObject(itineraryRequest);
-            boolean isValid = sv.performValidation(goodItineraryRequest, "/TIPItinerarySchema.json");
-            assertTrue(isValid);
+            sv.performValidation(goodItineraryRequest, "/TIPItinerarySchema.json");
+            assertTrue(sv.isValid);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
+        } finally {
+            assertTrue(sv.isValid);
         }
     }
 
     @Test
     public void findGoodRequestSchemaTest() {
+        SchemaValidator sv = new SchemaValidator();
         try {
             String findRequest = "{" +
                     "\"requestType\"    :\"find\"," +
@@ -91,12 +101,14 @@ public class TestSchemaValidator {
                     "\"match\"          :\"fort collins\"," +
                     "\"narrow\"         :[]" +
             "}";
-            SchemaValidator sv = new SchemaValidator();
             JSONObject goodFindRequest = new JSONObject(findRequest);
-            boolean isValid = sv.performValidation(goodFindRequest, "/TIPFindSchema.json");
-            assertTrue(isValid);
+            sv.performValidation(goodFindRequest, "/TIPFindSchema.json");
+            assertTrue(sv.isValid);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
+        } finally {
+            assertTrue(sv.isValid);
         }
     }
 }
