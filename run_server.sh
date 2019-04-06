@@ -4,7 +4,7 @@ if [ -z "$PORT" ]; then
   PORT=8088
 fi
 if [ -z "$LOGLEVEL" ]; then
-  LOGLEVEL=trace
+  LOGLEVEL=info
 fi
 if [ -z "$PACKAGE" ]; then
   PACKAGE=log.com.tripco
