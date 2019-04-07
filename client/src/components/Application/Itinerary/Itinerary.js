@@ -68,25 +68,7 @@ export default class Itinerary extends Component {
 
                 <Row className = 'mb-4'>
                     <Col xs={12}>
-                    <Form inline>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-
-                            {this.saveItineraryButton()}
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.addItineraryButton()}
-                        </FormGroup>
-
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.uploadItineraryButton()}
-                        </FormGroup>
-
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.findItineraryButton()}
-                        </FormGroup>
-
-
-                    </Form>
+                        {this.renderItineraryOptions()}
                     </Col>
                 </Row>
 
@@ -144,6 +126,31 @@ export default class Itinerary extends Component {
             </Pane>
         );
     }
+        renderItineraryOptions (){
+            return (
+                <Pane header={'Itinerary Options'}>
+                    <Form inline>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+
+                            {this.saveItineraryButton()}
+                        </FormGroup>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.addItineraryButton()}
+                        </FormGroup>
+
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.uploadItineraryButton()}
+                        </FormGroup>
+
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.findItineraryButton()}
+                        </FormGroup>
+
+
+                    </Form>
+                </Pane>
+            );
+        }
 
     renderItineraryForm() {
         if (this.state.display.itineraryUpload) {
