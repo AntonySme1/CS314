@@ -40,12 +40,12 @@ export default class Itinerary extends Component {
                 places: [],
                 distances: [],
                },
-            display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false },
+            display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false, findForm:false, findTable:false },
 
             find:null,
             errorMessage: null
         };
-
+        console.log(this.state);
         this.updateStateWithCookieCoordinates();
 
     }
@@ -62,17 +62,7 @@ export default class Itinerary extends Component {
                     </Col>
                 </Row>
 
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderFindForm()}
-                    </Col>
-                </Row>
 
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderFindTable()}
-                    </Col>
-                </Row>
 
 
 
@@ -91,9 +81,27 @@ export default class Itinerary extends Component {
                             {this.uploadItineraryButton()}
                         </FormGroup>
 
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.findItineraryButton()}
+                        </FormGroup>
+
+
                     </Form>
                     </Col>
                 </Row>
+
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        {this.renderFindForm()}
+                    </Col>
+                </Row>
+
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        {this.renderFindTable()}
+                    </Col>
+                </Row>
+
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderItineraryForm()}
@@ -149,11 +157,13 @@ export default class Itinerary extends Component {
 
 
     renderFindForm() {
-        return (
-            <Pane header={'FindForm'}>
-                {this.FindForm()}
-            </Pane>
-        );
+            if (this.state.display.findForm) {
+                return (
+                    <Pane header={'FindForm'}>
+                        {this.FindForm()}
+                    </Pane>
+                );
+            }
     }
 
 
@@ -174,19 +184,23 @@ export default class Itinerary extends Component {
             <FindForm settings = {this.props.settings}
                       createErrorBanner={this.props.createErrorBanner}
                       getFindData={this.getFindData}
+                      display = {this.state.display}
+                      updateDisplay = {this.updateDisplay}
             />
         )
 
     }
 
     renderFindTable(){
-        if (this.state.find){
-            return (<FindTable settings = {this.props.settings}
-                               createErrorBanner={this.props.createErrorBanner}
-                               find={this.state.find}
-                               itinerary={this.state.itinerary}
-                               getItineraryData={this.getItineraryData}/>)
-        }
+        if (this.state.find) {
+        if(this.state.display.findTable){
+                return (<FindTable settings={this.props.settings}
+                                   createErrorBanner={this.props.createErrorBanner}
+                                   find={this.state.find}
+                                   itinerary={this.state.itinerary}
+                                   getItineraryData={this.getItineraryData}/>)
+
+        }}
     }
 
     renderItineraryTable(){
@@ -223,6 +237,7 @@ export default class Itinerary extends Component {
     }
 
     updateDisplay(display){
+                    console.log("this",display);
          this.setState({display:display});
     }
 
@@ -302,6 +317,11 @@ export default class Itinerary extends Component {
     uploadItineraryButton(){
         return (
             <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})}>Upload Itinerary</Button>
+        );
+    }
+    findItineraryButton(){
+        return (
+            <Button className={'btn-csu'} onClick={() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}>Find Place</Button>
         );
     }
 
