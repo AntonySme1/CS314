@@ -92,8 +92,9 @@ export default class Itinerary extends Component {
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                         <ItineraryCustomInput settings = {this.props.settings}
-                                                        createErrorBanner={this.props.createErrorBanner}
-                                                        getItineraryData={this.getItineraryData}/>
+                                              createErrorBanner={this.props.createErrorBanner}
+                                              itinerary = {this.state.itinerary}
+                                              getItineraryData={this.getItineraryData}/>
                     </Col>
                 </Row>
 

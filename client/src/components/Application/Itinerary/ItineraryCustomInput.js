@@ -3,9 +3,9 @@ import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import Pane from '../Pane'
 
 
-const customInput = () =>{
+const customInput = (props) =>{
 return(
-    <Form onSubmit = {processForm}>
+    <Form className={"Form"} onSubmit = {processForm(props)}>
 
       <FormGroup>
         <Label for="Name">Name</Label>
@@ -22,29 +22,43 @@ return(
         <Input type="number" name="Longitude" id="Longitude" placeholder={"Longitude"} required/>
       </FormGroup>
 
-      <FormGroup className={"text-center"}>
+      <FormGroup className={"Button text-center"}>
         <Button className={"btn-csu"} type="submit"> Submit </Button>
       </FormGroup>
 
-      <FormGroup className={"text-center"}>
-        <Button className={"btn-csu"} type="reset">Reset</Button>
-      </FormGroup>
 
     </Form>
 );
 };
 
-const processForm = (event) => {
+const processForm = (props) => event => {
   event.preventDefault();
-  console.log("test")
+  const newPlace = new FormData(event.target);
+
+  const newPlaceLat = parseFloat(newPlace.get('Latitude').toString());
+  const newPlaceLon = parseFloat(newPlace.get('Longitude').toString());
+  const newPlaceName = newPlace.get('Name');
+
+  const place = {"name": newPlaceName, "latitude": newPlaceLat, "longitude": newPlaceLon};
+
+  updateItinerary(props,place);
+  
 };
 
-const renderItineraryCustomInput = () =>{
+const renderItineraryCustomInput = (props) =>{
   return (
       <Pane header={'Add Itinerary'}>
-        {customInput()}
+        {customInput(props)}
       </Pane>
   );
+};
+
+const updateItinerary = (props,place) => {
+
+  let itinerary = Object.assign({}, props.itinerary);
+  itinerary.places.push(place);
+  props.getItineraryData(itinerary);
+
 };
 
 

@@ -3,6 +3,7 @@ import React from 'react';
 import {mount, shallow} from 'enzyme';
 import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ItineraryTable from '../src/components/Application/Itinerary/ItineraryTable';
+import ItineraryCustomInput from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import Geolocation from '../src/components/Application/Geolocation'
 import {getOriginalServerPort} from '../src/api/restfulAPI';
@@ -69,3 +70,30 @@ function itineraryTableTest() {
 }
 
 test('Testing that the itineraryTable component gets rendered', itineraryTableTest);
+
+function itineraryCustomInput () {
+    const itineraryData = {
+        itinerary: {requestVersion: 3,
+            requestType: 'itinerary',
+            options: {"title":"My Trip",
+                "earthRadius":"3958.761316","optimization":"none" },
+            places: [],
+            distances: [],
+        },
+        find:null,
+        errorMessage: null
+    };
+
+
+
+    const itinerary = shallow(<Itinerary options={startProperties.planOptions}
+                                         settings={startProperties.clientSettings}
+                                         createErrorBanner={createErrorBanner}/>);
+
+    itinerary.setState(itineraryData);
+    itinerary.update();
+
+    expect(itinerary.containsMatchingElement(<ItineraryCustomInput />)).toEqual(true);
+}
+
+test('Testing that the itineraryCustomInput component gets rendered', itineraryCustomInput );
