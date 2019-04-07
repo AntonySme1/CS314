@@ -20,10 +20,11 @@ export default class Itinerary extends Component {
 
     constructor(props) {
         super(props);
-
+        this.updateDisplay = this.updateDisplay.bind(this);
         this.getItineraryData = this.getItineraryData.bind(this);
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
+        this.renderItineraryCustomInput = this.renderItineraryCustomInput.bind(this);
 
         this.getFindData = this.getFindData.bind(this);
         this.renderFindForm = this.renderFindForm.bind(this);
@@ -39,6 +40,8 @@ export default class Itinerary extends Component {
                 places: [],
                 distances: [],
                },
+            display:{itineraryTable: true, itineraryCustomInput: false},
+
             find:null,
             errorMessage: null
         };
@@ -79,22 +82,21 @@ export default class Itinerary extends Component {
 
                 <Row className = 'mb-4'>
                     <Col xs={12}>
-                    <Form>
-                        <FormGroup>
+                    <Form inline>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
 
                             {this.saveItineraryButton()}
+                        </FormGroup>
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.addItineraryButton()}
                         </FormGroup>
 
                     </Form>
                     </Col>
                 </Row>
-
-                <Row className = 'mb-4'>
+                <Row className='mb-4'>
                     <Col xs={12}>
-                        <ItineraryCustomInput settings = {this.props.settings}
-                                              createErrorBanner={this.props.createErrorBanner}
-                                              itinerary = {this.state.itinerary}
-                                              getItineraryData={this.getItineraryData}/>
+                        {this.renderItineraryCustomInput()}
                     </Col>
                 </Row>
 
@@ -108,7 +110,20 @@ export default class Itinerary extends Component {
         )
 
     }
+    renderItineraryCustomInput (){
 
+
+        if (this.state.display.itineraryCustomInput){
+            return (
+                    <ItineraryCustomInput settings={this.props.settings}
+                                          createErrorBanner={this.props.createErrorBanner}
+                                          itinerary={this.state.itinerary}
+                                          display = {this.state.display}
+                                          updateDisplay = {this.updateDisplay}
+                                          getItineraryData={this.getItineraryData}/>
+                );
+
+    }}
     renderMap() {
         return (
             <Pane header={'Itinerary Map'}>
@@ -198,6 +213,10 @@ export default class Itinerary extends Component {
         this.setState({itinerary: itinerary},()=>{this.calculateLegDistance()});
     }
 
+    updateDisplay(display){
+         this.setState({display:display});
+    }
+
     getFindData(find){
 
         this.setState({find: find});
@@ -263,6 +282,12 @@ export default class Itinerary extends Component {
     saveItineraryButton() {
         return (
                 <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
+        );
+    }
+
+    addItineraryButton(){
+        return (
+            <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})}>Add to Itinerary</Button>
         );
     }
 

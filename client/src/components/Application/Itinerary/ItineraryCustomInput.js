@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {Form,Row, Col, FormGroup, Input, Label, Button} from 'reactstrap';
 import Pane from '../Pane'
 
 
@@ -7,23 +7,35 @@ const customInput = (props) =>{
 return(
     <Form className={"Form"} onSubmit = {processForm(props)}>
 
+
       <FormGroup>
         <Label for="Name">Name</Label>
         <Input type="text" name="Name" id="Name" placeholder="Name" required/>
       </FormGroup>
 
+      <Row form>
+
+        <Col md={6}>
       <FormGroup>
         <Label for="Latitude">Latitude</Label>
         <Input type="number" name="Latitude" id="Latitude" placeholder={"Latitude"} required/>
       </FormGroup>
+        </Col>
 
+          <Col md={6}>
       <FormGroup>
         <Label for="Longitude">Longitude</Label>
         <Input type="number" name="Longitude" id="Longitude" placeholder={"Longitude"} required/>
       </FormGroup>
+        </Col>
+          </Row>
 
       <FormGroup className={"Button text-center"}>
         <Button className={"btn-csu"} type="submit"> Submit </Button>
+      </FormGroup>
+
+      <FormGroup className={"Button text-center"}>
+        <Button className={"btn-csu"} type ="button" onClick={()=>hideForm(props)}> Cancel </Button>
       </FormGroup>
 
 
@@ -59,6 +71,13 @@ const updateItinerary = (props,place) => {
   itinerary.places.push(place);
   props.getItineraryData(itinerary);
 
+};
+
+const hideForm = (props) =>{
+  console.log(props);
+  let display = Object.assign({}, props.display);
+  display.itineraryCustomInput = !display.itineraryCustomInput;
+  props.updateDisplay(display);
 };
 
 

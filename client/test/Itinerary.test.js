@@ -93,7 +93,7 @@ function itineraryCustomInput () {
     itinerary.setState(itineraryData);
     itinerary.update();
 
-    expect(itinerary.containsMatchingElement(<ItineraryCustomInput />)).toEqual(true);
+    expect(itinerary.containsMatchingElement(<ItineraryCustomInput />)).toEqual(false);
 }
 
 test('Testing that the itineraryCustomInput component gets rendered', itineraryCustomInput );

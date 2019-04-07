@@ -39,6 +39,7 @@ function itineraryCustomInputTest() {
   const itineraryCustomInput = mount (<ItineraryCustomInput settings = {startProperties.clientSettings}
                         createErrorBanner={createErrorBanner}
                         itinerary = {itinerary.state().itinerary}
+                        updateDisplay = {()=>{}}
                         getItineraryData={()=>{}}/>);
 
   expect(defaultPlaceSize).toEqual(0);
@@ -48,7 +49,7 @@ function itineraryCustomInputTest() {
   const numInput = itineraryCustomInput.find('Input');
 
   expect(numForm).toHaveLength(1);
-  expect(numFormGroup).toHaveLength(4);
+  expect(numFormGroup).toHaveLength(5);
   expect(numInput).toHaveLength(3);
 
 
