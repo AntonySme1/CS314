@@ -40,7 +40,7 @@ export default class Itinerary extends Component {
                 places: [],
                 distances: [],
                },
-            display:{itineraryTable: true, itineraryCustomInput: false},
+            display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false },
 
             find:null,
             errorMessage: null
@@ -74,11 +74,7 @@ export default class Itinerary extends Component {
                     </Col>
                 </Row>
 
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderItineraryForm()}
-                    </Col>
-                </Row>
+
 
                 <Row className = 'mb-4'>
                     <Col xs={12}>
@@ -91,7 +87,16 @@ export default class Itinerary extends Component {
                             {this.addItineraryButton()}
                         </FormGroup>
 
+                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                            {this.uploadItineraryButton()}
+                        </FormGroup>
+
                     </Form>
+                    </Col>
+                </Row>
+                <Row className = 'mb-4'>
+                    <Col xs={12}>
+                        {this.renderItineraryForm()}
                     </Col>
                 </Row>
                 <Row className='mb-4'>
@@ -133,11 +138,13 @@ export default class Itinerary extends Component {
     }
 
     renderItineraryForm() {
-        return (
-            <Pane header={'Itinerary'}>
-                {this.ItineraryForm()}
-            </Pane>
-        );
+        if (this.state.display.itineraryUpload) {
+            return (
+                <Pane header={'Itinerary'}>
+                    {this.ItineraryForm()}
+                </Pane>
+            );
+        }
     }
 
 
@@ -154,7 +161,9 @@ export default class Itinerary extends Component {
         return (
             <ItineraryForm  settings = {this.props.settings}
                             createErrorBanner={this.props.createErrorBanner}
-                            getItineraryData={this.getItineraryData}/>
+                            getItineraryData={this.getItineraryData}
+                            display = {this.state.display}
+                            updateDisplay = {this.updateDisplay}/>
 
 
         )
@@ -288,6 +297,11 @@ export default class Itinerary extends Component {
     addItineraryButton(){
         return (
             <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})}>Add to Itinerary</Button>
+        );
+    }
+    uploadItineraryButton(){
+        return (
+            <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})}>Upload Itinerary</Button>
         );
     }
 

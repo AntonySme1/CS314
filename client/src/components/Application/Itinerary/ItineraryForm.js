@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {FormGroup} from 'reactstrap'
+import {Button, FormGroup} from 'reactstrap'
 import { Form, Label, CustomInput} from 'reactstrap'
 
 export default class ItineraryForm extends Component {
@@ -8,6 +8,7 @@ export default class ItineraryForm extends Component {
         super(props);
         
         this.readFile = this.readFile.bind(this);
+        this.hideForm = this.hideForm.bind(this);
 
     };
 
@@ -20,6 +21,9 @@ export default class ItineraryForm extends Component {
                 <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
+          <FormGroup className={"Button text-center"}>
+            <Button className={"btn-csu"} type ="button" onClick={this.hideForm}> Cancel </Button>
+          </FormGroup>
 
         </Form>
 
@@ -57,6 +61,12 @@ setStateFromFile (fileContent) {
     distances: []
   };
   this.props.getItineraryData(itineraryObject);
+}
+
+hideForm(){
+  let display = Object.assign({}, this.props.display);
+  display.itineraryUpload = !display.itineraryUpload;
+  this.props.updateDisplay(display);
 }
 
 

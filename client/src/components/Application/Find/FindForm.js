@@ -41,7 +41,7 @@ export default class FindForm extends Component {
             <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
           </FormGroup>
 
-          <FormGroup>
+          <FormGroup className={"text-center"}>
             <Button className={"btn-csu"} type="submit"> Find </Button>
           </FormGroup>
 
