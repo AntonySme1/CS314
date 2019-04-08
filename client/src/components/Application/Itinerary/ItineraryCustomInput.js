@@ -4,6 +4,7 @@ import Pane from '../Pane'
 
 
 const customInput = (props) =>{
+  const latLon = ["Latitude","Longitude"];
 return(
     <Form className={"Form"} onSubmit = {processForm(props)}>
 
@@ -14,20 +15,15 @@ return(
       </FormGroup>
 
       <Row form>
+        {latLon.map((name)=>{
+        return (<Col md={6}>
+          <FormGroup>
+            <Label for={name}>{name}</Label>
+            <Input type="number" name={name} id={name} placeholder={name} required/>
+          </FormGroup>
+        </Col>)
+      })}
 
-        <Col md={6}>
-      <FormGroup>
-        <Label for="Latitude">Latitude</Label>
-        <Input type="number" name="Latitude" id="Latitude" placeholder={"Latitude"} required/>
-      </FormGroup>
-        </Col>
-
-          <Col md={6}>
-      <FormGroup>
-        <Label for="Longitude">Longitude</Label>
-        <Input type="number" name="Longitude" id="Longitude" placeholder={"Longitude"} required/>
-      </FormGroup>
-        </Col>
           </Row>
 
       <FormGroup className={"Button text-center"}>
