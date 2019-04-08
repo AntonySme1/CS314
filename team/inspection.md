@@ -12,7 +12,7 @@
 | ---- | ---- |
 | Jonathan Perea |  5 min|
 | Saurav Bhuju | 30 min |
-| Patrick Keleher |  |
+| Patrick Keleher | 5 min |
 | Jack Fitzgerald |  |
 
 ### Problems found
@@ -21,4 +21,4 @@
 | --- | --- | :---: | :---: | --- |
 |  TIPItinerary.java:74,92|Missing Java Doc comment |low | Saurav Bhuju | |
 |  TIPItinerary.java:39,74|Change access modifiers |low | Jonathan Perea | |
-|  | | | | |
+|  TIPItinerary.java:3,11|Reorder import statements lexicographically |low |Jack Fitzgerald | |
