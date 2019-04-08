@@ -18,7 +18,15 @@ const startProperties = {
     clientSettings: {
         serverPort: getOriginalServerPort()
     },
-    errorMessage: null
+    errorMessage: null,
+    itinerary: {requestVersion: 3,
+        requestType: 'itinerary',
+        options: {"title":"My Trip",
+            "earthRadius":"3958.761316","optimization":"none" },
+        places: [],
+        distances: [],
+    },
+    updateItinerary: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -32,7 +40,9 @@ function createErrorBanner(statusText, statusCode, message) {
 function mapExistenceTest() {
     const itinerary = mount(<Itinerary options={startProperties.planOptions}
                                        settings={startProperties.clientSettings}
-                                       createErrorBanner={createErrorBanner}/>);
+                                       createErrorBanner={createErrorBanner}
+                                       itinerary={startProperties.itinerary}
+                                       updateItinerary={startProperties.updateItinerary}/>);
 
     expect(itinerary.containsMatchingElement(
         <Map center={L.latLng(40.576179, -105.080773)}
@@ -61,7 +71,9 @@ function itineraryTableTest() {
 
     const itinerary = shallow(<Itinerary options={startProperties.planOptions}
                                        settings={startProperties.clientSettings}
-                                       createErrorBanner={createErrorBanner}/>);
+                                       createErrorBanner={createErrorBanner}
+                                         itinerary={startProperties.itinerary}
+                                         updateItinerary={startProperties.updateItinerary}/>);
 
     itinerary.setState(itineraryData);
     itinerary.update();
@@ -88,7 +100,9 @@ function itineraryCustomInput () {
 
     const itinerary = shallow(<Itinerary options={startProperties.planOptions}
                                          settings={startProperties.clientSettings}
-                                         createErrorBanner={createErrorBanner}/>);
+                                         createErrorBanner={createErrorBanner}
+                                         itinerary={startProperties.itinerary}
+                                         updateItinerary={startProperties.updateItinerary}/>);
 
     itinerary.setState(itineraryData);
     itinerary.update();
