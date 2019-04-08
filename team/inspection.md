@@ -13,7 +13,7 @@
 | Jonathan Perea |  5 min|
 | Saurav Bhuju | 30 min |
 | Patrick Keleher | 5 min |
-| Jack Fitzgerald |  |
+| Jack Fitzgerald | 5 min |
 
 ### Problems found
 
