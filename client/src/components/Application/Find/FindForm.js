@@ -9,7 +9,7 @@ export default class FindForm extends Component {
 
   constructor(props) {
     super(props);
-
+    this.hideForm = this.hideForm.bind(this);
     this.findSearch = this.findSearch.bind(this);
     this.processForm = this.processForm.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -41,8 +41,11 @@ export default class FindForm extends Component {
             <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
           </FormGroup>
 
-          <FormGroup>
+          <FormGroup className={"text-center"}>
             <Button className={"btn-csu"} type="submit"> Find </Button>
+          </FormGroup>
+          <FormGroup className={"text-center"}>
+            <Button className={"btn-csu"} onClick={() =>{this.hideForm(); }} > Cancel </Button>
           </FormGroup>
 
 
@@ -56,12 +59,22 @@ processForm (event) {
 
   this.findSearch();
 
+
 }
 updateState (event) {
             //event.persist();
 
      this.setState({[event.target.name]: event.target.value});
 }
+  hideForm(){
+    let display = Object.assign({}, this.props.display);
+    display.findForm = !display.findForm;
+    display.findTable = display.findForm;
+
+    this.props.updateDisplay(display);
+  }
+
+
 
   findSearch () {
 

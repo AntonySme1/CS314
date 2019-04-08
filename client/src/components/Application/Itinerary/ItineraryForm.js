@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {Button, Col, Row, FormGroup} from 'reactstrap'
-import { Form, Label, Input, CustomInput} from 'reactstrap'
+import {Button, FormGroup} from 'reactstrap'
+import { Form, Label, CustomInput} from 'reactstrap'
 
 export default class ItineraryForm extends Component {
 
@@ -8,10 +8,9 @@ export default class ItineraryForm extends Component {
         super(props);
         
         this.readFile = this.readFile.bind(this);
+        this.hideForm = this.hideForm.bind(this);
 
     };
-
-
 
     render() {
     return (
@@ -22,6 +21,9 @@ export default class ItineraryForm extends Component {
                 <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
+          <FormGroup className={"Button text-center"}>
+            <Button className={"btn-csu"} type ="button" onClick={this.hideForm}> Cancel </Button>
+          </FormGroup>
 
         </Form>
 
@@ -44,15 +46,11 @@ processFile (file) {
 async readFile   (event) {
     const file = event.target.files[0];
     const fileContent = await this.processFile (file);
-    this.printJSON(fileContent);
+
     this.setStateFromFile(fileContent);
 };
 
-printJSON  (fileContent)  {
-   const parsedJSON = JSON.parse(fileContent);
 
-
-}
 
 setStateFromFile (fileContent) {
   const parsedJSON = JSON.parse(fileContent);
@@ -65,21 +63,12 @@ setStateFromFile (fileContent) {
   this.props.getItineraryData(itineraryObject);
 }
 
+hideForm(){
+  let display = Object.assign({}, this.props.display);
+  display.itineraryUpload = !display.itineraryUpload;
+  this.props.updateDisplay(display);
+}
 
-//code from https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try
-//Author: Lynn and Matt H.
- tryParseJSON (jsonString)  {
-    try {
-        const o = JSON.parse(jsonString);
-
-        if (o && typeof o === "object") {
-            return true;
-        }
-    }
-    catch (e) { }
-
-    return false;
-};
 
 
 

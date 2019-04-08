@@ -46,7 +46,7 @@ function findTableTest() {
   find.setState(findData);
   find.update();
 
-  expect(find.containsMatchingElement(<FindTable/>)).toEqual(true);
+  expect(find.containsMatchingElement(<FindTable/>)).toEqual(false);
 }
 
 test('Testing that the findTable component gets rendered', findTableTest);
