@@ -16,7 +16,7 @@ return(
 
       <Row form>
         {latLon.map((name)=>{
-        return (<Col md={6}>
+        return (<Col md={6} key={name}>
           <FormGroup>
             <Label for={name}>{name}</Label>
             <Input type="number" name={name} id={name} placeholder={name} required/>
