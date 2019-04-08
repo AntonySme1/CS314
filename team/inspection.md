@@ -22,3 +22,4 @@
 |  TIPItinerary.java:74,92|Missing Java Doc comment |low | Saurav Bhuju | |
 |  TIPItinerary.java:39,74|Change access modifiers |low | Jonathan Perea | |
 |  TIPItinerary.java:3,11|Reorder import statements lexicographically |low |Jack Fitzgerald | |
+|  TIPItinerary.java:9|Use array instead of ArrayList|med | Jonathan Perea | |
