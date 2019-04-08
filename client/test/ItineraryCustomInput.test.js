@@ -16,7 +16,15 @@ const startProperties = {
   clientSettings: {
     serverPort: getOriginalServerPort()
   },
-  errorMessage: null
+  errorMessage: null,
+  itinerary: {requestVersion: 3,
+    requestType: 'itinerary',
+    options: {"title":"My Trip",
+      "earthRadius":"3958.761316","optimization":"none" },
+    places: [],
+    distances: [],
+  },
+  updateItinerary: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -32,7 +40,9 @@ function itineraryCustomInputTest() {
 
   const itinerary = mount(<Itinerary options={startProperties.planOptions}
                                        settings={startProperties.clientSettings}
-                                       createErrorBanner={createErrorBanner}/>);
+                                       createErrorBanner={createErrorBanner}
+                                     itinerary={startProperties.itinerary}
+                                     updateItinerary={startProperties.updateItinerary}/>);
 
   const defaultPlaceSize = itinerary.state().itinerary.places.length;
 

@@ -18,7 +18,7 @@ import Cookies from "js-cookie";
 export default class Application extends Component {
   constructor(props){
     super(props);
-
+    this.updateItinerary = this.updateItinerary.bind(this);
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
@@ -34,7 +34,14 @@ export default class Application extends Component {
       clientSettings: {
         serverPort: getOriginalServerPort()
       },
-      errorMessage: null
+      errorMessage: null,
+      itinerary: {requestVersion: 3,
+        requestType: 'itinerary',
+        options: {"title":"My Trip",
+          "earthRadius":"3958.761316","optimization":"none" },
+        places: [],
+        distances: [],
+      }
     };
 
     this.updateStateWithCookies();
@@ -82,6 +89,11 @@ export default class Application extends Component {
     });
   }
 
+  updateItinerary(itinerary){
+    console.log(itinerary);
+    this.setState({'itinerary': itinerary});
+  }
+
   updateStateWithCookies(){
     let stateData = Object.assign({},this.state);
 
@@ -113,8 +125,10 @@ export default class Application extends Component {
                            createErrorBanner={this.createErrorBanner}/>;
       case 'itinerary':
         return <Itinerary options={this.state.planOptions}
-                           settings={this.state.clientSettings}
-                           createErrorBanner={this.createErrorBanner}/>;
+                          settings={this.state.clientSettings}
+                          createErrorBanner={this.createErrorBanner}
+                          itinerary={this.state.itinerary}
+                          updateItinerary={this.updateItinerary}/>;
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
