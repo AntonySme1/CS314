@@ -141,7 +141,7 @@ export default class Calculator extends Component {
               });
       }
           else {
-            this.setErrorBanner()
+            this.setErrorBanner('Bad Longitude or latitude', 400, this.props.settings.serverPort)
           }
       }
   }
