@@ -10,7 +10,7 @@
 
 | Name | Preparation Time |
 | ---- | ---- |
-| Jonathan Perea |  |
+| Jonathan Perea |  5 min|
 | Saurav Bhuju | 30 min |
 | Patrick Keleher |  |
 | Jack Fitzgerald |  |
@@ -20,4 +20,5 @@
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
 |  TIPItinerary.java:74,92|Missing Java Doc comment |low | Saurav Bhuju | |
+|  TIPItinerary.java:39,74|Change access modifiers |low | Jonathan Perea | |
 |  | | | | |
