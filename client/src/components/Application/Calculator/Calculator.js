@@ -128,10 +128,10 @@ export default class Calculator extends Component {
           if (checkOrgRange && checkDestRange) {
 
           const tipConfigRequest = {
-              'type': 'distance',
-              'version': 3,
-              'origin': {latitude: originLat, longitude: originLon},
-              'destination': {latitude: destinationLat, longitude: destinationLon},
+              'requestType': 'distance',
+              'requestVersion': 3,
+              'origin': {latitude: originLat.toString(), longitude: originLon.toString()},
+              'destination': {latitude: destinationLat.toString(), longitude: destinationLon.toString()},
               'earthRadius': this.props.options.units[this.props.options.activeUnit]
           };
 
@@ -141,7 +141,7 @@ export default class Calculator extends Component {
               });
       }
           else {
-            this.setErrorBanner()
+            this.setErrorBanner('Bad Longitude or latitude', 400, this.props.settings.serverPort)
           }
       }
   }
@@ -201,25 +201,30 @@ export default class Calculator extends Component {
     }
 
     buildMarker(latitude, longitude) {
-        if (isNaN(latitude) && /[NSns]/.test(latitude)) {
-            let parsedCoordinate = coordParser(latitude);
-            latitude = parsedCoordinate.lat;
-        }
+      try {
+          if (isNaN(latitude) && /[NSns]/.test(latitude)) {
+              let parsedCoordinate = coordParser(latitude);
+              latitude = parsedCoordinate.lat;
+          }
 
-        if (isNaN(latitude) && !(/[NSns]/.test(latitude))) {
-            return L.latLng(0,0);
-        }
+          if (isNaN(latitude) && !(/[NSns]/.test(latitude))) {
+              return L.latLng(0, 0);
+          }
 
-        if (isNaN(longitude) && /[WEwe]/.test(longitude)) {
-            let parsedCoordinate = coordParser(longitude);
-            longitude = parsedCoordinate.lon;
-        }
+          if (isNaN(longitude) && /[WEwe]/.test(longitude)) {
+              let parsedCoordinate = coordParser(longitude);
+              longitude = parsedCoordinate.lon;
+          }
 
-        if (isNaN(longitude) && !(/[WEwe]/.test(latitude))) {
-            return L.latLng(0,0);
-        }
+          if (isNaN(longitude) && !(/[WEwe]/.test(latitude))) {
+              return L.latLng(0, 0);
+          }
 
-        return L.latLng(latitude, longitude);
+          return L.latLng(latitude, longitude);
+      }
+      catch(e) {
+          return L.latLng(0,0);
+      }
     }
 
     getMarker(lat,lon){
