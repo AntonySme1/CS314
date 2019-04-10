@@ -19,7 +19,7 @@ public class TIPItinerary extends TIPHeader{
 
     private TIPItinerary() {
         this.requestType = "itinerary";
-        this.requestVersion = 3.5;
+        this.requestVersion = 3;
     }
 
     //for testing purposes, optional distances
