@@ -45,7 +45,6 @@ export default class Itinerary extends Component {
     render() {
         return (
             <Container>
-                {this.calculateLegDistance}
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderMap()}
