@@ -351,7 +351,7 @@ export default class Itinerary extends Component {
 
     calculateLegDistance () {
         let itineraryOptions = this.state.itinerary.options;
-        itineraryOptions.earthRadius = this.props.options.units[this.props.options.activeUnit];
+        itineraryOptions.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
 
         const tipLegDistanceRequest = {
             'requestType': 'itinerary',
