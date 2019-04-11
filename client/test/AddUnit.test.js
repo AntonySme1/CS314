@@ -15,10 +15,12 @@ const startProperties = {
 
 function AddUnitTest() {
 
-  const itineraryForm = shallow(<AddUnit addUniit={startProperties.addUnit}
+  const addUnitForm = shallow(<AddUnit addUniit={startProperties.addUnit}
   />);
-  expect(itineraryForm.find('Card')).toHaveLength(1);
-  expect(itineraryForm.find('Form')).toHaveLength(1);
+  expect(addUnitForm.find('Card')).toHaveLength(1);
+  expect(addUnitForm.find('Form')).toHaveLength(1);
+  expect(addUnitForm.find('FormGroup')).toHaveLength(4);
+
 }
 
 test('Testing that the AddUnitTest component gets rendered', AddUnitTest);
