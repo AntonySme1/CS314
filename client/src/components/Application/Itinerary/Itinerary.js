@@ -342,7 +342,7 @@ export default class Itinerary extends Component {
     }
 
     callCalcLegDistance(){
-        if(this.state.itinerary.distances === 0){
+        if(this.state.itinerary.distances.length === 0){
             return;
         } else {
             this.calculateLegDistance();
