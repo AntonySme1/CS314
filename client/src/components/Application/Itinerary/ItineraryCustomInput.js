@@ -19,7 +19,7 @@ return(
         return (<Col md={6} key={name}>
           <FormGroup>
             <Label for={name}>{name}</Label>
-            <Input type="number" name={name} id={name} placeholder={name} required/>
+            <Input type="number" name={name} id={name} placeholder={name} step = "any" required/>
           </FormGroup>
         </Col>)
       })}
@@ -43,8 +43,8 @@ const processForm = (props) => event => {
   event.preventDefault();
   const newPlace = new FormData(event.target);
 
-  const newPlaceLat = parseFloat(newPlace.get('Latitude').toString());
-  const newPlaceLon = parseFloat(newPlace.get('Longitude').toString());
+  const newPlaceLat = newPlace.get('Latitude');
+  const newPlaceLon = newPlace.get('Longitude');
   const newPlaceName = newPlace.get('Name');
 
   const place = {"name": newPlaceName, "latitude": newPlaceLat, "longitude": newPlaceLon};
@@ -70,7 +70,7 @@ const updateItinerary = (props,place) => {
 };
 
 const hideForm = (props) =>{
-  console.log(props);
+
   let display = Object.assign({}, props.display);
   display.itineraryCustomInput = !display.itineraryCustomInput;
   props.updateDisplay(display);
