@@ -6,9 +6,12 @@ import com.tripco.t10.TIP.TIPConfig;
 import com.tripco.t10.TIP.TIPDistance;
 import com.tripco.t10.TIP.TIPHeader;
 import com.tripco.t10.TIP.TIPItinerary;
+import com.tripco.t10.misc.SchemaValidator;
 import com.tripco.t10.TIP.TIPFind;
 
 import java.lang.reflect.Type;
+
+import org.json.JSONObject;
 
 import spark.Request;
 import spark.Response;
@@ -79,6 +82,7 @@ class MicroServer {
       TIPConfig tipRequest = new TIPConfig();
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
+      performSchemaValidation(TIPConfig.class, responseBody);
       log.trace("TIP Config response: {}", responseBody);
       return responseBody;
     } catch (Exception e) {
@@ -107,10 +111,12 @@ class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
     response.status(200);
     try {
+      performSchemaValidation(tipType, request.body());
       Gson jsonConverter = new Gson();
       TIPHeader tipRequest = jsonConverter.fromJson(request.body(), tipType);
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
+      performSchemaValidation(tipType, responseBody);
       log.trace("TIP Response: {}", responseBody);
       return responseBody;
     } catch (Exception e) {
@@ -120,6 +126,25 @@ class MicroServer {
     }
   }
 
+  private void performSchemaValidation(Type tipType, String body) throws Exception{
+    try {
+      String schemaName = "/" + getSchemaName(tipType) + "Schema.json";
+      SchemaValidator sv = new SchemaValidator();
+      sv.performValidation(new JSONObject(body), schemaName);
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  private String getSchemaName(Type tipType) {
+    /*
+      NOTE: the implementation of this function MUST change if the directory structure from calling
+      tipType.getTypeName() ever changes
+      Current directory structure: com.tripco.t10.TIP. <- length=19
+    */
+    int lengthOfDirectoryStructure = 19;
+    return tipType.getTypeName().substring(lengthOfDirectoryStructure);
+  }
 
   private String echoHTTPrequest(Request request, Response response) {
     response.type("application/json");

@@ -82,7 +82,7 @@ updateState (event) {
       'requestType': 'find',
       'requestVersion': 3,
       'match': this.state.match,
-      'limit': this.state.limit,
+      'limit': parseInt(this.state.limit, 10),
 
       'places': []
     };
