@@ -43,8 +43,8 @@ const processForm = (props) => event => {
   event.preventDefault();
   const newPlace = new FormData(event.target);
 
-  const newPlaceLat = parseFloat(newPlace.get('Latitude').toString());
-  const newPlaceLon = parseFloat(newPlace.get('Longitude').toString());
+  const newPlaceLat = newPlace.get('Latitude');
+  const newPlaceLon = newPlace.get('Longitude');
   const newPlaceName = newPlace.get('Name');
 
   const place = {"name": newPlaceName, "latitude": newPlaceLat, "longitude": newPlaceLon};
