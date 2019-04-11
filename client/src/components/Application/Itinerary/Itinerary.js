@@ -39,25 +39,18 @@ export default class Itinerary extends Component {
             errorMessage: null
         };
 
-        //this.updateStateWithCookieCoordinates();
-
+        this.callCalcLegDistance();
     }
 
     render() {
-
         return (
-
             <Container>
-
+                {this.calculateLegDistance}
                 <Row className = 'mb-4'>
                     <Col xs={12}>
                         {this.renderMap()}
                     </Col>
                 </Row>
-
-
-
-
 
                 <Row className = 'mb-4'>
                     <Col xs={12}>
@@ -96,11 +89,9 @@ export default class Itinerary extends Component {
 
             </Container>
         )
-
     }
+
     renderItineraryCustomInput (){
-
-
         if (this.state.display.itineraryCustomInput){
             return (
                     <ItineraryCustomInput settings={this.props.settings}
@@ -155,7 +146,6 @@ export default class Itinerary extends Component {
         }
     }
 
-
     renderFindForm() {
             if (this.state.display.findForm) {
                 return (
@@ -166,7 +156,6 @@ export default class Itinerary extends Component {
             }
     }
 
-
     ItineraryForm() {
         return (
             <ItineraryForm  settings = {this.props.settings}
@@ -174,8 +163,6 @@ export default class Itinerary extends Component {
                             getItineraryData={this.getItineraryData}
                             display = {this.state.display}
                             updateDisplay = {this.updateDisplay}/>
-
-
         )
     }
 
@@ -185,9 +172,7 @@ export default class Itinerary extends Component {
                       createErrorBanner={this.props.createErrorBanner}
                       getFindData={this.getFindData}
                       display = {this.state.display}
-                      updateDisplay = {this.updateDisplay}
-            />
-        )
+                      updateDisplay = {this.updateDisplay}/>)
 
     }
 
@@ -200,17 +185,17 @@ export default class Itinerary extends Component {
                                    itinerary={this.state.itinerary}
                                    getItineraryData={this.getItineraryData}/>)
 
-        }}
+        }
+        }
     }
 
     renderItineraryTable(){
-       // if (this.state.itinerary){
             return (<ItineraryTable settings = {this.props.settings}
                                     createErrorBanner={this.props.createErrorBanner}
                                     itinerary={this.state.itinerary}
                                     getItineraryData={this.getItineraryData}
+                                    options={this.props.options}
             />)
-        //}
     }
 
     renderLeafletMap() {
@@ -232,12 +217,11 @@ export default class Itinerary extends Component {
     }
 
     getItineraryData(itinerary){
-        //console.log(itinerary);
         this.setState({itinerary: itinerary},()=>{this.calculateLegDistance()});
     }
 
     updateDisplay(display){
-                    console.log("this",display);
+         console.log("this",display);
          this.setState({display:display});
     }
 
@@ -327,8 +311,6 @@ export default class Itinerary extends Component {
 
     // credit Koldev https://jsfiddle.net/koldev/cW7W5/
     saveItinerary(){
-
-
         const itinerary = {
             'requestType': 'itinerary',
             'requestVersion': this.state.itinerary.version,
@@ -359,12 +341,22 @@ export default class Itinerary extends Component {
         }
     }
 
+    callCalcLegDistance(){
+        if(this.state.itinerary.distances === 0){
+            return;
+        } else {
+            this.calculateLegDistance();
+        }
+    }
+
     calculateLegDistance () {
+        let itineraryOptions = this.state.itinerary.options;
+        itineraryOptions.earthRadius = this.props.options.units[this.props.options.activeUnit];
 
         const tipLegDistanceRequest = {
             'requestType': 'itinerary',
             'requestVersion': this.state.itinerary.requestVersion,
-            'options': this.state.itinerary.options,
+            'options': itineraryOptions,
             'places': this.state.itinerary.places,
             'distances': []
         };
@@ -377,9 +369,7 @@ export default class Itinerary extends Component {
                 state.errormessage = null;
                 this.setState({
                     state },()=>{this.props.updateItinerary(this.state.itinerary)});
-
-                //this.props.getItineraryData(this.state);
-            } else {
+            }else {
                 this.setState({
                     errorMessage: this.props.createErrorBanner(
                         response.statusText,
@@ -391,7 +381,5 @@ export default class Itinerary extends Component {
         });
 
     }
-
-
 
 }
