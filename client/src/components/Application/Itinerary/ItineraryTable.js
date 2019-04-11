@@ -11,8 +11,8 @@ const  ItineraryTable = (props) => {
                 <th>Name</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Leg Distance</th>
-                <th>Cumulative Distance</th>
+                <th>Leg Distance ({props.options.activeUnit})</th>
+                <th>Cumulative Distance ({props.options.activeUnit})</th>
                 <th>Options</th>
 
             </tr>
