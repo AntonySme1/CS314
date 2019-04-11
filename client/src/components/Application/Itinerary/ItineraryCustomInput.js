@@ -19,7 +19,7 @@ return(
         return (<Col md={6} key={name}>
           <FormGroup>
             <Label for={name}>{name}</Label>
-            <Input type="number" name={name} id={name} placeholder={name} required/>
+            <Input type="number" name={name} id={name} placeholder={name} step = "any" required/>
           </FormGroup>
         </Col>)
       })}
@@ -70,7 +70,7 @@ const updateItinerary = (props,place) => {
 };
 
 const hideForm = (props) =>{
-  console.log(props);
+
   let display = Object.assign({}, props.display);
   display.itineraryCustomInput = !display.itineraryCustomInput;
   props.updateDisplay(display);
