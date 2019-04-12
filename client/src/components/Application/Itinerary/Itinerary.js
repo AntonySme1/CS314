@@ -12,6 +12,8 @@ import FindForm from '../Find/FindForm';
 import FindTable from "../Find/FindTable";
 import {sendServerRequestWithBody} from "../../../api/restfulAPI";
 import ItineraryCustomInput from "./ItineraryCustomInput";
+import saveItinerary from "./ItinerarySave";
+import ItineraryOptions from "./ItineraryOptions";
 /*
  * Renders the itinerary page.
  */
@@ -29,7 +31,6 @@ export default class Itinerary extends Component {
         this.renderFindForm = this.renderFindForm.bind(this);
         this.renderFindTable = this.renderFindTable.bind(this);
         this.calculateLegDistance = this.calculateLegDistance.bind(this);
-        this.saveItinerary = this.saveItinerary.bind(this);
 
         this.state = {
             itinerary: props.itinerary,
@@ -43,48 +44,19 @@ export default class Itinerary extends Component {
     }
 
     render() {
+        const allrenderMethods = [this.renderMap(),this.renderItineraryOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
+                                    this.renderItineraryCustomInput(),this.renderItineraryTable()];
         return (
             <Container>
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderMap()}
-                    </Col>
-                </Row>
-
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderItineraryOptions()}
-                    </Col>
-                </Row>
-
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderFindForm()}
-                    </Col>
-                </Row>
-
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderFindTable()}
-                    </Col>
-                </Row>
-
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderItineraryForm()}
-                    </Col>
-                </Row>
-                <Row className='mb-4'>
-                    <Col xs={12}>
-                        {this.renderItineraryCustomInput()}
-                    </Col>
-                </Row>
-
-                <Row className = 'mb-4'>
-                    <Col xs={12}>
-                        {this.renderItineraryTable()}
-                    </Col>
-                </Row>
+                {allrenderMethods.map((method,index) =>{
+                    return(
+                        <Row className = 'mb-4' key ={index}>
+                            <Col xs={12}>
+                                {method}
+                            </Col>
+                        </Row>
+                    )
+                })}
 
             </Container>
         )
@@ -102,6 +74,7 @@ export default class Itinerary extends Component {
                 );
 
     }}
+
     renderMap() {
         return (
             <Pane header={'Itinerary Map'}>
@@ -109,37 +82,32 @@ export default class Itinerary extends Component {
             </Pane>
         );
     }
-        renderItineraryOptions (){
+
+    renderItineraryOptions (){
+            let buttons = [{name: "Save Itinerary", onClick:()=>saveItinerary(this.state.itinerary)},
+                           {name: "Add to Itinerary", onClick:() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})},
+                           {name: "Upload Itinerary", onClick:() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})},
+                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}
+                           ];
+            const allButtons = [];
+            buttons.forEach((button) => {
+                allButtons.push(<Button className={'btn-csu'} onClick={button.onClick}>{button.name}</Button>);
+            });
+
             return (
-                <Pane header={'Itinerary Options'}>
-                    <Form inline>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-
-                            {this.saveItineraryButton()}
-                        </FormGroup>
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.addItineraryButton()}
-                        </FormGroup>
-
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.uploadItineraryButton()}
-                        </FormGroup>
-
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            {this.findItineraryButton()}
-                        </FormGroup>
-
-
-                    </Form>
-                </Pane>
+               <ItineraryOptions allButtons = {allButtons}/>
             );
         }
 
     renderItineraryForm() {
         if (this.state.display.itineraryUpload) {
             return (
-                <Pane header={'Itinerary'}>
-                    {this.ItineraryForm()}
+                <Pane header={'Itinerary Upload'}>
+                    {<ItineraryForm  settings = {this.props.settings}
+                                     createErrorBanner={this.props.createErrorBanner}
+                                     getItineraryData={this.getItineraryData}
+                                     display = {this.state.display}
+                                     updateDisplay = {this.updateDisplay}/>}
                 </Pane>
             );
         }
@@ -149,30 +117,14 @@ export default class Itinerary extends Component {
             if (this.state.display.findForm) {
                 return (
                     <Pane header={'FindForm'}>
-                        {this.FindForm()}
+                        {<FindForm settings = {this.props.settings}
+                                   createErrorBanner={this.props.createErrorBanner}
+                                   getFindData={this.getFindData}
+                                   display = {this.state.display}
+                                   updateDisplay = {this.updateDisplay}/>}
                     </Pane>
                 );
             }
-    }
-
-    ItineraryForm() {
-        return (
-            <ItineraryForm  settings = {this.props.settings}
-                            createErrorBanner={this.props.createErrorBanner}
-                            getItineraryData={this.getItineraryData}
-                            display = {this.state.display}
-                            updateDisplay = {this.updateDisplay}/>
-        )
-    }
-
-    FindForm(){
-        return (
-            <FindForm settings = {this.props.settings}
-                      createErrorBanner={this.props.createErrorBanner}
-                      getFindData={this.getFindData}
-                      display = {this.state.display}
-                      updateDisplay = {this.updateDisplay}/>)
-
     }
 
     renderFindTable(){
@@ -220,7 +172,7 @@ export default class Itinerary extends Component {
     }
 
     updateDisplay(display){
-         console.log("this",display);
+
          this.setState({display:display});
     }
 
@@ -277,67 +229,6 @@ export default class Itinerary extends Component {
             shadowUrl: iconShadow,
             iconAnchor: [12,40]  // for proper placement
         })
-    }
-
-    legDistanceButton() {
-        return (
-                <Button className={'btn-csu'} onClick={this.calculateLegDistance}>Itinerary</Button>
-        );
-    }
-
-
-    saveItineraryButton() {
-        return (
-                <Button className={'btn-csu'} onClick={this.saveItinerary}>Save Itinerary</Button>
-        );
-    }
-
-    addItineraryButton(){
-        return (
-            <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})}>Add to Itinerary</Button>
-        );
-    }
-    uploadItineraryButton(){
-        return (
-            <Button className={'btn-csu'} onClick={() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})}>Upload Itinerary</Button>
-        );
-    }
-    findItineraryButton(){
-        return (
-            <Button className={'btn-csu'} onClick={() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}>Find Place</Button>
-        );
-    }
-
-    // credit Koldev https://jsfiddle.net/koldev/cW7W5/
-    saveItinerary(){
-        const itinerary = {
-            'requestType': 'itinerary',
-            'requestVersion': this.state.itinerary.version,
-            'options': this.state.itinerary.options,
-            'places': this.state.itinerary.places,
-            'distances': this.state.itinerary.distances
-        };
-
-        if(itinerary) {
-
-            var saveData = (function () {
-                var a = document.createElement("a");
-                document.body.appendChild(a);
-                a.style = "display: none";
-                return function (data, fileName) {
-                    var json = JSON.stringify(data),
-                        blob = new Blob([json], {type: "octet/stream"}),
-                        url = window.URL.createObjectURL(blob);
-                    a.href = url;
-                    a.download = fileName;
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                };
-            }());
-
-            var fileName = "SavedItinerary.json";
-            saveData(itinerary, fileName);
-        }
     }
 
     callCalcLegDistance(){
