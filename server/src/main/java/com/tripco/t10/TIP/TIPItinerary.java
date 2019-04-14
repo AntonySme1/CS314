@@ -14,6 +14,8 @@ public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
     private ArrayList<Integer> distances = new ArrayList<>();
+    private Long distancesNN[];
+
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -27,13 +29,15 @@ public class TIPItinerary extends TIPHeader{
         this();
         this.options = options;
         this.places = places;
+
     }
 
-    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances,Long distancesNN[]) {
         this();
         this.options = options;
         this.places = places;
         this.distances = distances;
+        this.distancesNN=distancesNN;
     }
 
     public int calculateDistance(int position1, int position2){
@@ -110,16 +114,35 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
+    public Long[] getDistancesNN() {
+        return this.distancesNN;
+    }
+    public long[][] calculateTheDistances(Map<String, Object>[] visitedPlaces)
+    {
+        Map<String, Object> origin, destination;
+        GreatCircleDistance haversine = new GreatCircleDistance();
+        double earthRadius = getEarthRadius();
+        long[][] distances = new long[visitedPlaces.length][visitedPlaces.length];
+        for (int i = 0; i < visitedPlaces.length; i++) {
+            for (int j = i; j < visitedPlaces.length; j++) {
+                origin=visitedPlaces[i];
+                destination= visitedPlaces[j];
+                distances[i][j] = haversine.calculateGreatCircleDistance(origin, destination, getEarthRadius());
+                distances[j][i] = distances[i][j];
+            }
+        }
+        return distances;
+    }
 
- /*public static Integer[] nearestNeighbor(Object[] inputPlaces)
-        {
-        double earthRadius = Double.parseDouble((String) this.options.get("earthRadius"));
-        long shortestTourLength = Integer.MAX_VALUE;
-        Integer[] shortestTourIndexes = new Integer[inputPlaces.length];
-        Integer[] currentTourIndex = new Integer[inputPlaces.length];
-        long[][] distances = GreatCircleDistance.getDistance(inputPlaces, shortestTourIndexes, earthRadius);
-        for(int startingCity = 0; startingCity < inputPlaces.length; ++startingCity)
-        {
+// heavily influenced from https://codereview.stackexchange.com/questions/113025/tsp-via-nearest-neighbour
+public Integer[] nearestNeighbor(Map<String, Object>[] inputPlaces)
+{
+    long shortestTourLength = Integer.MAX_VALUE;
+    Integer[] shortestTourIndexes = new Integer[inputPlaces.length];
+    Integer[] currentTourIndex = new Integer[inputPlaces.length];
+    long[][] distances = this.calculateTheDistances(inputPlaces);
+    for(int startingCity = 0; startingCity < inputPlaces.length; ++startingCity)
+    {
         int currentCityIndex = 0;
         long currentTourLength = 0;
         boolean[] visitedCities = new boolean[inputPlaces.length];
@@ -127,31 +150,33 @@ public class TIPItinerary extends TIPHeader{
         currentTourIndex[currentCityIndex] = startingCity;
         while(currentCityIndex < currentTourIndex.length-1)
         {
-        long closestNeighborDistance = Integer.MAX_VALUE;
-        int closestNeighborIndex = -1;
-        for(int i = 0; i < inputPlaces.length; ++i)
-        {
-        long distanceToNeighbor = distances[currentTourIndex[currentCityIndex]][i];
-        if(!visitedCities[i] && distanceToNeighbor < closestNeighborDistance)
-        {
-        closestNeighborDistance = distanceToNeighbor;
-        closestNeighborIndex = i;
-        }
-        }
-        currentCityIndex=++currentCityIndex;
-        currentTourIndex[currentCityIndex] = closestNeighborIndex;
-        currentTourLength+=closestNeighborDistance;
-        visitedCities[closestNeighborIndex] = true;
+            long closestNeighborDistance = Integer.MAX_VALUE;
+            int closestNeighborIndex = -1;
+            for(int i = 0; i < inputPlaces.length; ++i)
+            {
+                long distanceToNeighbor = distances[currentTourIndex[currentCityIndex]][i];
+                if(!visitedCities[i] && distanceToNeighbor < closestNeighborDistance)
+                {
+                    closestNeighborDistance = distanceToNeighbor;
+                    closestNeighborIndex = i;
+                }
+            }
+            currentCityIndex=++currentCityIndex;
+            currentTourIndex[currentCityIndex] = closestNeighborIndex;
+            currentTourLength+=closestNeighborDistance;
+            visitedCities[closestNeighborIndex] = true;
         }
         currentTourLength+=distances[currentTourIndex[0]][currentTourIndex[currentTourIndex.length-1]];
         log.info("Tour Length: " + currentTourLength);
         if(currentTourLength < shortestTourLength){
-        shortestTourIndexes = currentTourIndex;
+            shortestTourIndexes = currentTourIndex;
         }
-        }
-        return shortestTourIndexes;
-        }
-        */
+    }
+    return shortestTourIndexes;
+}
+
+
+
 
     @Override
     public String toString() {
