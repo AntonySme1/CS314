@@ -59,7 +59,7 @@ export default class Application extends Component {
   }
 
   addUnit (data)  {
-  console.log(data);
+  //console.log(data);
   let jasper = Object.assign(this.state.planOptions.units, data);
   Cookies.set('units',jasper);
   Cookies.set('activeUnit', this.state.planOptions.activeUnit);

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,Row, Col, FormGroup, Input, Label, Button} from 'reactstrap';
 import Pane from '../Pane'
-
+import { isValidLatLon,parseLatLon,checkValidLatLonRange} from '../../../api/checkLatLon'
 
 const customInput = (props) =>{
   const latLon = ["Latitude","Longitude"];
@@ -19,7 +19,7 @@ return(
         return (<Col md={6} key={name}>
           <FormGroup>
             <Label for={name}>{name}</Label>
-            <Input type="number" name={name} id={name} placeholder={name} step = "any" required/>
+            <Input type="text" name={name} id={name} placeholder={name} required/>
           </FormGroup>
         </Col>)
       })}
@@ -47,9 +47,12 @@ const processForm = (props) => event => {
   const newPlaceLon = newPlace.get('Longitude');
   const newPlaceName = newPlace.get('Name');
 
-  const place = {"name": newPlaceName, "latitude": newPlaceLat, "longitude": newPlaceLon};
 
-  updateItinerary(props,place);
+  if (isValidLatLon(newPlaceLat,newPlaceLon)) {
+   const parsedLatLon = parseLatLon(newPlaceLat,newPlaceLon);
+   const place = {"name": newPlaceName, "latitude": parsedLatLon.lat.toString(), "longitude":parsedLatLon.lon.toString()};
+   updateItinerary(props, place);
+  }
   
 };
 

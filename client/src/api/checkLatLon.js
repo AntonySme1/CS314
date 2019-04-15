@@ -7,6 +7,10 @@ export const isValidLatLon = (lat,lon)=>{
     if (checkValidLatLonRange(parsedLatLon.lat,parsedLatLon.lon)){return true}
 
   }
+  else{
+    console.log("bad lat lon");
+  }
+
 
   return false;
 };

@@ -54,6 +54,7 @@ async readFile   (event) {
 
 setStateFromFile (fileContent) {
   const parsedJSON = JSON.parse(fileContent);
+  
   const itineraryObject = {
     requestVersion: parsedJSON.requestVersion,
     options: parsedJSON.options,
