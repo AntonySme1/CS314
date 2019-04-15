@@ -11,7 +11,7 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Jonathan Perea | |
-| Saurav Bhuju | |
+| Saurav Bhuju |15 min |
 | Patrick Keleher | 5 min |
 | Jack Fitzgerald | 5 min |
 
@@ -20,3 +20,4 @@
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
 | ItineraryTable.js:78,109 | move redundant code into a function  | low | Jack Fitzgerald | | 
+| Itinerary.js:152 | move maps into a different file  | low | Saurav Bhuju | | 
