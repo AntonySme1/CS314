@@ -82,12 +82,13 @@ public class TIPFind extends TIPHeader{
     private String setSearch(){
         String search = "";
         if(limit > 0){
-            search = "select id, name, municipality, latitude, longitude from colorado where name like '%" + match + "%'" +
-                    " or municipality like '%" + match + "%' or id like '%" + match + "%' limit " + limit;
+            search = "select id, name, municipality, latitude, longitude from colorado where name like '%"
+                    + match + "%'" + " or municipality like '%" + match + "%' or id like '%"
+                    + match + "%' limit " + limit;
         }
         else if(limit == 0){
-            search = "select id, name, municipality, latitude, longitude from colorado where name like '%" + match + "%'" +
-                    " or municipality like '%" + match + "%' or id like '%" + match + "%'";
+            search = "select id, name, municipality, latitude, longitude from colorado where name like '%"
+                    + match + "%'" + " or municipality like '%" + match + "%' or id like '%" + match + "%'";
         } else {
             //if negative value
             System.err.println("Limit must be an integer of zero or greater.");
@@ -111,8 +112,8 @@ public class TIPFind extends TIPHeader{
             pass = null;
         }
 
-        String count = "select count(*) from colorado where municipality like '%" + match +
-                "%' OR colorado.name like '%" + match + "%' OR colorado.id like '%" + match + "%'";
+        String count = "select count(*) from colorado where municipality like '%" + match
+                + "%' OR colorado.name like '%" + match + "%' OR colorado.id like '%" + match + "%'";
         String search = setSearch();
         try {
             Class.forName(myDriver);
