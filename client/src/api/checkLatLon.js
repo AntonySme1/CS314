@@ -4,8 +4,8 @@ import coordParser from 'coord-parser';
 export const isValidLatLon = (lat,lon)=>{
   const parsedLatLon = parseLatLon(lat,lon);
   if (isParseValid(parsedLatLon)){
-    if (checkValidLatLonRange(parsedLatLon.lat,parsedLatLon.lon)){}
-    return true
+    if (checkValidLatLonRange(parsedLatLon.lat,parsedLatLon.lon)){return true}
+
   }
 
   return false;
