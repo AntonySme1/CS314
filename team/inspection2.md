@@ -21,3 +21,4 @@
 | --- | --- | :---: | :---: | --- |
 | ItineraryTable.js:78,109 | move redundant code into a function  | low | Jack Fitzgerald | | 
 | Itinerary.js:152 | move maps into a different file  | low | Saurav Bhuju | | 
+| Itinerary.js.242 | optimize the leg dist function to >25 lines | low | Patrick Keleher | |
