@@ -10,7 +10,7 @@
 
 | Name | Preparation Time |
 | ---- | ---- |
-| Jonathan Perea | |
+| Jonathan Perea | 5 min |
 | Saurav Bhuju |15 min |
 | Patrick Keleher | 5 min |
 | Jack Fitzgerald | 5 min |
@@ -21,4 +21,6 @@
 | --- | --- | :---: | :---: | --- |
 | ItineraryTable.js:78,109 | move redundant code into a function  | low | Jack Fitzgerald | | 
 | Itinerary.js:152 | move maps into a different file  | low | Saurav Bhuju | | 
-| Itinerary.js.242 | optimize the leg dist function to >25 lines | low | Patrick Keleher | |
+| Itinerary.js:242 | optimize the leg dist function to >25 lines | low | Patrick Keleher | |
+| Itinerary.js:215 |  remove unused function coloradoGeographicBoundaries and reduce functions| low | Jonathan Perea | |
+
