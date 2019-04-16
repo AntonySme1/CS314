@@ -24,6 +24,8 @@ export const parseLatLon = (lat,lon) => {
 
   try {
     parsedLatLon = coordParser(latLon);
+    parsedLatLon.lat = parsedLatLon.lat.toString();
+    parsedLatLon.lon = parsedLatLon.lon.toString();
 
   }
   catch (e) {}

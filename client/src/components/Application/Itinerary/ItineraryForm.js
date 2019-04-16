@@ -55,18 +55,22 @@ async readFile   (event) {
 
 setStateFromFile (fileContent) {
   const parsedJSON = JSON.parse(fileContent);
-  const parsedPlaces = parsedJSON.places.map((place) => {
+  let parsedPlaces = parsedJSON.places.map((place) => {
     if (isValidLatLon(place.latitude,place.longitude)) {
-      console.log(place);
+
       const parseValue = parseLatLon(place.latitude,place.longitude);
-      place.latitude = parseValue.lat.toString();
-      place.longitude = parseValue.lon.toString();
+      place.latitude = parseValue.lat;
+      place.longitude = parseValue.lon;
 
       return place;
 
     };
   });
-  console.log("here",parsedPlaces);
+
+  parsedPlaces = parsedPlaces.filter(( element ) => {
+    return element !== undefined;
+  });
+
   const itineraryObject = {
     requestVersion: parsedJSON.requestVersion,
     options: parsedJSON.options,

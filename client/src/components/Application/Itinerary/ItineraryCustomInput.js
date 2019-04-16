@@ -39,7 +39,7 @@ return(
 );
 };
 
-const processForm = (props) => event => {
+export const processForm = (props) => event => {
   event.preventDefault();
   const newPlace = new FormData(event.target);
 

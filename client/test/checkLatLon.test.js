@@ -8,6 +8,7 @@ function checkCoordinates() {
   expect(isValidLatLon("5","10")).toBe(true);
   expect(isValidLatLon("garbage","value")).toBe(false);
   expect(isValidLatLon("900","2")).toBe(false);
+  expect(isValidLatLon("39.87","yy")).toBe(false);
 
 }
 
