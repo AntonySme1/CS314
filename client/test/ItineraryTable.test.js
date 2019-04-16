@@ -15,6 +15,27 @@ const startProperties = {
     }
 };
 
+function testUpdateItinerary () {
+    let lastPlace = startProperties.itinerary.places[3];
+    let lastDistance = startProperties.itinerary.distances[3];
+
+    updateItinerary(startProperties, 0, 3);
+
+    expect(startProperties.itinerary.places).not.toContain(lastPlace);
+    expect(startProperties.itinerary.distances).not.toContain(lastDistance);
+}
+
+test('testing updateItinerary() function', testUpdateItinerary);
+
+function testCumulativeDistance() {
+    let cumulativeArray = [];
+    getCumulativeDistance(startProperties.itinerary, cumulativeArray);
+
+    expect(cumulativeArray).toEqual([24, 65, 124]);
+}
+
+test('testing getCumulativeDistance() function', testCumulativeDistance);
+
 function testMoveToFirst() {
     moveToFirst(startProperties, 0, 2);
     expect(startProperties.itinerary.places[0].name).toBe("Fort Collins");
@@ -51,18 +72,6 @@ function testReverseItinerary () {
 }
 
 test('testing reverseItinerary() function', testReverseItinerary);
-
-function testUpdateItinerary () {
-    let lastPlace = startProperties.itinerary.places[3];
-    let lastDistance = startProperties.itinerary.distances[3];
-
-    updateItinerary(startProperties, 0, 3);
-
-    expect(startProperties.itinerary.places).not.toContain(lastPlace);
-    expect(startProperties.itinerary.distances).not.toContain(lastDistance);
-}
-
-test('testing updateItinerary() function', testUpdateItinerary);
 
 
 
