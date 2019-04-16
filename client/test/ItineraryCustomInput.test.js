@@ -5,7 +5,7 @@ import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ItineraryCustomInput from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import {getOriginalServerPort} from '../src/api/restfulAPI';
-
+import {processForm} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 
 const startProperties = {
   serverConfig: null,
@@ -67,3 +67,5 @@ function itineraryCustomInputTest() {
 }
 
 test('Testing that the ItineraryCustom component updates main Itinerary',  itineraryCustomInputTest);
+
+

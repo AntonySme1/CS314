@@ -14,6 +14,7 @@ import {sendServerRequestWithBody} from "../../../api/restfulAPI";
 import ItineraryCustomInput from "./ItineraryCustomInput";
 import saveItinerary from "./ItinerarySave";
 import ItineraryOptions from "./ItineraryOptions";
+
 /*
  * Renders the itinerary page.
  */
