@@ -1,4 +1,6 @@
 import {moveToFirst, moveUp, moveDown} from '../src/components/Application/Itinerary/ItineraryTable.js';
+import {reverseItinerary, updateItinerary} from '../src/components/Application/Itinerary/ItineraryTable.js';
+import {getCumulativeDistance, getTotalDistance} from '../src/components/Application/Itinerary/ItineraryTable.js';
 
 const startProperties = {
     getItineraryData: (itineraryObject) => {},
@@ -10,7 +12,6 @@ const startProperties = {
         ]
     }
 };
-
 
 function testMoveToFirst() {
     moveToFirst(startProperties, 0, 2);

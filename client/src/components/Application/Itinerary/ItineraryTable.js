@@ -132,4 +132,6 @@ const reverseItinerary = (props) => {
 
 export default ItineraryTable;
 
+export {getCumulativeDistance, getTotalDistance};
 export {moveDown, moveUp, moveToFirst};
+export {updateItinerary, reverseItinerary};
