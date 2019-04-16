@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Button, FormGroup} from 'reactstrap'
 import { Form, Label, CustomInput} from 'reactstrap'
+import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
 
 export default class ItineraryForm extends Component {
 
@@ -54,13 +55,25 @@ async readFile   (event) {
 
 setStateFromFile (fileContent) {
   const parsedJSON = JSON.parse(fileContent);
-  
+  const parsedPlaces = parsedJSON.places.map((place) => {
+    if (isValidLatLon(place.latitude,place.longitude)) {
+      console.log(place);
+      const parseValue = parseLatLon(place.latitude,place.longitude);
+      place.latitude = parseValue.lat.toString();
+      place.longitude = parseValue.lon.toString();
+
+      return place;
+
+    };
+  });
+  console.log("here",parsedPlaces);
   const itineraryObject = {
     requestVersion: parsedJSON.requestVersion,
     options: parsedJSON.options,
-    places: parsedJSON.places,
+    places: parsedPlaces,
     distances: []
   };
+
   this.props.getItineraryData(itineraryObject);
 }
 

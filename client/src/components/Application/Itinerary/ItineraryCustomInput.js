@@ -50,7 +50,7 @@ const processForm = (props) => event => {
 
   if (isValidLatLon(newPlaceLat,newPlaceLon)) {
    const parsedLatLon = parseLatLon(newPlaceLat,newPlaceLon);
-   const place = {"name": newPlaceName, "latitude": parsedLatLon.lat.toString(), "longitude":parsedLatLon.lon.toString()};
+   const place = {"name": newPlaceName, "latitude": parsedLatLon.lat, "longitude":parsedLatLon.lon};
    updateItinerary(props, place);
   }
   

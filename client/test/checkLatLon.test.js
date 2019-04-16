@@ -15,7 +15,7 @@ test('Testing that the coordinate are valid', checkCoordinates);
 
 function checkParseCoordinates() {
 
-  expect(parseLatLon("59°12\'7.7“N","02°15\'39.6“W")).toEqual({"lat": 59.20213888888889, "lon": -2.261});
+  expect(parseLatLon("59°12\'7.7“N","02°15\'39.6“W")).toEqual({"lat": "59.20213888888889", "lon": "-2.261"});
 
 }
 test('Testing that the coordinate are parsed', checkParseCoordinates);
