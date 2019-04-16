@@ -13,7 +13,8 @@ import java.util.Map;
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private ArrayList<Integer> distances = new ArrayList<>();
+    private int[] distances;
+//    private ArrayList<Integer> distances = new ArrayList<>();
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -29,7 +30,8 @@ public class TIPItinerary extends TIPHeader{
         this.places = places;
     }
 
-    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+//    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
         this();
         this.options = options;
         this.places = places;
@@ -71,8 +73,12 @@ public class TIPItinerary extends TIPHeader{
         return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
     }
 
-    public ArrayList<Integer> fillDistances(){
-        for(int i = 0; i < places.size(); ++i){
+//    public ArrayList<Integer> fillDistances(){
+    public int[] fillDistances(){
+
+        distances = new int[places.size()];
+
+    for(int i = 0; i < places.size(); ++i){
             int leg_distance = 0;
             if(i == places.size()-1){
                 leg_distance = calculateDistance(i, 0);
@@ -80,7 +86,8 @@ public class TIPItinerary extends TIPHeader{
                 leg_distance = calculateDistance(i, i + 1);
             }
             log.trace("Leg Distance[ " + i + "] = " + leg_distance);
-            this.distances.add(leg_distance);
+            distances[i] = leg_distance;
+            //            this.distances.add(leg_distance);
         }
         return distances;
     }
@@ -100,7 +107,11 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-    public ArrayList<Integer> getDistances(){
+//    public ArrayList<Integer> getDistances(){
+//        return this.distances;
+//    }
+
+    public int[] getDistances(){
         return this.distances;
     }
 
