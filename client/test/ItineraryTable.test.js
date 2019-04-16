@@ -52,7 +52,17 @@ function testReverseItinerary () {
 
 test('testing reverseItinerary() function', testReverseItinerary);
 
+function testUpdateItinerary () {
+    let lastPlace = startProperties.itinerary.places[3];
+    let lastDistance = startProperties.itinerary.distances[3];
 
+    updateItinerary(startProperties, 0, 3);
+
+    expect(startProperties.itinerary.places).not.toContain(lastPlace);
+    expect(startProperties.itinerary.distances).not.toContain(lastDistance);
+}
+
+test('testing updateItinerary() function', testUpdateItinerary);
 
 
 
