@@ -8,8 +8,10 @@ const startProperties = {
         places: [
             {"name": "Denver", "latitude": "39.7", "longitude": "-105.0"},
             {"name": "Boulder", "latitude": "40.0", "longitude": "-105.4"},
-            {"name": "Fort Collins", "latitude": "40.6", "longitude": "-105.1"}
-        ]
+            {"name": "Fort Collins", "latitude": "40.6", "longitude": "-105.1"},
+            {"name": "somewhere", "latitude": "0", "longitude": "0"}
+        ],
+        distances: [24, 41, 59, 9999]
     }
 };
 
@@ -35,6 +37,24 @@ function testMoveDown() {
 }
 
 test('testing moveDown() function', testMoveDown);
+
+function testReverseItinerary () {
+    let indexOfLastPlace = startProperties.itinerary.places.length - 1;
+    let indexOfLastDistance = startProperties.itinerary.distances.length - 1;
+    let secondPlace = startProperties.itinerary.places[1];
+    let secondDistance = startProperties.itinerary.distances[1];
+
+    reverseItinerary(startProperties);
+
+    expect(startProperties.itinerary.places[indexOfLastPlace - 1]).toBe(secondPlace);
+    expect(startProperties.itinerary.distances[indexOfLastDistance - 1]).toBe(secondDistance);
+}
+
+test('testing reverseItinerary() function', testReverseItinerary);
+
+
+
+
 
 
 
