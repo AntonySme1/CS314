@@ -131,3 +131,5 @@ const reverseItinerary = (props) => {
 };
 
 export default ItineraryTable;
+
+export {moveDown, moveUp, moveToFirst};
