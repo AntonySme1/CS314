@@ -19,3 +19,11 @@ function testMoveToFirst() {
 
 test('testing moveToFirst() function', testMoveToFirst);
 
+function testMoveUp(){
+    let secondPlace = startProperties.itinerary.places[1];
+    moveUp(startProperties, 0, 1);
+    expect(startProperties.itinerary.places[0]).toBe(secondPlace);
+}
+
+test('testing moveUp() function', testMoveUp);
+
