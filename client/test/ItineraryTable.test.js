@@ -36,6 +36,14 @@ function testCumulativeDistance() {
 
 test('testing getCumulativeDistance() function', testCumulativeDistance);
 
+function testTotalDistance() {
+    let totalSum = getTotalDistance(startProperties);
+
+    expect(totalSum).toEqual(124);
+}
+
+test('testing getTotalDistance() function', testTotalDistance);
+
 function testMoveToFirst() {
     moveToFirst(startProperties, 0, 2);
     expect(startProperties.itinerary.places[0].name).toBe("Fort Collins");
