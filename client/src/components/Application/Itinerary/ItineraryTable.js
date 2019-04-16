@@ -53,7 +53,7 @@ const generateTableData = (props) =>{
         }))
 };
 
-const getCumulativeDistance = (itinerary, cumulativeArray) => {
+export const getCumulativeDistance = (itinerary, cumulativeArray) => {
 
         let sum = 0;
         itinerary.distances.forEach((item) => {
@@ -64,7 +64,7 @@ const getCumulativeDistance = (itinerary, cumulativeArray) => {
 
 };
 
-const getTotalDistance = (props) => {
+export const getTotalDistance = (props) => {
 
         let sum = 0;
         props.itinerary.distances.forEach((item) => {
@@ -75,40 +75,34 @@ const getTotalDistance = (props) => {
 
 };
 
-const moveToFirst = (props,place,index) => {
-    let itineraryObject = Object.assign({}, props.itinerary);
-
+export const moveToFirst = (props,place,index) => {
     if(index !== 0) {
-        let temporaryPlace = itineraryObject.places[index];
-        itineraryObject.places[index] = itineraryObject.places[0];
-        itineraryObject.places[0] = temporaryPlace;
-        props.getItineraryData(itineraryObject);
+        movePlace(props, index, 0);
     }
 };
 
-const moveUp = (props,place,index) => {
-    let itineraryObject = Object.assign({}, props.itinerary);
-
+export const moveUp = (props,place,index) => {
     if(index !== 0) {
-        let temporaryPlace = itineraryObject.places[index];
-        itineraryObject.places[index] = itineraryObject.places[index - 1];
-        itineraryObject.places[index - 1] = temporaryPlace;
-        props.getItineraryData(itineraryObject);
+        movePlace(props, index, index - 1);
     }
 };
 
-const moveDown = (props,place,index) => {
+export const moveDown = (props,place,index) => {
+    if(index !== props.itinerary.places.length-1) {
+        movePlace(props, index, index + 1);
+    }
+};
+
+export const movePlace = (props, index, newIndex) => {
     let itineraryObject = Object.assign({}, props.itinerary);
 
-    if(index !== itineraryObject.places.length-1) {
-        let temporaryPlace = itineraryObject.places[index];
-        itineraryObject.places[index] = itineraryObject.places[index + 1];
-        itineraryObject.places[index + 1] = temporaryPlace;
-        props.getItineraryData(itineraryObject);
-    }
+    let temporaryPlace = itineraryObject.places[index];
+    itineraryObject.places[index] = itineraryObject.places[newIndex];
+    itineraryObject.places[newIndex] = temporaryPlace;
+    props.getItineraryData(itineraryObject);
 };
 
-const updateItinerary = (props,place,index) => {
+export const updateItinerary = (props,place,index) => {
 
   let aTest = Object.assign({}, props.itinerary);
 
@@ -119,7 +113,7 @@ const updateItinerary = (props,place,index) => {
 
 };
 
-const reverseItinerary = (props) => {
+export const reverseItinerary = (props) => {
 
   let aTest = Object.assign({}, props.itinerary);
 
@@ -131,7 +125,3 @@ const reverseItinerary = (props) => {
 };
 
 export default ItineraryTable;
-
-export {getCumulativeDistance, getTotalDistance};
-export {moveDown, moveUp, moveToFirst};
-export {updateItinerary, reverseItinerary};
