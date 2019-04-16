@@ -2,6 +2,7 @@ import {moveToFirst, moveUp, moveDown} from '../src/components/Application/Itine
 import {reverseItinerary, updateItinerary} from '../src/components/Application/Itinerary/ItineraryTable.js';
 import {getCumulativeDistance, getTotalDistance} from '../src/components/Application/Itinerary/ItineraryTable.js';
 
+//startProperties will change throughout the course of the test, so be aware of hardcoding expected values
 const startProperties = {
     getItineraryData: (itineraryObject) => {},
     itinerary: {
@@ -80,8 +81,3 @@ function testReverseItinerary () {
 }
 
 test('testing reverseItinerary() function', testReverseItinerary);
-
-
-
-
-
