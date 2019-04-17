@@ -19,7 +19,7 @@ public class TIPItinerary extends TIPHeader{
 
     private TIPItinerary() {
         this.requestType = "itinerary";
-        this.requestVersion = 3;
+        this.requestVersion = 4;
     }
 
     //for testing purposes, optional distances
@@ -134,11 +134,10 @@ public class TIPItinerary extends TIPHeader{
             log.info("Tour Length: " + currentTour);
             if (currentTour.size() <= shortestTourSize){
                 shortestTour = currentTour;
-            }
+            }}
             return shortestTour;
-            }
         }
-    }
+
 
     @Override
     public String toString() {
