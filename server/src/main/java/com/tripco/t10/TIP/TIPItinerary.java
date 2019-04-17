@@ -110,6 +110,7 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
+    public ArrayList<Integer>  nearestNeighbor(JsonArray places) {}
 
     @Override
     public String toString() {
