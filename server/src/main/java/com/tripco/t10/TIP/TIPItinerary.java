@@ -111,6 +111,48 @@ public class TIPItinerary extends TIPHeader{
         setOptimization();
     }
 
+    public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
+      //  long shortestTourSize = Integer.MAX_VALUE;
+     //   ArrayList<Integer>  shortestTour =  new ArrayList<>();
+    //    ArrayList<Integer>  currentTour=  new ArrayList<>();
+      //  long[][] distances = this.calculateDistance(inputPlaces);
+     //   for(int startingCity = 0; startingCity < places.size(); ++startingCity)
+    //    {
+       //     int currentCityIndex = 0;
+         //   long currentTourLength = 0;
+         //   boolean[] visitedCities = new boolean[places.size()];
+         //   visitedCities[startingCity] = true;
+         //   currentTour.set(currentCityIndex,startingCity);
+         //   while(currentCityIndex < currentTour.size()-1)
+         //   {
+         //       long closestNeighborDistance = Integer.MAX_VALUE;
+        //        int closestNeighborIndex = -1;
+         //       for(int i = 0; i < places.size(); ++i)
+          //      {
+                //    long distanceToNeighbor = distances[currentTourIndex.get(currentCityIndex)][i];
+                   // if(!visitedCities[i] /*&& distanceToNeighbor */< closestNeighborDistance)
+                   // {
+                    //    closestNeighborDistance = distanceToNeighbor;
+                  //      closestNeighborIndex = i;
+                   // }
+              //  }
+
+         //       currentCityIndex=++currentCityIndex;
+        //        currentTour.set(currentCityIndex,closestNeighborIndex);
+              //  currentTourLength+=closestNeighborDistance;
+        //        visitedCities[closestNeighborIndex] = true;
+           // }
+           // currentTourLength+=distances[currentTourIndex.at(0)][currentTourIndex.at(currentTourIndex.size()-1)];
+        //    log.info("Tour Length: " + currentTourLength);
+        //    if(currentTourLength < shortestTourSize){
+         //       shortestTour = currentTour;
+       //     }
+     //   }
+       // return shortestTour;
+    }
+
+
+
     @Override
     public String toString() {
         return "TIPItinerary{" +
