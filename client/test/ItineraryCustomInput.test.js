@@ -5,7 +5,7 @@ import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ItineraryCustomInput from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import {getOriginalServerPort} from '../src/api/restfulAPI';
-import {processForm} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
+import {processForm, updateItinerary} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 
 const startProperties = {
   serverConfig: null,
@@ -24,7 +24,8 @@ const startProperties = {
     places: [],
     distances: [],
   },
-  updateItinerary: () => {}
+  updateItinerary: () => {},
+  getItineraryData: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -67,5 +68,14 @@ function itineraryCustomInputTest() {
 }
 
 test('Testing that the ItineraryCustom component updates main Itinerary',  itineraryCustomInputTest);
+
+function testUpdateItinerary(){
+  let place ={"name": "test", "latitude": "5", "longitude": "10"};
+ updateItinerary(startProperties,place);
+ expect(startProperties.itinerary.places).toContain(place);
+}
+
+test('Testing that the UpdateItinerary works',  testUpdateItinerary);
+
 
 

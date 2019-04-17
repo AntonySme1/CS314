@@ -64,7 +64,7 @@ const renderItineraryCustomInput = (props) =>{
   );
 };
 
-const updateItinerary = (props,place) => {
+export const updateItinerary = (props,place) => {
 
   let itinerary = Object.assign({}, props.itinerary);
   itinerary.places.push(place);
