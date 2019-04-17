@@ -6,15 +6,13 @@ import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private int[] distances;
-//    private ArrayList<Integer> distances = new ArrayList<>();
+    private int[] distances = new int[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -30,7 +28,6 @@ public class TIPItinerary extends TIPHeader{
         this.places = places;
     }
 
-//    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
     TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
         this();
         this.options = options;
@@ -73,7 +70,6 @@ public class TIPItinerary extends TIPHeader{
         return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
     }
 
-//    public ArrayList<Integer> fillDistances(){
     public int[] fillDistances(){
 
         distances = new int[places.size()];
@@ -87,7 +83,6 @@ public class TIPItinerary extends TIPHeader{
             }
             log.trace("Leg Distance[ " + i + "] = " + leg_distance);
             distances[i] = leg_distance;
-            //            this.distances.add(leg_distance);
         }
         return distances;
     }
@@ -107,10 +102,6 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-//    public ArrayList<Integer> getDistances(){
-//        return this.distances;
-//    }
-
     public int[] getDistances(){
         return this.distances;
     }
@@ -118,6 +109,7 @@ public class TIPItinerary extends TIPHeader{
     @Override
     public void buildResponse() {
         this.distances = fillDistances();
+
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
