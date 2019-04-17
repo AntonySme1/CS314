@@ -19,7 +19,7 @@ public class TIPItinerary extends TIPHeader{
 
     private TIPItinerary() {
         this.requestType = "itinerary";
-        this.requestVersion = 3;
+        this.requestVersion = 4;
     }
 
     //for testing purposes, optional distances
@@ -110,7 +110,6 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
-
     public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
         long shortestTourSize = Integer.MAX_VALUE;
         ArrayList<Integer> shortestTour = new ArrayList<>();
@@ -128,21 +127,17 @@ public class TIPItinerary extends TIPHeader{
                 for (int i = 0; i < places.size(); ++i) {
                     closestNeighborIndex = i;
                 }
-
-
                 currentCityIndex = ++currentCityIndex;
                 currentTour.set(currentCityIndex, closestNeighborIndex);
                 currentTourLength += closestNeighborDistance;
                 visitedCities[closestNeighborIndex] = true;
             }
-
             log.info("Tour Length: " + currentTour);
             if (currentTour.size() <= shortestTourSize){
                 shortestTour = currentTour;
             }}
 
             return shortestTour;
-
     }
 
 
