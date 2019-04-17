@@ -5,7 +5,7 @@ import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ItineraryCustomInput from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import {getOriginalServerPort} from '../src/api/restfulAPI';
-import {processForm, updateItinerary} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
+import {hideForm, updateItinerary} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 
 const startProperties = {
   serverConfig: null,
@@ -24,8 +24,10 @@ const startProperties = {
     places: [],
     distances: [],
   },
+  display:{ itineraryCustomInput: true},
   updateItinerary: () => {},
-  getItineraryData: () => {}
+  getItineraryData: () => {},
+  updateDisplay: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -76,6 +78,15 @@ function testUpdateItinerary(){
 }
 
 test('Testing that the UpdateItinerary works',  testUpdateItinerary);
+
+function testHideForm(){
+
+  hideForm(startProperties);
+
+  //expect(startProperties.display.itineraryCustomInput).toBe(true);
+}
+
+test('Testing that the hideForm works',  testHideForm);
 
 
 
