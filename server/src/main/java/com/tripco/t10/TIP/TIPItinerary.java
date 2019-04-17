@@ -143,7 +143,7 @@ public class TIPItinerary extends TIPHeader{
             }
             long totalDistance = calculateTotalDistance(distances);
 
-            if (compareTotalToShortest(shortestTourCumulativeDistance, totalDistance)){
+            if (totalDistance < shortestTourCumulativeDistance){
                 shortestTour = newTour;
                 shortestTourCumulativeDistance = totalDistance;
             }
@@ -168,11 +168,6 @@ public class TIPItinerary extends TIPHeader{
         }
         return totalDistance;
     }
-
-    private boolean compareTotalToShortest(long shortestTourCumulativeDistance, long totalDistance) {
-        return totalDistance < shortestTourCumulativeDistance;
-    }
-
 
     @Override
     public String toString() {
