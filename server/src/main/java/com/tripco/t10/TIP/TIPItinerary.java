@@ -143,8 +143,8 @@ public class TIPItinerary extends TIPHeader{
            if(currentTour= < shortestTourSize){
                shortestTour = currentTour;
            }
-     //   }
-       // return shortestTour;
+       }
+           return shortestTour;
     }
 
 
