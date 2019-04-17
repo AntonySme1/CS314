@@ -110,7 +110,12 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
-    public ArrayList<Integer>  nearestNeighbor(JsonArray places) {}
+    public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
+        long shortestTourSize = Integer.MAX_VALUE;
+        ArrayList<Integer> shortestTour = new ArrayList<>();
+        ArrayList<Integer> currentTour = new ArrayList<>();
+
+    }
 
     @Override
     public String toString() {
