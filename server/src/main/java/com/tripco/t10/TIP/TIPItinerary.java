@@ -113,40 +113,37 @@ public class TIPItinerary extends TIPHeader{
 
     public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
         long shortestTourSize = Integer.MAX_VALUE;
-        ArrayList<Integer>  shortestTour =  new ArrayList<>();
-        ArrayList<Integer>  currentTour=  new ArrayList<>();
+        ArrayList<Integer> shortestTour = new ArrayList<>();
+        ArrayList<Integer> currentTour = new ArrayList<>();
 
-        for(int startingCity = 0; startingCity < places.size(); ++startingCity)
-        {
+        for (int startingCity = 0; startingCity < places.size(); ++startingCity) {
             int currentCityIndex = 0;
             long currentTourLength = 0;
             boolean[] visitedCities = new boolean[places.size()];
-           visitedCities[startingCity] = true;
-           currentTour.set(currentCityIndex,startingCity);
-            while(currentCityIndex < currentTour.size()-1)
-            {
+            visitedCities[startingCity] = true;
+            currentTour.set(currentCityIndex, startingCity);
+            while (currentCityIndex < currentTour.size() - 1) {
                 long closestNeighborDistance = Integer.MAX_VALUE;
                 int closestNeighborIndex = -1;
-                for(int i = 0; i < places.size(); ++i)
-                {
-                       closestNeighborIndex = i;
-                    }
+                for (int i = 0; i < places.size(); ++i) {
+                    closestNeighborIndex = i;
                 }
 
-               currentCityIndex=++currentCityIndex;
-               currentTour.set(currentCityIndex,closestNeighborIndex);
-               currentTourLength+=closestNeighborDistance;
-               visitedCities[closestNeighborIndex] = true;
+
+                currentCityIndex = ++currentCityIndex;
+                currentTour.set(currentCityIndex, closestNeighborIndex);
+                currentTourLength += closestNeighborDistance;
+                visitedCities[closestNeighborIndex] = true;
             }
 
             log.info("Tour Length: " + currentTour);
-           if(currentTour= < shortestTourSize){
-               shortestTour = currentTour;
-           }
-       }
-           return shortestTour;
-    }
+            if (currentTour = <shortestTourSize){
+                shortestTour = currentTour;
+            }
 
+            return shortestTour;
+        }
+    }
 
 
     @Override
