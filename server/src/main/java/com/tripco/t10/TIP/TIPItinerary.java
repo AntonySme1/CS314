@@ -129,14 +129,12 @@ public class TIPItinerary extends TIPHeader{
                 int closestNeighborIndex = -1;
                 for(int i = 0; i < places.size(); ++i)
                 {
-
-
                        closestNeighborIndex = i;
                     }
                 }
 
-         //       currentCityIndex=++currentCityIndex;
-        //        currentTour.set(currentCityIndex,closestNeighborIndex);
+               currentCityIndex=++currentCityIndex;
+               currentTour.set(currentCityIndex,closestNeighborIndex);
               //  currentTourLength+=closestNeighborDistance;
         //        visitedCities[closestNeighborIndex] = true;
            // }
