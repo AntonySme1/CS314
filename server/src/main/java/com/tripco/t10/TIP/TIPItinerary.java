@@ -115,6 +115,10 @@ public class TIPItinerary extends TIPHeader{
         ArrayList<Integer> shortestTour = new ArrayList<>();
         ArrayList<Integer> currentTour = new ArrayList<>();
         for (int startingCity = 0; startingCity < places.size(); ++startingCity) {
+            int currentCityIndex = 0;
+            long currentTourLength = 0;
+            boolean[] visitedCities = new boolean[places.size()];
+        }
     }
 
     @Override
