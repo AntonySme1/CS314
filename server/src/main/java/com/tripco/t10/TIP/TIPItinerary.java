@@ -115,11 +115,11 @@ public class TIPItinerary extends TIPHeader{
         long shortestTourSize = Integer.MAX_VALUE;
         ArrayList<Integer>  shortestTour =  new ArrayList<>();
         ArrayList<Integer>  currentTour=  new ArrayList<>();
-      //  long[][] distances = this.calculateDistance(inputPlaces);
-     //   for(int startingCity = 0; startingCity < places.size(); ++startingCity)
-    //    {
-       //     int currentCityIndex = 0;
-         //   long currentTourLength = 0;
+
+        for(int startingCity = 0; startingCity < places.size(); ++startingCity)
+        {
+            int currentCityIndex = 0;
+            long currentTourLength = 0;
          //   boolean[] visitedCities = new boolean[places.size()];
          //   visitedCities[startingCity] = true;
          //   currentTour.set(currentCityIndex,startingCity);
@@ -135,7 +135,7 @@ public class TIPItinerary extends TIPHeader{
                     //    closestNeighborDistance = distanceToNeighbor;
                   //      closestNeighborIndex = i;
                    // }
-              //  }
+                }
 
          //       currentCityIndex=++currentCityIndex;
         //        currentTour.set(currentCityIndex,closestNeighborIndex);
