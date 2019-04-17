@@ -5,9 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
@@ -122,21 +127,7 @@ public class TIPItinerary extends TIPHeader{
             tempPlaces.remove(startingCity);
             ArrayList<Long> distances = new ArrayList<>();
             for (int i = 0; i < places.size() - 1; ++i) {
-                long closestNeighborDistance = Integer.MAX_VALUE;
-                int closestNeighborIndex = -1;
-                long distance = -1;
-                Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
-                for (int j = 0; j < tempPlaces.size(); ++j) {
-                    Map<String, String> destination = createMapFromPlace(tempPlaces.get(i));
-                    distance = sourceToDestinationDistance(source, destination);
-                    if (distance < closestNeighborDistance) {
-                        closestNeighborDistance = distance;
-                        closestNeighborIndex = i;
-                    }
-                }
-                distances.add(distance);
-                newTour.add(tempPlaces.get(closestNeighborIndex));
-                tempPlaces.remove(closestNeighborIndex);
+                findClosestNeighbor(newTour, tempPlaces, distances);
             }
             long totalDistance = calculateTotalDistance(distances);
 
@@ -146,6 +137,24 @@ public class TIPItinerary extends TIPHeader{
             }
         }
         return shortestTour;
+    }
+
+    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
+        long closestNeighborDistance = Integer.MAX_VALUE;
+        int closestNeighborIndex = -1;
+        long distance = -1;
+        Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
+        for (int j = 0; j < tempPlaces.size(); ++j) {
+            Map<String, String> destination = createMapFromPlace(tempPlaces.get(j));
+            distance = sourceToDestinationDistance(source, destination);
+            if (distance < closestNeighborDistance) {
+                closestNeighborDistance = distance;
+                closestNeighborIndex = j;
+            }
+        }
+        distances.add(distance);
+        newTour.add(tempPlaces.get(closestNeighborIndex));
+        tempPlaces.remove(closestNeighborIndex);
     }
 
     private long sourceToDestinationDistance(Map<String, String> source, Map<String, String> destination) {
