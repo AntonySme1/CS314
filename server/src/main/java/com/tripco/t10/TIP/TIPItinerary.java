@@ -137,12 +137,12 @@ public class TIPItinerary extends TIPHeader{
                currentTour.set(currentCityIndex,closestNeighborIndex);
                currentTourLength+=closestNeighborDistance;
                visitedCities[closestNeighborIndex] = true;
-           // }
-           // currentTourLength+=distances[currentTourIndex.at(0)][currentTourIndex.at(currentTourIndex.size()-1)];
-        //    log.info("Tour Length: " + currentTourLength);
-        //    if(currentTourLength < shortestTourSize){
-         //       shortestTour = currentTour;
-       //     }
+            }
+
+            log.info("Tour Length: " + currentTour);
+           if(currentTour= < shortestTourSize){
+               shortestTour = currentTour;
+           }
      //   }
        // return shortestTour;
     }
