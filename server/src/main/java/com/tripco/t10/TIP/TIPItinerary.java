@@ -109,6 +109,7 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
+
     public JsonArray nearestNeighbor(JsonArray places) {
         long shortestTourCumulativeDistance = Integer.MAX_VALUE;
         JsonArray shortestTour = new JsonArray();
@@ -120,26 +121,14 @@ public class TIPItinerary extends TIPHeader{
             tempPlaces.remove(startingCity);
             ArrayList<Long> distances = new ArrayList<>();
             for (int currentCity = 0; currentCity < places.size(); ++currentCity) {
-                JsonElement temp1 = newTour.get(newTour.size() - 1);
-                JsonObject currentPlace = temp1.getAsJsonObject();
-                String currentPlaceLatitude = currentPlace.get("latitude").getAsString();
-                String currentPlaceLongitude = currentPlace.get("longitude").getAsString();
                 long closestNeighborDistance = Integer.MAX_VALUE;
                 int closestNeighborIndex = -1;
-                Map<String, String> currentLatLon = new HashMap<>();
-                currentLatLon.put("latitude", currentPlaceLatitude);
-                currentLatLon.put("longitude", currentPlaceLongitude);
                 long distance = -1;
+                Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
                 for (int i = 0; i < tempPlaces.size(); ++i) {
-                    JsonElement temp2 = tempPlaces.get(i);
-                    JsonObject placeBeingChecked = temp2.getAsJsonObject();
-                    String checkedPlaceLatitude = placeBeingChecked.get("latitude").getAsString();
-                    String checkedPlaceLongitude = placeBeingChecked.get("longitude").getAsString();
-                    Map<String, String> checkedLatLon = new HashMap<>();
-                    checkedLatLon.put("latitude", checkedPlaceLatitude);
-                    checkedLatLon.put("longitude", checkedPlaceLongitude);
+                    Map<String, String> destination = createMapFromPlace(tempPlaces.get(i));
                     GreatCircleDistance gcd = new GreatCircleDistance();
-                    distance = gcd.calculateGreatCircleDistance(currentLatLon, checkedLatLon, this.getEarthRadius());
+                    distance = gcd.calculateGreatCircleDistance(source, destination, this.getEarthRadius());
                     if (distance < closestNeighborDistance) {
                         closestNeighborDistance = distance;
                         closestNeighborIndex = i;
@@ -151,19 +140,37 @@ public class TIPItinerary extends TIPHeader{
                     tempPlaces.remove(closestNeighborIndex);
                 }
             }
-            long totalDistance = 0;
-            for (long distance : distances) {
-                totalDistance += distance;
-            }
-            if (totalDistance < shortestTourCumulativeDistance){
-                shortestTourCumulativeDistance = totalDistance;
+            long totalDistance = calculateTotalDistance(distances);
+
+            if (compareTotalToShortest(shortestTourCumulativeDistance, totalDistance)){
                 shortestTour = newTour;
+                shortestTourCumulativeDistance = totalDistance;
             }
         }
         return shortestTour;
     }
 
+    private Map<String, String> createMapFromPlace(JsonElement place) {
+        JsonObject placeObject = place.getAsJsonObject();
+        String currentPlaceLatitude = placeObject.get("latitude").getAsString();
+        String currentPlaceLongitude = placeObject.get("longitude").getAsString();
+        Map<String, String> placeLatLon = new HashMap<>();
+        placeLatLon.put("latitude", currentPlaceLatitude);
+        placeLatLon.put("longitude", currentPlaceLongitude);
+        return placeLatLon;
+    }
 
+    private long calculateTotalDistance(ArrayList<Long> distances) {
+        long totalDistance = 0;
+        for (long distance : distances) {
+            totalDistance += distance;
+        }
+        return totalDistance;
+    }
+
+    private boolean compareTotalToShortest(long shortestTourCumulativeDistance, long totalDistance) {
+        return totalDistance < shortestTourCumulativeDistance;
+    }
 
 
     @Override
