@@ -123,6 +123,9 @@ public class TIPItinerary extends TIPHeader{
             while (currentCityIndex < currentTour.size() - 1) {
                 long closestNeighborDistance = Integer.MAX_VALUE;
                 int closestNeighborIndex = -1;
+                for (int i = 0; i < places.size(); ++i) {
+                    closestNeighborIndex = i;
+                }
             }
         }
     }
