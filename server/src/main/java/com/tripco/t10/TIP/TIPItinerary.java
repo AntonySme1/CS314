@@ -12,7 +12,7 @@ import java.util.Map;
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private int[] distances = new int[0];
+    protected int[] distances = new int[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 

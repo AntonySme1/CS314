@@ -64,7 +64,7 @@ public class TestTIPItinerary {
         places.add(boulder);
         places.add(foco);
 
-//        distances = new int[places.size()];
+        distances = new int[places.size()];
 
         TIPItinerary itinerary1 = new TIPItinerary(options, places, distances);
         TIPItinerary itinerary2 = new TIPItinerary(options, places);
@@ -74,10 +74,10 @@ public class TestTIPItinerary {
         int[] expected = {24, 41, 59};
 
         int[] itinDist = itinerary2.getDistances();
-        if(itinDist.length == expected.length && itinDist.length == distances.length) {
-            for (int i = 0; i < distances.length; ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], distances[i]);
-                assertEquals("Expect Objects to have the same information", itinDist[i], distances[i]);
+        if(itinDist.length == expected.length && itinDist.length == itinerary1.distances.length) {
+            for (int i = 0; i < itinerary1.distances.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], itinerary1.distances[i]);
+                assertEquals("Expect Objects to have the same information", itinDist[i], itinerary1.distances[i]);
             }
         } else {
             fail("Test Response failed");
@@ -95,7 +95,7 @@ public class TestTIPItinerary {
         JsonObject denver = this.fillDenver();
         places.add(denver);
 
-//        distances = new int[places.size()];
+        distances = new int[places.size()];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         int[] expected = {0};
@@ -116,8 +116,6 @@ public class TestTIPItinerary {
         //fill options object
         options.addProperty("title", "My Trip");
         options.addProperty("earthRadius", 3958.761316);
-
-//        distances = new int[places.size()];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         itinerary.buildResponse();
@@ -148,17 +146,12 @@ public class TestTIPItinerary {
         places.add(boulder);
         places.add(foco);
 
-//        distances = new int[places.size()];
+        distances = new int[places.size()];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         itinerary.buildResponse();
-        int[] d = itinerary.getDistances();
-        for(int i = 0; i < d.length; i++){
-            System.out.println("D: " + d[i]);
-            System.out.println("Distances: " + distances[i]);
-        }
 
-
+        distances = itinerary.distances;
 
         int[] expected = {39, 65, 94};
 
@@ -190,8 +183,9 @@ public class TestTIPItinerary {
         distances = new int[places.size()];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
-//        TIPItinerary itinerary = new TIPItinerary(options, places);
         itinerary.buildResponse();
+        distances = itinerary.distances;
+
         int[] expected = {21, 35, 51};
 
         if(distances.length == expected.length) {

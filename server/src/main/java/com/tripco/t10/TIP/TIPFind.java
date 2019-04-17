@@ -22,6 +22,7 @@ public class TIPFind extends TIPHeader{
     private int limit = 0;
     private int found;
     private List<JsonObject> places = new ArrayList<>();
+    private JsonObject [] listOfPlaces;
 
     public String getMatch() {
         return match;
@@ -38,6 +39,8 @@ public class TIPFind extends TIPHeader{
     public int getFound() {
         return found;
     }
+
+    public JsonObject [] getListOfPlaces() { return listOfPlaces;}
 
     public List<JsonObject> getPlaces() {
         return places;
@@ -139,6 +142,8 @@ public class TIPFind extends TIPHeader{
     }
 
     private void setPlaces(ResultSet rsQuery) throws SQLException{
+        listOfPlaces = new JsonObject[found];
+        int counter = 0;
         while (rsQuery.next()) {
             JsonObject place = new JsonObject();
             String name = rsQuery.getString("name");
@@ -151,6 +156,8 @@ public class TIPFind extends TIPHeader{
             place.addProperty("latitude", latitude);
             place.addProperty("longitude", longitude);
 
+            listOfPlaces[counter] = place;
+            ++counter;
             places.add(place);
         }
     }
@@ -160,6 +167,11 @@ public class TIPFind extends TIPHeader{
         this.addInfo();
         found = getFound();
         places = getPlaces();
+        listOfPlaces = getListOfPlaces();
+
+        for(int i = 0; i < listOfPlaces.length; ++i){
+            System.out.println("ListofPlaces: " + listOfPlaces[i]);
+        }
         log.trace("buildResponse -> {}", this);
     }
 }
