@@ -1,11 +1,13 @@
 package com.tripco.t10.TIP;
 
+import com.google.gson.JsonElement;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -207,6 +209,31 @@ public class TestTIPItinerary {
             fail("Test with Nautical Miles failed");
         }
 
+    }
+
+    @Test
+    public void testNearestNeighbor() {
+        //NOTE: This test changes the places JsonArray!
+
+        //fill options object
+        options.addProperty("title", "My Trip");
+        options.addProperty("earthRadius", 3440.069530);
+
+        //fill places array with jsonobjects
+        JsonObject denver = this.fillDenver();
+        JsonObject boulder = this.fillBoulder();
+        JsonObject foco = this.fillFoco();
+
+        places.add(denver);
+        places.add(foco);
+        places.add(boulder);
+
+        TIPItinerary itinerary = new TIPItinerary(options, places, distances);
+        places = itinerary.nearestNeighbor(places);
+
+        assertEquals("first location is denver", places.get(0), denver);
+        assertEquals("second location is boulder", places.get(1), boulder);
+        assertEquals("third location is foco", places.get(2), foco);
     }
 
 }

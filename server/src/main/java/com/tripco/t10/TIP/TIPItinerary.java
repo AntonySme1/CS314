@@ -1,14 +1,13 @@
 package com.tripco.t10.TIP;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
@@ -110,33 +109,61 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
     }
-    public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
-        long shortestTourSize = Integer.MAX_VALUE;
-        ArrayList<Integer> shortestTour = new ArrayList<>();
-        ArrayList<Integer> currentTour = new ArrayList<>();
-        for (int startingCity = 0; startingCity < places.size(); ++startingCity) {
-            int currentCityIndex = 0;
-            long currentTourLength = 0;
-            boolean[] visitedCities = new boolean[places.size()];
-            visitedCities[startingCity] = true;
-            currentTour.set(currentCityIndex, startingCity);
-            while (currentCityIndex < currentTour.size() - 1) {
+    public JsonArray nearestNeighbor(JsonArray places) {
+        long shortestTourCumulativeDistance = Integer.MAX_VALUE;
+        JsonArray shortestTour = new JsonArray();
+        for (int startingCity = 0; startingCity < places.size(); startingCity++) {
+            JsonArray tempPlaces = new JsonArray();
+            tempPlaces.addAll(places);
+            JsonArray newTour = new JsonArray();
+            newTour.add(tempPlaces.get(startingCity));
+            tempPlaces.remove(startingCity);
+            ArrayList<Long> distances = new ArrayList<>();
+            for (int currentCity = 0; currentCity < places.size(); ++currentCity) {
+                JsonElement temp1 = newTour.get(newTour.size() - 1);
+                JsonObject currentPlace = temp1.getAsJsonObject();
+                String currentPlaceLatitude = currentPlace.get("latitude").getAsString();
+                String currentPlaceLongitude = currentPlace.get("longitude").getAsString();
                 long closestNeighborDistance = Integer.MAX_VALUE;
                 int closestNeighborIndex = -1;
-                for (int i = 0; i < places.size(); ++i) {
-                    closestNeighborIndex = i;
+                Map<String, String> currentLatLon = new HashMap<>();
+                currentLatLon.put("latitude", currentPlaceLatitude);
+                currentLatLon.put("longitude", currentPlaceLongitude);
+                long distance = -1;
+                for (int i = 0; i < tempPlaces.size(); ++i) {
+                    JsonElement temp2 = tempPlaces.get(i);
+                    JsonObject placeBeingChecked = temp2.getAsJsonObject();
+                    String checkedPlaceLatitude = placeBeingChecked.get("latitude").getAsString();
+                    String checkedPlaceLongitude = placeBeingChecked.get("longitude").getAsString();
+                    Map<String, String> checkedLatLon = new HashMap<>();
+                    checkedLatLon.put("latitude", checkedPlaceLatitude);
+                    checkedLatLon.put("longitude", checkedPlaceLongitude);
+                    GreatCircleDistance gcd = new GreatCircleDistance();
+                    distance = gcd.calculateGreatCircleDistance(currentLatLon, checkedLatLon, this.getEarthRadius());
+                    if (distance < closestNeighborDistance) {
+                        closestNeighborDistance = distance;
+                        closestNeighborIndex = i;
+                    }
                 }
-                currentCityIndex = ++currentCityIndex;
-                currentTour.set(currentCityIndex, closestNeighborIndex);
-                currentTourLength += closestNeighborDistance;
-                visitedCities[closestNeighborIndex] = true;
+                if (currentCity != places.size() - 1) {
+                    distances.add(distance);
+                    newTour.add(tempPlaces.get(closestNeighborIndex));
+                    tempPlaces.remove(closestNeighborIndex);
+                }
             }
-            log.info("Tour Length: " + currentTour);
-            if (currentTour.size() <= shortestTourSize){
-                shortestTour = currentTour;
-            }}
-            return shortestTour;
+            long totalDistance = 0;
+            for (long distance : distances) {
+                totalDistance += distance;
+            }
+            if (totalDistance < shortestTourCumulativeDistance){
+                shortestTourCumulativeDistance = totalDistance;
+                shortestTour = newTour;
+            }
         }
+        return shortestTour;
+    }
+
+
 
 
     @Override
