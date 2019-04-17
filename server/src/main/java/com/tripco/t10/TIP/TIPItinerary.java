@@ -112,9 +112,9 @@ public class TIPItinerary extends TIPHeader{
     }
 
     public ArrayList<Integer>  nearestNeighbor(JsonArray places) {
-      //  long shortestTourSize = Integer.MAX_VALUE;
-     //   ArrayList<Integer>  shortestTour =  new ArrayList<>();
-    //    ArrayList<Integer>  currentTour=  new ArrayList<>();
+        long shortestTourSize = Integer.MAX_VALUE;
+        ArrayList<Integer>  shortestTour =  new ArrayList<>();
+        ArrayList<Integer>  currentTour=  new ArrayList<>();
       //  long[][] distances = this.calculateDistance(inputPlaces);
      //   for(int startingCity = 0; startingCity < places.size(); ++startingCity)
     //    {
