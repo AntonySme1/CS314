@@ -121,25 +121,22 @@ public class TIPItinerary extends TIPHeader{
             newTour.add(tempPlaces.get(startingCity));
             tempPlaces.remove(startingCity);
             ArrayList<Long> distances = new ArrayList<>();
-            for (int currentCity = 0; currentCity < places.size(); ++currentCity) {
+            for (int i = 0; i < places.size() - 1; ++i) {
                 long closestNeighborDistance = Integer.MAX_VALUE;
                 int closestNeighborIndex = -1;
                 long distance = -1;
                 Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
-                for (int i = 0; i < tempPlaces.size(); ++i) {
+                for (int j = 0; j < tempPlaces.size(); ++j) {
                     Map<String, String> destination = createMapFromPlace(tempPlaces.get(i));
-                    GreatCircleDistance gcd = new GreatCircleDistance();
-                    distance = gcd.calculateGreatCircleDistance(source, destination, this.getEarthRadius());
+                    distance = sourceToDestinationDistance(source, destination);
                     if (distance < closestNeighborDistance) {
                         closestNeighborDistance = distance;
                         closestNeighborIndex = i;
                     }
                 }
-                if (currentCity != places.size() - 1) {
-                    distances.add(distance);
-                    newTour.add(tempPlaces.get(closestNeighborIndex));
-                    tempPlaces.remove(closestNeighborIndex);
-                }
+                distances.add(distance);
+                newTour.add(tempPlaces.get(closestNeighborIndex));
+                tempPlaces.remove(closestNeighborIndex);
             }
             long totalDistance = calculateTotalDistance(distances);
 
@@ -149,6 +146,11 @@ public class TIPItinerary extends TIPHeader{
             }
         }
         return shortestTour;
+    }
+
+    private long sourceToDestinationDistance(Map<String, String> source, Map<String, String> destination) {
+        GreatCircleDistance gcd = new GreatCircleDistance();
+        return gcd.calculateGreatCircleDistance(source, destination, this.getEarthRadius());
     }
 
     private Map<String, String> createMapFromPlace(JsonElement place) {
