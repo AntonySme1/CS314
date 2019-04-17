@@ -118,6 +118,8 @@ public class TIPItinerary extends TIPHeader{
             int currentCityIndex = 0;
             long currentTourLength = 0;
             boolean[] visitedCities = new boolean[places.size()];
+            visitedCities[startingCity] = true;
+            currentTour.set(currentCityIndex, startingCity);
         }
     }
 
