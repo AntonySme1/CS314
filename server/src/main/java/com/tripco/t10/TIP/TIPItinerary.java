@@ -135,6 +135,12 @@ public class TIPItinerary extends TIPHeader{
             for (int i = 0; i < places.size() - 1; ++i) {
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
+
+            Map<String, String> startingPlace = createMapFromPlace(newTour.get(0));
+            Map<String, String> lastPlace = createMapFromPlace(newTour.get(newTour.size() - 1));
+            long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
+            distances.add(roundTripLeg);
+
             long totalDistance = calculateTotalDistance(distances);
 
             if (totalDistance < shortestTourCumulativeDistance){
@@ -144,6 +150,7 @@ public class TIPItinerary extends TIPHeader{
         }
         return shortestTour;
     }
+
 
     private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
         long closestNeighborDistance = Integer.MAX_VALUE;
