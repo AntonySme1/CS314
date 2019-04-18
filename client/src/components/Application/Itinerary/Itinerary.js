@@ -45,7 +45,7 @@ export default class Itinerary extends Component {
     }
 
     render() {
-        const allrenderMethods = [this.renderMap(),this.renderItineraryOptions(),this.renderItineraryOptimizationOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
+        const allrenderMethods = [this.renderMap(),this.renderItineraryOptimizationOptions(),this.renderItineraryOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
                                     this.renderItineraryCustomInput(),this.renderItineraryTable()];
         return (
             <Container>
@@ -284,7 +284,7 @@ export default class Itinerary extends Component {
 
                 const state = Object.assign({},this.state);
                 state.itinerary.distances = response.body.distances;
-                
+
                 this.setState({errorMessage: null});
                 this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
             }else {
