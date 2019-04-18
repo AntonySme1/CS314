@@ -76,8 +76,9 @@ export const hideForm = (props) =>{
 
   let display = Object.assign({}, props.display);
   display.itineraryCustomInput = !display.itineraryCustomInput;
-  props.display = display;
+  //props.display = display;
   props.updateDisplay(display);
+  return display;
 };
 
 

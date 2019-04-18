@@ -80,7 +80,7 @@ function testUpdateItinerary(){
 test('Testing that the UpdateItinerary works',  testUpdateItinerary);
 
 function testHideForm() {
-  hideForm(startProperties);
-  expect(startProperties.display.itineraryCustomInput).toEqual(false);
+  const displayResult = hideForm(startProperties);
+  expect(displayResult.itineraryCustomInput).toEqual(false);
 }
 test("Testing that the hideForm works",testHideForm);
