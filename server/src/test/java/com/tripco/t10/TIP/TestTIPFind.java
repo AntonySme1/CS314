@@ -100,7 +100,7 @@ public class TestTIPFind {
 
     @Test
     public void testMatchWithSpecialChar() {
-        match = "for&";
+        match = "Oxfor&";
 
         TIPFind find = new TIPFind(match, 1);
         find.buildResponse();
@@ -108,8 +108,8 @@ public class TestTIPFind {
                 "Oxford Airport", "Oxford", "-25.0243", "24.215",
                 "Kgalagadi District", "Botswana", "Africa"));
 
-        assertEquals("Expected number of items found", 2488, find.getFound());
-        assertEquals("Expected match", "for_", find.getMatch());
+        assertEquals("Expected number of items found", 28, find.getFound());
+        assertEquals("Expected match", "Oxfor_", find.getMatch());
         assertEquals("Expected limit", 1, find.getLimit());
         assertEquals("Same items exist", itemsExpected, find.getPlaces());
     }
