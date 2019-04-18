@@ -14,7 +14,7 @@ import {sendServerRequestWithBody} from "../../../api/restfulAPI";
 import ItineraryCustomInput from "./ItineraryCustomInput";
 import saveItinerary from "./ItinerarySave";
 import ItineraryOptions from "./ItineraryOptions";
-
+import ItineraryOptimizationOptions from "./ItineraryOptimizationOptions";
 /*
  * Renders the itinerary page.
  */
@@ -45,7 +45,7 @@ export default class Itinerary extends Component {
     }
 
     render() {
-        const allrenderMethods = [this.renderMap(),this.renderItineraryOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
+        const allrenderMethods = [this.renderMap(),this.renderItineraryOptions(),this.renderItineraryOptimizationOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
                                     this.renderItineraryCustomInput(),this.renderItineraryTable()];
         return (
             <Container>
@@ -88,8 +88,7 @@ export default class Itinerary extends Component {
             let buttons = [{name: "Save Itinerary", onClick:()=>saveItinerary(this.state.itinerary)},
                            {name: "Add to Itinerary", onClick:() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})},
                            {name: "Upload Itinerary", onClick:() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})},
-                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})},
-                           {name: "Optimize Itinerary", onClick:() => this.optimizeItinerary()}
+                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}
                            ];
             const allButtons = [];
             buttons.forEach((button) => {
@@ -106,6 +105,26 @@ export default class Itinerary extends Component {
         itinerary.options.optimization = "short";
         this.getItineraryData(itinerary);
     }
+    noneItinerary() {
+        const itinerary = Object.assign({}, this.state.itinerary);
+        itinerary.options.optimization = "none";
+        this.getItineraryData(itinerary);
+    }
+
+    renderItineraryOptimizationOptions (){
+        let buttons = [{name: "None", onClick:()=>this.noneItinerary()},
+
+            {name: "Short", onClick:() => this.optimizeItinerary()}
+        ];
+        const allButtons = [];
+        buttons.forEach((button) => {
+            allButtons.push(<Button className={'btn-csu'} onClick={button.onClick}>{button.name}</Button>);
+        });
+
+        return (
+            <ItineraryOptimizationOptions allButtons = {allButtons}/>
+        );
+    };
 
     renderItineraryForm() {
         if (this.state.display.itineraryUpload) {
@@ -262,9 +281,10 @@ export default class Itinerary extends Component {
         sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
         .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
+
                 const state = Object.assign({},this.state);
-                state.itinerary = response.body;
-                state.itinerary.options.optimization = "none";
+                state.itinerary.distances = response.body.distances;
+                
                 this.setState({errorMessage: null});
                 this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
             }else {
