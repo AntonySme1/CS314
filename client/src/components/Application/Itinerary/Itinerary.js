@@ -284,6 +284,7 @@ export default class Itinerary extends Component {
 
                 const state = Object.assign({},this.state);
                 state.itinerary.distances = response.body.distances;
+                state.itinerary.places = response.body.places;
 
                 this.setState({errorMessage: null});
                 this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
