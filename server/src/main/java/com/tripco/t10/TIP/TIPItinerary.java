@@ -91,8 +91,9 @@ public class TIPItinerary extends TIPHeader{
     public void setOptimization(){
         String optimization;
         try {
-            optimization = options.getAsJsonObject().get("optimizations").getAsString();
+            optimization = options.getAsJsonObject().get("optimization").getAsString();
             options.addProperty("optimization", optimization);
+            optimization="short";
         } catch(NullPointerException e){
             optimization = "none";
             options.addProperty("optimization", optimization);
