@@ -104,6 +104,19 @@ public class TIPFind extends TIPHeader{
         }
     }
 
+    private void checkMatch(){
+        //Checks if alphanumeric
+        char[] matchArr = match.toCharArray();
+        if(!match.matches("^[a-zA-Z0-9]+$")){
+            for(int i = 0; i < matchArr.length; ++i){
+                if(!Character.isLetterOrDigit(matchArr[i])){
+                    matchArr[i] = '_';
+                }
+            }
+        }
+        match = String.valueOf(matchArr);
+    }
+
     private String setSearch() {
         String select = "SELECT world.name as \"World\", world.id as \"WorldID\", "
                 + "world.latitude, world.longitude, world.municipality, "
@@ -124,7 +137,6 @@ public class TIPFind extends TIPHeader{
         String order = "ORDER BY continent.name, country.name, "
                 + "region.name, world.municipality, world.name ASC ";
         String limiter = "limit " + limit;
-
         return searchCases(select + from + where + order, limiter);
     }
 
@@ -145,10 +157,13 @@ public class TIPFind extends TIPHeader{
     private void addInfo() {
         String myDriver = "com.mysql.jdbc.Driver", url = "", user="cs314-db", pass="eiK5liet1uej";
         url = setDBConnection(url);
+
         String isTravis = System.getenv("TRAVIS");
         if(isTravis != null && isTravis.equals("true")) {
             user = "travis"; pass = null;
         }
+
+        checkMatch();
         String count = setCount();
         String search = setSearch();
         try {
