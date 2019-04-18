@@ -35,7 +35,7 @@ export default class Application extends Component {
         serverPort: getOriginalServerPort()
       },
       errorMessage: null,
-      itinerary: {requestVersion: 3,
+      itinerary: {requestVersion: 4,
         requestType: 'itinerary',
         options: {"title":"My Trip",
           "earthRadius":"3958.761316","optimization":"none" },

@@ -98,7 +98,6 @@ public class TIPItinerary extends TIPHeader{
         try {
             optimization = options.getAsJsonObject().get("optimization").getAsString();
             options.addProperty("optimization", optimization);
-            optimization="short";
         } catch(NullPointerException e){
             optimization = "none";
             options.addProperty("optimization", optimization);
@@ -111,9 +110,16 @@ public class TIPItinerary extends TIPHeader{
 
     @Override
     public void buildResponse() {
-        this.distances = fillDistances();
+        this.distances.clear();
         log.trace("buildResponse -> {}", this);
         setOptimization();
+        if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
+            this.places = nearestNeighbor(this.places);
+            this.distances = fillDistances();
+        }
+        else {
+            this.distances = fillDistances();
+        }
     }
 
     public JsonArray nearestNeighbor(JsonArray places) {

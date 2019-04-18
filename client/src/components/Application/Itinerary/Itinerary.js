@@ -88,7 +88,8 @@ export default class Itinerary extends Component {
             let buttons = [{name: "Save Itinerary", onClick:()=>saveItinerary(this.state.itinerary)},
                            {name: "Add to Itinerary", onClick:() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})},
                            {name: "Upload Itinerary", onClick:() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})},
-                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}
+                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})},
+                           {name: "Optimize Itinerary", onClick:() => this.optimizeItinerary()}
                            ];
             const allButtons = [];
             buttons.forEach((button) => {
@@ -98,7 +99,33 @@ export default class Itinerary extends Component {
             return (
                <ItineraryOptions allButtons = {allButtons}/>
             );
-        }
+        };
+
+    optimizeItinerary () {
+        const itinerary = Object.assign({}, this.state.itinerary);
+        itinerary.options.optimization = "short";
+        itinerary.requestType = 'itinerary';
+        sendServerRequestWithBody('itinerary', itinerary, this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    const state = Object.assign({},this.state);
+                    state.itinerary = response.body;
+                    console.log("RESPONSE BODY");
+                    console.log(response.body);
+                    state.errormessage = null;
+                    this.state = state;
+                    this.props.updateItinerary(this.state.itinerary);
+                }else {
+                    this.setState({
+                        errorMessage: this.props.createErrorBanner(
+                            response.statusText,
+                            response.statusCode,
+                            `Request to ${this.props.settings.serverPort} failed.`
+                        )
+                    });
+                }
+            });
+    }
 
     renderItineraryForm() {
         if (this.state.display.itineraryUpload) {
