@@ -101,30 +101,10 @@ export default class Itinerary extends Component {
             );
         };
 
-    optimizeItinerary () {
+    optimizeItinerary() {
         const itinerary = Object.assign({}, this.state.itinerary);
         itinerary.options.optimization = "short";
-        itinerary.requestType = 'itinerary';
-        sendServerRequestWithBody('itinerary', itinerary, this.props.settings.serverPort)
-            .then((response) => {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    const state = Object.assign({},this.state);
-                    state.itinerary = response.body;
-                    console.log("RESPONSE BODY");
-                    console.log(response.body);
-                    state.errormessage = null;
-                    this.state = state;
-                    this.props.updateItinerary(this.state.itinerary);
-                }else {
-                    this.setState({
-                        errorMessage: this.props.createErrorBanner(
-                            response.statusText,
-                            response.statusCode,
-                            `Request to ${this.props.settings.serverPort} failed.`
-                        )
-                    });
-                }
-            });
+        this.getItineraryData(itinerary);
     }
 
     renderItineraryForm() {
@@ -283,10 +263,10 @@ export default class Itinerary extends Component {
         .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 const state = Object.assign({},this.state);
-                state.itinerary.distances = response.body.distances;
-                state.errormessage = null;
-                this.setState({
-                    state },()=>{this.props.updateItinerary(this.state.itinerary)});
+                state.itinerary = response.body;
+                state.itinerary.options.optimization = "none";
+                this.setState({errorMessage: null});
+                this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
             }else {
                 this.setState({
                     errorMessage: this.props.createErrorBanner(
