@@ -7,7 +7,7 @@ import ErrorBanner from '../src/components/Application/ErrorBanner';
 import {getOriginalServerPort} from '../src/api/restfulAPI';
 import {hideForm, updateItinerary} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 
-const startProperties = {
+let startProperties = {
   serverConfig: null,
   planOptions: {
     units: {'miles':3959, 'kilometers': 6371, 'nautical miles': 3440},
@@ -79,14 +79,8 @@ function testUpdateItinerary(){
 
 test('Testing that the UpdateItinerary works',  testUpdateItinerary);
 
-function testHideForm(){
-
+function testHideForm() {
   hideForm(startProperties);
-
-  //expect(startProperties.display.itineraryCustomInput).toBe(true);
+  expect(startProperties.display.itineraryCustomInput).toEqual(false);
 }
-
-test('Testing that the hideForm works',  testHideForm);
-
-
-
+test("Testing that the hideForm works",testHideForm);
