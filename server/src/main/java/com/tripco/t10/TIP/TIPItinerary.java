@@ -1,14 +1,18 @@
 package com.tripco.t10.TIP;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.slf4j.LoggerFactory;
+
+
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
@@ -19,7 +23,7 @@ public class TIPItinerary extends TIPHeader{
 
     private TIPItinerary() {
         this.requestType = "itinerary";
-        this.requestVersion = 3;
+        this.requestVersion = 4;
     }
 
     //for testing purposes, optional distances
@@ -92,7 +96,7 @@ public class TIPItinerary extends TIPHeader{
     public void setOptimization(){
         String optimization;
         try {
-            optimization = options.getAsJsonObject().get("optimizations").getAsString();
+            optimization = options.getAsJsonObject().get("optimization").getAsString();
             options.addProperty("optimization", optimization);
         } catch(NullPointerException e){
             optimization = "none";
@@ -106,9 +110,88 @@ public class TIPItinerary extends TIPHeader{
 
     @Override
     public void buildResponse() {
-        this.distances = fillDistances();
+        this.distances.clear();
         log.trace("buildResponse -> {}", this);
         setOptimization();
+        if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
+            this.places = nearestNeighbor(this.places);
+            this.distances = fillDistances();
+        }
+        else {
+            this.distances = fillDistances();
+        }
+    }
+
+    public JsonArray nearestNeighbor(JsonArray places) {
+        long shortestTourCumulativeDistance = Integer.MAX_VALUE;
+        JsonArray shortestTour = new JsonArray();
+        for (int startingCity = 0; startingCity < places.size(); startingCity++) {
+            JsonArray tempPlaces = new JsonArray();
+            tempPlaces.addAll(places);
+            JsonArray newTour = new JsonArray();
+            newTour.add(tempPlaces.get(startingCity));
+            tempPlaces.remove(startingCity);
+            ArrayList<Long> distances = new ArrayList<>();
+            for (int i = 0; i < places.size() - 1; ++i) {
+                findClosestNeighbor(newTour, tempPlaces, distances);
+            }
+
+            Map<String, String> startingPlace = createMapFromPlace(newTour.get(0));
+            Map<String, String> lastPlace = createMapFromPlace(newTour.get(newTour.size() - 1));
+            long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
+            distances.add(roundTripLeg);
+
+            long totalDistance = calculateTotalDistance(distances);
+
+            if (totalDistance < shortestTourCumulativeDistance){
+                shortestTour = newTour;
+                shortestTourCumulativeDistance = totalDistance;
+            }
+        }
+        return shortestTour;
+    }
+
+
+    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
+        long closestNeighborDistance = Integer.MAX_VALUE;
+        int closestNeighborIndex = -1;
+        Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
+        log.trace("source: " + newTour.get(newTour.size() - 1));
+        for (int j = 0; j < tempPlaces.size(); ++j) {
+            Map<String, String> destination = createMapFromPlace(tempPlaces.get(j));
+            long distance = sourceToDestinationDistance(source, destination);
+            if (distance < closestNeighborDistance) {
+                log.trace("new distance: " + distance + " destination: " + tempPlaces.get(j));
+                closestNeighborDistance = distance;
+                closestNeighborIndex = j;
+            }
+        }
+        distances.add(closestNeighborDistance);
+        newTour.add(tempPlaces.get(closestNeighborIndex));
+        tempPlaces.remove(closestNeighborIndex);
+    }
+
+    private long sourceToDestinationDistance(Map<String, String> source, Map<String, String> destination) {
+        GreatCircleDistance gcd = new GreatCircleDistance();
+        return gcd.calculateGreatCircleDistance(source, destination, this.getEarthRadius());
+    }
+
+    private Map<String, String> createMapFromPlace(JsonElement place) {
+        JsonObject placeObject = place.getAsJsonObject();
+        String currentPlaceLatitude = placeObject.get("latitude").getAsString();
+        String currentPlaceLongitude = placeObject.get("longitude").getAsString();
+        Map<String, String> placeLatLon = new HashMap<>();
+        placeLatLon.put("latitude", currentPlaceLatitude);
+        placeLatLon.put("longitude", currentPlaceLongitude);
+        return placeLatLon;
+    }
+
+    private long calculateTotalDistance(ArrayList<Long> distances) {
+        long totalDistance = 0;
+        for (long distance : distances) {
+            totalDistance += distance;
+        }
+        return totalDistance;
     }
 
     @Override
