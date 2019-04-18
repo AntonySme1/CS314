@@ -35,6 +35,7 @@ export default class Itinerary extends Component {
 
         this.state = {
             itinerary: props.itinerary,
+            originalItinerary: null,
             display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false, findForm:false, findTable:false },
 
             find:null,
@@ -103,13 +104,40 @@ export default class Itinerary extends Component {
     optimizeItinerary() {
         const itinerary = Object.assign({}, this.state.itinerary);
         itinerary.options.optimization = "short";
-        this.getItineraryData(itinerary);
+        sendServerRequestWithBody('itinerary', itinerary, this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+
+                    const state = Object.assign({},this.state);
+                    state.itinerary.distances = response.body.distances;
+                    state.itinerary.places = response.body.places;
+
+                    this.setState({errorMessage: null});
+                    this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
+                }else {
+                    this.setState({
+                        errorMessage: this.props.createErrorBanner(
+                            response.statusText,
+                            response.statusCode,
+                            `Request to ${this.props.settings.serverPort} failed.`
+                        )
+                    });
+                }
+            });
     }
+
     noneItinerary() {
-        const itinerary = Object.assign({}, this.state.itinerary);
+        let itinerary;
+        if (this.state.originalItinerary) {
+            itinerary = Object.assign({}, this.state.originalItinerary);
+        }
+        else {
+            itinerary = Object.assign({}, this.state.itinerary);
+        }
         itinerary.options.optimization = "none";
         this.getItineraryData(itinerary);
     }
+
 
     renderItineraryOptimizationOptions (){
         let buttons = [{name: "None", onClick:()=>this.noneItinerary()},
@@ -286,6 +314,7 @@ export default class Itinerary extends Component {
                 state.itinerary.distances = response.body.distances;
                 state.itinerary.places = response.body.places;
 
+                this.setState({originalItinerary: response.body});
                 this.setState({errorMessage: null});
                 this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
             }else {
