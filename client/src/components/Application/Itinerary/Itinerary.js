@@ -35,7 +35,6 @@ export default class Itinerary extends Component {
 
         this.state = {
             itinerary: props.itinerary,
-            originalItinerary: null,
             display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false, findForm:false, findTable:false },
 
             find:null,
@@ -47,7 +46,7 @@ export default class Itinerary extends Component {
 
     render() {
         const allrenderMethods = [this.renderMap(),this.renderItineraryOptimizationOptions(),this.renderItineraryOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
-                                    this.renderItineraryCustomInput(),this.renderItineraryTable()];
+            this.renderItineraryCustomInput(),this.renderItineraryTable()];
         return (
             <Container>
                 {allrenderMethods.map((method,index) =>{
@@ -67,15 +66,15 @@ export default class Itinerary extends Component {
     renderItineraryCustomInput (){
         if (this.state.display.itineraryCustomInput){
             return (
-                    <ItineraryCustomInput settings={this.props.settings}
-                                          createErrorBanner={this.props.createErrorBanner}
-                                          itinerary={this.state.itinerary}
-                                          display = {this.state.display}
-                                          updateDisplay = {this.updateDisplay}
-                                          getItineraryData={this.getItineraryData}/>
-                );
+                <ItineraryCustomInput settings={this.props.settings}
+                                      createErrorBanner={this.props.createErrorBanner}
+                                      itinerary={this.state.itinerary}
+                                      display = {this.state.display}
+                                      updateDisplay = {this.updateDisplay}
+                                      getItineraryData={this.getItineraryData}/>
+            );
 
-    }}
+        }}
 
     renderMap() {
         return (
@@ -86,58 +85,31 @@ export default class Itinerary extends Component {
     }
 
     renderItineraryOptions (){
-            let buttons = [{name: "Save Itinerary", onClick:()=>saveItinerary(this.state.itinerary)},
-                           {name: "Add to Itinerary", onClick:() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})},
-                           {name: "Upload Itinerary", onClick:() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})},
-                           {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}
-                           ];
-            const allButtons = [];
-            buttons.forEach((button) => {
-                allButtons.push(<Button className={'btn-csu'} onClick={button.onClick}>{button.name}</Button>);
-            });
+        let buttons = [{name: "Save Itinerary", onClick:()=>saveItinerary(this.state.itinerary)},
+            {name: "Add to Itinerary", onClick:() =>this.setState({display:{itineraryCustomInput: !this.state.display.itineraryCustomInput}})},
+            {name: "Upload Itinerary", onClick:() =>this.setState({display:{itineraryUpload: !this.state.display.itineraryUpload}})},
+            {name: "Find Place", onClick:() =>this.setState({display:{findForm: !this.state.display.findForm, findTable: !this.state.display.findTable}})}
+        ];
+        const allButtons = [];
+        buttons.forEach((button) => {
+            allButtons.push(<Button className={'btn-csu'} onClick={button.onClick}>{button.name}</Button>);
+        });
 
-            return (
-               <ItineraryOptions allButtons = {allButtons}/>
-            );
-        };
+        return (
+            <ItineraryOptions allButtons = {allButtons}/>
+        );
+    };
 
     optimizeItinerary() {
         const itinerary = Object.assign({}, this.state.itinerary);
         itinerary.options.optimization = "short";
-        sendServerRequestWithBody('itinerary', itinerary, this.props.settings.serverPort)
-            .then((response) => {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-
-                    const state = Object.assign({},this.state);
-                    state.itinerary.distances = response.body.distances;
-                    state.itinerary.places = response.body.places;
-
-                    this.setState({errorMessage: null});
-                    this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
-                }else {
-                    this.setState({
-                        errorMessage: this.props.createErrorBanner(
-                            response.statusText,
-                            response.statusCode,
-                            `Request to ${this.props.settings.serverPort} failed.`
-                        )
-                    });
-                }
-            });
+        this.getItineraryData(itinerary);
     }
-
     noneItinerary() {
-        let itinerary;
-        if (this.state.originalItinerary) {
-            itinerary = Object.assign({}, this.state.originalItinerary);
-        }
-        else {
-            itinerary = Object.assign({}, this.state.itinerary);
-        }
+        const itinerary = Object.assign({}, this.state.itinerary);
         itinerary.options.optimization = "none";
         this.getItineraryData(itinerary);
     }
-
 
     renderItineraryOptimizationOptions (){
         let buttons = [{name: "None", onClick:()=>this.noneItinerary()},
@@ -169,39 +141,39 @@ export default class Itinerary extends Component {
     }
 
     renderFindForm() {
-            if (this.state.display.findForm) {
-                return (
-                    <Pane header={'FindForm'}>
-                        {<FindForm settings = {this.props.settings}
-                                   createErrorBanner={this.props.createErrorBanner}
-                                   getFindData={this.getFindData}
-                                   display = {this.state.display}
-                                   updateDisplay = {this.updateDisplay}/>}
-                    </Pane>
-                );
-            }
+        if (this.state.display.findForm) {
+            return (
+                <Pane header={'FindForm'}>
+                    {<FindForm settings = {this.props.settings}
+                               createErrorBanner={this.props.createErrorBanner}
+                               getFindData={this.getFindData}
+                               display = {this.state.display}
+                               updateDisplay = {this.updateDisplay}/>}
+                </Pane>
+            );
+        }
     }
 
     renderFindTable(){
         if (this.state.find) {
-        if(this.state.display.findTable){
+            if(this.state.display.findTable){
                 return (<FindTable settings={this.props.settings}
                                    createErrorBanner={this.props.createErrorBanner}
                                    find={this.state.find}
                                    itinerary={this.state.itinerary}
                                    getItineraryData={this.getItineraryData}/>)
 
-        }
+            }
         }
     }
 
     renderItineraryTable(){
-            return (<ItineraryTable settings = {this.props.settings}
-                                    createErrorBanner={this.props.createErrorBanner}
-                                    itinerary={this.state.itinerary}
-                                    getItineraryData={this.getItineraryData}
-                                    options={this.props.options}
-            />)
+        return (<ItineraryTable settings = {this.props.settings}
+                                createErrorBanner={this.props.createErrorBanner}
+                                itinerary={this.state.itinerary}
+                                getItineraryData={this.getItineraryData}
+                                options={this.props.options}
+        />)
     }
 
     renderLeafletMap() {
@@ -228,7 +200,7 @@ export default class Itinerary extends Component {
 
     updateDisplay(display){
 
-         this.setState({display:display});
+        this.setState({display:display});
     }
 
     getFindData(find){
@@ -307,26 +279,25 @@ export default class Itinerary extends Component {
         };
 
         sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
-        .then((response) => {
-            if (response.statusCode >= 200 && response.statusCode <= 299) {
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
 
-                const state = Object.assign({},this.state);
-                state.itinerary.distances = response.body.distances;
-                state.itinerary.places = response.body.places;
+                    const state = Object.assign({},this.state);
+                    state.itinerary.distances = response.body.distances;
+                    state.itinerary.places = response.body.places;
 
-                this.setState({originalItinerary: response.body});
-                this.setState({errorMessage: null});
-                this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
-            }else {
-                this.setState({
-                    errorMessage: this.props.createErrorBanner(
-                        response.statusText,
-                        response.statusCode,
-                        `Request to ${this.props.settings.serverPort} failed.`
-                    )
-                });
-            }
-        });
+                    this.setState({errorMessage: null});
+                    this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
+                }else {
+                    this.setState({
+                        errorMessage: this.props.createErrorBanner(
+                            response.statusText,
+                            response.statusCode,
+                            `Request to ${this.props.settings.serverPort} failed.`
+                        )
+                    });
+                }
+            });
 
     }
 
