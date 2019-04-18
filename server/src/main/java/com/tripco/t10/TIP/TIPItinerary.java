@@ -155,17 +155,18 @@ public class TIPItinerary extends TIPHeader{
     private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
         long closestNeighborDistance = Integer.MAX_VALUE;
         int closestNeighborIndex = -1;
-        long distance = -1;
         Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
+        log.trace("source: " + newTour.get(newTour.size() - 1));
         for (int j = 0; j < tempPlaces.size(); ++j) {
             Map<String, String> destination = createMapFromPlace(tempPlaces.get(j));
-            distance = sourceToDestinationDistance(source, destination);
+            long distance = sourceToDestinationDistance(source, destination);
             if (distance < closestNeighborDistance) {
+                log.trace("new distance: " + distance + " destination: " + tempPlaces.get(j));
                 closestNeighborDistance = distance;
                 closestNeighborIndex = j;
             }
         }
-        distances.add(distance);
+        distances.add(closestNeighborDistance);
         newTour.add(tempPlaces.get(closestNeighborIndex));
         tempPlaces.remove(closestNeighborIndex);
     }
