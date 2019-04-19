@@ -99,8 +99,6 @@ In this sprint, ...
 These Epics were completed.
 
 * *## epic title: comments*
-**# #232 User: Let me plan trips world wide. *
-
 #### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
