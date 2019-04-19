@@ -99,7 +99,10 @@ In this sprint, ...
 These Epics were completed.
 
 * *## epic title: comments*
-**# #232 User: Let me plan trips world wide. *
+* *#166 User: Data shouldn't go away when I change tabs. : Finished for the itinerary page*
+* *#217 User: Let me change my itinerary : Added buttons to change itinerary*
+* *#162 User: Make my trip shorter : Added "short" to optimization*
+* *#100 User: Show me a map and itinerary for my trip: Added all options to display itinerary*
 
 #### Incomplete epics in Sprint Backlog
 
