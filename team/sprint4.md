@@ -108,7 +108,7 @@ The ...
 
 #### Problems encountered and resolutions
 
-The ...
+The nearest neighbor algorithm proved to be very diffilcult and ended up taking 3 memebers of our team to finally get it done. 
 
 
 ## Retrospective (focus on people, process, tools)
@@ -117,7 +117,7 @@ In this sprint, ...
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Our changes for this sprint included allowing the user to optimize itinerary, reordering the itinerary, and allowing access to the world database. 
 
 #### What we did well
 
@@ -129,4 +129,4 @@ We could improve ...
 
 #### What we will change next sprint
 
-We will change ...
+We plan better and attept to work more as a team instead of a bunch of lone wolfs. 
