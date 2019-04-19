@@ -64,7 +64,7 @@ const renderItineraryCustomInput = (props) =>{
   );
 };
 
-const updateItinerary = (props,place) => {
+export const updateItinerary = (props,place) => {
 
   let itinerary = Object.assign({}, props.itinerary);
   itinerary.places.push(place);
@@ -72,11 +72,13 @@ const updateItinerary = (props,place) => {
 
 };
 
-const hideForm = (props) =>{
+export const hideForm = (props) =>{
 
   let display = Object.assign({}, props.display);
   display.itineraryCustomInput = !display.itineraryCustomInput;
+  //props.display = display;
   props.updateDisplay(display);
+  return display;
 };
 
 

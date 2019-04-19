@@ -5,9 +5,9 @@ import Itinerary from '../src/components/Application/Itinerary/Itinerary';
 import ItineraryCustomInput from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 import {getOriginalServerPort} from '../src/api/restfulAPI';
-import {processForm} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
+import {hideForm, updateItinerary} from  '../src/components/Application/Itinerary/ItineraryCustomInput';
 
-const startProperties = {
+let startProperties = {
   serverConfig: null,
   planOptions: {
     units: {'miles':3959, 'kilometers': 6371, 'nautical miles': 3440},
@@ -24,7 +24,10 @@ const startProperties = {
     places: [],
     distances: [],
   },
-  updateItinerary: () => {}
+  display:{ itineraryCustomInput: true},
+  updateItinerary: () => {},
+  getItineraryData: () => {},
+  updateDisplay: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -68,4 +71,16 @@ function itineraryCustomInputTest() {
 
 test('Testing that the ItineraryCustom component updates main Itinerary',  itineraryCustomInputTest);
 
+function testUpdateItinerary(){
+  let place ={"name": "test", "latitude": "5", "longitude": "10"};
+ updateItinerary(startProperties,place);
+ expect(startProperties.itinerary.places).toContain(place);
+}
 
+test('Testing that the UpdateItinerary works',  testUpdateItinerary);
+
+function testHideForm() {
+  const displayResult = hideForm(startProperties);
+  expect(displayResult.itineraryCustomInput).toEqual(false);
+}
+test("Testing that the hideForm works",testHideForm);
