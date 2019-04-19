@@ -99,14 +99,17 @@ In this sprint, ...
 These Epics were completed.
 
 * *## epic title: comments*
-*
+**# #232 User: Let me plan trips world wide. *
 
 #### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
 
 * *## epic title: explanation*
-*
+* *#235 TripCo: validate all requests sent to the server and responses received by the client*
+  *#233 User: I want to view my trip in other tools.*
+  *#232 User: Let me plan trips world wide.*
+  *#84 User: let me choose from different map backgrounds*
 
 #### What went well
 
