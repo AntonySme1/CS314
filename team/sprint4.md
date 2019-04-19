@@ -99,6 +99,7 @@ In this sprint we completed 4 epics. We focused on testing, finishing epics from
 These Epics were completed.
 
 * *## epic title: comments*
+
 * *#166 User: Data shouldn't go away when I change tabs. : Finished for the itinerary page*
 * *#217 User: Let me change my itinerary : Added buttons to change itinerary*
 * *#162 User: Make my trip shorter : Added "short" to optimization*
