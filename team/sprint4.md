@@ -92,13 +92,19 @@ New layout for our itinerary table:
 
 ## Review (focus on solution and technology)
 
-In this sprint, ...
+In this sprint we completed 4 epics. We focused on testing, finishing epics from previous sprints, optimization, and using the world database tables.
 
 #### Completed epics in Sprint Backlog
 
 These Epics were completed.
 
 * *## epic title: comments*
+
+* *#166 User: Data shouldn't go away when I change tabs. : Finished for the itinerary page*
+* *#217 User: Let me change my itinerary : Added buttons to change itinerary*
+* *#162 User: Make my trip shorter : Added "short" to optimization*
+* *#100 User: Show me a map and itinerary for my trip: Added all options to display itinerary*
+
 #### Incomplete epics in Sprint Backlog
 
 These Epics were not completed.
