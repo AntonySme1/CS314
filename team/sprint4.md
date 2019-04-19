@@ -72,7 +72,7 @@ New layout for our itinerary table:
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *7* | *value* |
-| Tasks |  *30*   | *29* |
+| Tasks |  *50*   | *44* |
 | Story Points |  *30*  | *29* |
 
 
