@@ -1,4 +1,4 @@
-import {Map, Marker, Polyline, Popup, TileLayer} from "react-leaflet";
+import {Map, LayerGroup, LayersControl, Marker, Polyline, Popup, TileLayer} from "react-leaflet";
 import Geolocation from '../Geolocation';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -10,18 +10,30 @@ const renderLeafletMap= (props) => {
   // initial map placement can use either of these approaches:
   // 1: bounds={this.coloradoGeographicBoundaries()}
   // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
+  const { BaseLayer, Overlay } = LayersControl;
   return (<Pane header={'Itinerary Map'}>
 
 
       <Map center={csuOvalGeographicCoordinates()}
            zoom={10}
            style={{height: 500, maxwidth: 700}}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
+        <LayersControl position="topright">
+          <BaseLayer checked name="OpenStreetMap.Mapnik">
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                       attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            />
+          </BaseLayer>
+          <BaseLayer name="OpenStreetMap.BlackAndWhite">
+            <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+            />
+          </BaseLayer>
+         
         <Geolocation/>
         {generateTripMarkers(props)}
         {drawLinesBetweenMarkers(props)}
+        </LayersControl>
       </Map>
       </Pane>
   )
