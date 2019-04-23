@@ -50,7 +50,6 @@ This sprint will complete the following Epics.
 * *#303 User: Can trips be shorter?* 
 * *#311 User: Let me plan trips world wide.* 
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
 
 * In this sprint we plan on completing 2-opt and finishing up epics from sprint 4
 
@@ -64,8 +63,8 @@ This sprint will complete the following Epics.
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *7* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Tasks |  *20*   | *value* | 
+| Story Points |  *12*  | *value* | 
 
 ## Scrums
 
