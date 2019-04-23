@@ -42,39 +42,15 @@
 
 This sprint will complete the following Epics.
 
-* *#0 epic title: description*
-*
+* *#84 User: let me choose from different map backgrounds.* 
+* *#310 User: I want to view my trip in other tools.* 
+* *#305 User: Give me a friendly message if something goes wrong.*  
+* *#304 User: I would like to highlight certain places on the map* 
+* *#235 TripCo: validate all requests sent to the server and responses received by the client*  
+* *#303 User: Can trips be shorter?* 
+* *#311 User: Let me plan trips world wide.* 
 
 ***(Include a discussion of you plan with key diagrams here and remove this!)***
-
-
-## Metrics
-
-| Statistic | # Planned | # Completed |
-| --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
-
-
-
-## Scrums
-
-| Date | Tasks closed  | Tasks in progress | Impediments |
-| :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
-
-
-## Review (focus on solution and technology)
-
-   * #84 User: let me choose from different map backgrounds. 
-   * #310 User: I want to view my trip in other tools.
-   * #305 User: Give me a friendly message if something goes wrong. 
-   * #304 User: I would like to highlight certain places on the map
-   * #235 TripCo: validate all requests sent to the server and responses received by the client 
-   * #303 User: Can trips be shorter?
-   * #311 User: Let me plan trips world wide.
-
 
 * In this sprint we plan on completing 2-opt and finishing up epics from sprint 4
 
@@ -97,6 +73,7 @@ This sprint will complete the following Epics.
 | :--- | :--- | :--- | :--- |
 | *date* | *#task, ...* | *#task, ...* | *none* | 
 
+## Review (focus on solution and technology)
 
 In this sprint, ...
 
