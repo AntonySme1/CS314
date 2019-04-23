@@ -8,7 +8,7 @@ import ErrorBanner from '../src/components/Application/ErrorBanner';
 import Geolocation from '../src/components/Application/Geolocation'
 import {getOriginalServerPort} from '../src/api/restfulAPI';
 import {Map, TileLayer} from "react-leaflet";
-
+import ItineraryMap from '../src/components/Application/Itinerary/ItineraryMap';
 const startProperties = {
     serverConfig: null,
     planOptions: {
@@ -44,15 +44,8 @@ function mapExistenceTest() {
                                        itinerary={startProperties.itinerary}
                                        updateItinerary={startProperties.updateItinerary}/>);
 
-    expect(itinerary.containsMatchingElement(
-        <Map center={L.latLng(40.576179, -105.080773)}
-             zoom={10}
-             style={{height: 500, maxwidth: 700}}>
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                       attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            />
-            <Geolocation/>
-        </Map>
+    expect(itinerary.contains(
+        <ItineraryMap title = "Itinerary Map" places = {startProperties.itinerary.places}/>
     )).toEqual(true);
 }
 

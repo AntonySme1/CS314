@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import {Container, Row, Col, FormGroup, Form, Button} from 'reactstrap';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from '../Pane'
 import ItineraryForm from "./ItineraryForm";
 import ItineraryTable from   "./ItineraryTable";
-import Geolocation from '../Geolocation';
+import ItineraryMap from "./ItineraryMap"
 import FindForm from '../Find/FindForm';
 import FindTable from "../Find/FindTable";
 import {sendServerRequestWithBody} from "../../../api/restfulAPI";
@@ -78,9 +74,8 @@ export default class Itinerary extends Component {
 
     renderMap() {
         return (
-            <Pane header={'Itinerary Map'}>
-                {this.renderLeafletMap()}
-            </Pane>
+            <ItineraryMap title= "Itinerary Map" places = {this.state.itinerary.places}/>
+
         );
     }
 
@@ -105,6 +100,7 @@ export default class Itinerary extends Component {
         itinerary.options.optimization = "short";
         this.getItineraryData(itinerary);
     }
+
     noneItinerary() {
         const itinerary = Object.assign({}, this.state.itinerary);
         itinerary.options.optimization = "none";
@@ -176,24 +172,6 @@ export default class Itinerary extends Component {
         />)
     }
 
-    renderLeafletMap() {
-        // initial map placement can use either of these approaches:
-        // 1: bounds={this.coloradoGeographicBoundaries()}
-        // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
-        return (
-            <Map center={this.csuOvalGeographicCoordinates()}
-                 zoom={10}
-                 style={{height: 500, maxwidth: 700}}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                />
-                <Geolocation/>
-                {this.generateTripMarkers()}
-                {this.drawLinesBetweenMarkers()}
-            </Map>
-        )
-    }
-
     getItineraryData(itinerary){
         this.setState({itinerary: itinerary},()=>{this.calculateLegDistance()});
     }
@@ -206,56 +184,6 @@ export default class Itinerary extends Component {
     getFindData(find){
 
         this.setState({find: find});
-    }
-
-    generateTripMarkers(){
-        if (this.state.itinerary.places.length > 0) {
-            return (
-                this.state.itinerary.places.map((place, index) => {
-                    return (
-                        <Marker position={this.convertCoordinates(place.latitude, place.longitude)}
-                                icon={this.markerIcon()}
-                                key={index}>
-                            <Popup className="font-weight-extrabold">{place.name + ` lat: ${place.latitude} long: ${place.longitude}`}</Popup>
-                        </Marker>
-                    );
-                }))
-        }
-    }
-
-    drawLinesBetweenMarkers(){
-        if(this.state.itinerary.places.length > 0) {
-            let coordinates = this.state.itinerary.places.map((place) => {
-                return [Number(place.latitude), Number(place.longitude)];
-            });
-            if (coordinates.length) {
-                coordinates.push(coordinates[0]);
-            }
-            return <Polyline positions={coordinates}/>
-        }
-    }
-
-    convertCoordinates(latitude, longitude){
-        return L.latLng(latitude, longitude);
-    }
-
-    coloradoGeographicBoundaries() {
-        // northwest and southeast corners of the state of Colorado
-        return L.latLngBounds(L.latLng(41, -109), L.latLng(37, -102));
-    }
-
-    csuOvalGeographicCoordinates() {
-        return L.latLng(40.576179, -105.080773);
-    }
-
-    markerIcon() {
-        // react-leaflet does not currently handle default marker icons correctly,
-        // so we must create our own
-        return L.icon({
-            iconUrl: icon,
-            shadowUrl: iconShadow,
-            iconAnchor: [12,40]  // for proper placement
-        })
     }
 
     callCalcLegDistance(){
