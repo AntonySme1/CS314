@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table,Button} from "reactstrap";
-
+import { MdDelete,MdPinDrop,MdArrowUpward,MdArrowDownward,MdArrowDropUp} from "react-icons/md";
 
 const  ItineraryTable = (props) => {
     return (
@@ -44,10 +44,11 @@ const generateTableData = (props) =>{
                 <td>{props.itinerary.distances[index]}</td>
                 <td>{cumulativeArray[index]}</td>
                 <td>
-                    <Button className={'btn-csu'} onClick={ ()=>moveToFirst(props,place,index)}>↑↑</Button>
-                    <Button className={'btn-csu'} onClick={ ()=>moveUp(props,place,index)}>↑</Button>
-                    <Button className={'btn-csu'} onClick={ ()=>moveDown(props,place,index)}>↓</Button>
-                    <Button className={'btn-csu'} onClick={ ()=>updateItinerary(props,place,index)}>Delete</Button>
+                    <Button className={'btn-csu'} onClick={ ()=>moveToFirst(props,place,index)}><MdArrowDropUp size={'1.4em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>moveUp(props,place,index)}><MdArrowUpward size={'1.4em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>moveDown(props,place,index)}><MdArrowDownward size={'1.4em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>updateItinerary(props,place,index)}><MdDelete size={'1.4em'}/></Button>
+                    <Button className={'btn-csu'} ><MdPinDrop size={'1.5em'}/></Button>
                 </td>
             </tr>)
         }))

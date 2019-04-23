@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table,Button} from "reactstrap";
-
+import { MdAdd} from "react-icons/md";
 
 const  FindTable = (props) => {
   return (
@@ -32,7 +32,7 @@ const generateTableData = (props) =>{
           <td>{place.name}</td>
           <td>{place.latitude}</td>
           <td>{place.longitude}</td>
-          <td><Button className={'btn-csu'} onClick={()=>updateItinerary(props,place)}>Add</Button></td>
+          <td><Button className={'btn-csu'} onClick={()=>updateItinerary(props,place)}><MdAdd size ={'1.4em'}/></Button></td>
         </tr>)
       }))
 };
