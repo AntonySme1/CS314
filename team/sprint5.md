@@ -47,8 +47,7 @@ This sprint will complete the following Epics.
 
 ***(Include a discussion of you plan with key diagrams here and remove this!)***
 
-![](images/sprint5clientDiagram.jpg)
-###### *Diagram of Client Hierarchy*
+
 ## Metrics
 
 | Statistic | # Planned | # Completed |
@@ -56,6 +55,7 @@ This sprint will complete the following Epics.
 | Epics | *value* | *value* |
 | Tasks |  *value*   | *value* | 
 | Story Points |  *value*  | *value* | 
+
 
 
 ## Scrums
@@ -66,6 +66,37 @@ This sprint will complete the following Epics.
 
 
 ## Review (focus on solution and technology)
+
+    #84 User: let me choose from different map backgrounds. 
+    #310 User: I want to view my trip in other tools.
+    #305 User: Give me a friendly message if something goes wrong. 
+    #304 User: I would like to highlight certain places on the map
+    #235 TripCo: validate all requests sent to the server and responses received by the client 
+    #303 User: Can trips be shorter?
+    #311 User: Let me plan trips world wide.
+
+
+* In this sprint we plan on completing 2-opt and finishing up epics from sprint 4
+
+![](images/ServerDiagram.jpeg)(Diagram of Server Hierarchy)
+
+![](images/sprint5clientDiagram.jpg)
+###### *Diagram of Client Hierarchy*
+
+## Metrics
+
+| Statistic | # Planned | # Completed |
+| --- | ---: | ---: |
+| Epics | *value* | *value* |
+| Tasks |  *value*   | *value* | 
+| Story Points |  *value*  | *value* | 
+
+## Scrums
+
+| Date | Tasks closed  | Tasks in progress | Impediments |
+| :--- | :--- | :--- | :--- |
+| *date* | *#task, ...* | *#task, ...* | *none* | 
+
 
 In this sprint, ...
 
