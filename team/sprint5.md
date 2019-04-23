@@ -67,13 +67,13 @@ This sprint will complete the following Epics.
 
 ## Review (focus on solution and technology)
 
-    #84 User: let me choose from different map backgrounds. 
-    #310 User: I want to view my trip in other tools.
-    #305 User: Give me a friendly message if something goes wrong. 
-    #304 User: I would like to highlight certain places on the map
-    #235 TripCo: validate all requests sent to the server and responses received by the client 
-    #303 User: Can trips be shorter?
-    #311 User: Let me plan trips world wide.
+   * #84 User: let me choose from different map backgrounds. 
+   * #310 User: I want to view my trip in other tools.
+   * #305 User: Give me a friendly message if something goes wrong. 
+   * #304 User: I would like to highlight certain places on the map
+   * #235 TripCo: validate all requests sent to the server and responses received by the client 
+   * #303 User: Can trips be shorter?
+   * #311 User: Let me plan trips world wide.
 
 
 * In this sprint we plan on completing 2-opt and finishing up epics from sprint 4
@@ -87,7 +87,7 @@ This sprint will complete the following Epics.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
+| Epics | *7* | *value* |
 | Tasks |  *value*   | *value* | 
 | Story Points |  *value*  | *value* | 
 
