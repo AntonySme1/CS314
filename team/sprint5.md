@@ -47,7 +47,8 @@ This sprint will complete the following Epics.
 
 ***(Include a discussion of you plan with key diagrams here and remove this!)***
 
-
+![](images/sprint5clientDiagram.jpg)
+###### *Diagram of Client Hierarchy*
 ## Metrics
 
 | Statistic | # Planned | # Completed |
