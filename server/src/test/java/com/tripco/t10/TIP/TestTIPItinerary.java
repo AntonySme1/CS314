@@ -1,13 +1,10 @@
 package com.tripco.t10.TIP;
 
-import com.google.gson.JsonElement;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -17,12 +14,12 @@ import static org.junit.Assert.fail;
 public class TestTIPItinerary {
     private JsonObject options;
     private JsonArray places;
-    private ArrayList<Integer> distances;
+    private int[] distances;
+
     @Before
     public void addPropertiesForItinerary(){
         options = new JsonObject();
         places = new JsonArray();
-        distances = new ArrayList<>();
     }
 
     public JsonObject fillDenver(){
@@ -59,31 +56,28 @@ public class TestTIPItinerary {
         options.addProperty("earthRadius", 3958.761316);
 
         //fill places array with jsonobjects
-       JsonObject denver = this.fillDenver();
-       JsonObject boulder = this.fillBoulder();
-       JsonObject foco = this.fillFoco();
+        JsonObject denver = this.fillDenver();
+        JsonObject boulder = this.fillBoulder();
+        JsonObject foco = this.fillFoco();
 
         places.add(denver);
         places.add(boulder);
         places.add(foco);
+
+        distances = new int[places.size()];
 
         TIPItinerary itinerary1 = new TIPItinerary(options, places, distances);
         TIPItinerary itinerary2 = new TIPItinerary(options, places);
         itinerary1.buildResponse();
         itinerary2.buildResponse();
 
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(24);
-        expected.add(41);
-        expected.add(59);
+        int[] expected = {24, 41, 59};
 
-        ArrayList<Integer> itinDist = itinerary2.getDistances();
-
-        if(itinDist.size() == expected.size() && itinDist.size() == distances.size()) {
-//        if(distances.size() == expected.size()){
-            for (int i = 0; i < distances.size(); ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected.get(i), distances.get(i));
-                assertEquals("Expect Objects to have the same information", itinDist.get(i), distances.get(i));
+        int[] itinDist = itinerary2.getDistances();
+        if(itinDist.length == expected.length && itinDist.length == itinerary1.distances.length) {
+            for (int i = 0; i < itinerary1.distances.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], itinerary1.distances[i]);
+                assertEquals("Expect Objects to have the same information", itinDist[i], itinerary1.distances[i]);
             }
         } else {
             fail("Test Response failed");
@@ -101,17 +95,15 @@ public class TestTIPItinerary {
         JsonObject denver = this.fillDenver();
         places.add(denver);
 
+        distances = new int[places.size()];
+
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
-//        TIPItinerary itinerary = new TIPItinerary(3, options, places);
-        itinerary.buildResponse();
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(0);
+        int[] expected = {0};
 
-        ArrayList<Integer> itinDist = itinerary.getDistances();
-
-        if(itinDist.size() == expected.size()) {
-            for (int i = 0; i < itinDist.size(); ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected.get(i), itinDist.get(i));
+        int[] itinDist = itinerary.getDistances();
+        if(itinDist.length == expected.length) {
+            for (int i = 0; i < itinDist.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], itinDist[i]);
             }
         } else {
             fail("Testing with one place failed");
@@ -126,15 +118,13 @@ public class TestTIPItinerary {
         options.addProperty("earthRadius", 3958.761316);
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
-//        TIPItinerary itinerary = new TIPItinerary(options, places);
         itinerary.buildResponse();
-        ArrayList<Integer> expected = new ArrayList<>();
+        int[] expected = new int[0];
+        int[] itinDist = itinerary.getDistances();
 
-        ArrayList<Integer> itinDist = itinerary.getDistances();
-
-        if(itinDist.size() == expected.size()) {
-            for (int i = 0; i < itinDist.size(); ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected.get(i), itinDist.get(i));
+        if(itinDist.length == expected.length) {
+            for (int i = 0; i < itinDist.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], itinDist[i]);
             }
         } else {
             fail("Test zero places failed");
@@ -156,19 +146,18 @@ public class TestTIPItinerary {
         places.add(boulder);
         places.add(foco);
 
+        distances = new int[places.size()];
+
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
-//        TIPItinerary itinerary = new TIPItinerary(options, places);
         itinerary.buildResponse();
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(39);
-        expected.add(65);
-        expected.add(94);
 
-//        ArrayList<Integer> itinDist = itinerary.getDistances();
+        distances = itinerary.distances;
 
-        if(distances.size() == expected.size()) {
-            for (int i = 0; i < distances.size(); ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected.get(i), distances.get(i));
+        int[] expected = {39, 65, 94};
+
+        if(distances.length == expected.length) {
+            for (int i = 0; i < distances.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], distances[i]);
             }
         } else {
             fail("Test with KM failed");
@@ -191,25 +180,23 @@ public class TestTIPItinerary {
         places.add(boulder);
         places.add(foco);
 
+        distances = new int[places.size()];
+
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
-//        TIPItinerary itinerary = new TIPItinerary(options, places);
         itinerary.buildResponse();
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(21);
-        expected.add(35);
-        expected.add(51);
+        distances = itinerary.distances;
 
-//        ArrayList<Integer> itinDist = itinerary.getDistances();
+        int[] expected = {21, 35, 51};
 
-        if(distances.size() == expected.size()) {
-            for (int i = 0; i < distances.size(); ++i) {
-                assertEquals("Expected distances are the same as the ItineraryObject", expected.get(i), distances.get(i));
+        if(distances.length == expected.length) {
+            for (int i = 0; i < distances.length; ++i) {
+                assertEquals("Expected distances are the same as the ItineraryObject", expected[i], distances[i]);
             }
         } else {
             fail("Test with Nautical Miles failed");
         }
-
     }
+
 
     @Test
     public void testNearestNeighbor() {

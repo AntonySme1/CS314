@@ -5,19 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.slf4j.LoggerFactory;
 
-
+import java.util.*;
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     private JsonArray places;
-    private ArrayList<Integer> distances = new ArrayList<>();
+    protected int[] distances = new int[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -33,7 +28,7 @@ public class TIPItinerary extends TIPHeader{
         this.places = places;
     }
 
-    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
         this();
         this.options = options;
         this.places = places;
@@ -75,7 +70,8 @@ public class TIPItinerary extends TIPHeader{
         return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
     }
 
-    public ArrayList<Integer> fillDistances(){
+    public int[] fillDistances(){
+        distances = new int[places.size()];
         for(int i = 0; i < places.size(); ++i){
             int leg_distance = 0;
             if(i == places.size()-1){
@@ -84,7 +80,7 @@ public class TIPItinerary extends TIPHeader{
                 leg_distance = calculateDistance(i, i + 1);
             }
             log.trace("Leg Distance[ " + i + "] = " + leg_distance);
-            this.distances.add(leg_distance);
+            distances[i] = leg_distance;
         }
         return distances;
     }
@@ -104,13 +100,12 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-    public ArrayList<Integer> getDistances(){
+    public int[] getDistances(){
         return this.distances;
     }
 
     @Override
     public void buildResponse() {
-        this.distances.clear();
         log.trace("buildResponse -> {}", this);
         setOptimization();
         if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
@@ -131,7 +126,8 @@ public class TIPItinerary extends TIPHeader{
             JsonArray newTour = new JsonArray();
             newTour.add(tempPlaces.get(startingCity));
             tempPlaces.remove(startingCity);
-            ArrayList<Long> distances = new ArrayList<>();
+
+            long[] distances = new long[places.size()+1];
             for (int i = 0; i < places.size() - 1; ++i) {
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
@@ -139,7 +135,7 @@ public class TIPItinerary extends TIPHeader{
             Map<String, String> startingPlace = createMapFromPlace(newTour.get(0));
             Map<String, String> lastPlace = createMapFromPlace(newTour.get(newTour.size() - 1));
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
-            distances.add(roundTripLeg);
+            distances[startingCity] = roundTripLeg;
 
             long totalDistance = calculateTotalDistance(distances);
 
@@ -152,7 +148,7 @@ public class TIPItinerary extends TIPHeader{
     }
 
 
-    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
+    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, long[] distances){
         long closestNeighborDistance = Integer.MAX_VALUE;
         int closestNeighborIndex = -1;
         Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
@@ -166,7 +162,9 @@ public class TIPItinerary extends TIPHeader{
                 closestNeighborIndex = j;
             }
         }
-        distances.add(closestNeighborDistance);
+
+        distances[closestNeighborIndex] += closestNeighborDistance;
+
         newTour.add(tempPlaces.get(closestNeighborIndex));
         tempPlaces.remove(closestNeighborIndex);
     }
@@ -186,7 +184,7 @@ public class TIPItinerary extends TIPHeader{
         return placeLatLon;
     }
 
-    private long calculateTotalDistance(ArrayList<Long> distances) {
+    private long calculateTotalDistance(long[] distances) {
         long totalDistance = 0;
         for (long distance : distances) {
             totalDistance += distance;
