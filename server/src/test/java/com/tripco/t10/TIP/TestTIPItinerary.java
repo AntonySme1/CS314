@@ -13,13 +13,13 @@ import static org.junit.Assert.fail;
  */
 public class TestTIPItinerary {
     private JsonObject options;
-    private JsonArray places;
+//    private JsonArray places;
+    private JsonObject[] places;
     private int[] distances;
 
     @Before
     public void addPropertiesForItinerary(){
         options = new JsonObject();
-        places = new JsonArray();
     }
 
     public JsonObject fillDenver(){
@@ -60,11 +60,12 @@ public class TestTIPItinerary {
         JsonObject boulder = this.fillBoulder();
         JsonObject foco = this.fillFoco();
 
-        places.add(denver);
-        places.add(boulder);
-        places.add(foco);
+        places = new JsonObject[3];
+        places[0] = denver;
+        places[1] = boulder;
+        places[2] = foco;
 
-        distances = new int[places.size()];
+        distances = new int[places.length];
 
         TIPItinerary itinerary1 = new TIPItinerary(options, places, distances);
         TIPItinerary itinerary2 = new TIPItinerary(options, places);
@@ -93,9 +94,10 @@ public class TestTIPItinerary {
 
         //fill places array with jsonobjects
         JsonObject denver = this.fillDenver();
-        places.add(denver);
+        places = new JsonObject[1];
+        places[0] = denver;
 
-        distances = new int[places.size()];
+        distances = new int[places.length];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         int[] expected = {0};
@@ -116,6 +118,7 @@ public class TestTIPItinerary {
         //fill options object
         options.addProperty("title", "My Trip");
         options.addProperty("earthRadius", 3958.761316);
+        places = new JsonObject[0];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         itinerary.buildResponse();
@@ -142,11 +145,13 @@ public class TestTIPItinerary {
         JsonObject boulder = this.fillBoulder();
         JsonObject foco = this.fillFoco();
 
-        places.add(denver);
-        places.add(boulder);
-        places.add(foco);
+        places = new JsonObject[3];
 
-        distances = new int[places.size()];
+        places[0] = denver;
+        places[1] = boulder;
+        places[2] = foco;
+
+        distances = new int[places.length];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         itinerary.buildResponse();
@@ -176,11 +181,13 @@ public class TestTIPItinerary {
         JsonObject boulder = this.fillBoulder();
         JsonObject foco = this.fillFoco();
 
-        places.add(denver);
-        places.add(boulder);
-        places.add(foco);
+        places = new JsonObject[3];
 
-        distances = new int[places.size()];
+        places[0] = denver;
+        places[1] = boulder;
+        places[2] = foco;
+
+        distances = new int[places.length];
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         itinerary.buildResponse();
@@ -211,16 +218,26 @@ public class TestTIPItinerary {
         JsonObject boulder = this.fillBoulder();
         JsonObject foco = this.fillFoco();
 
-        places.add(denver);
-        places.add(foco);
-        places.add(boulder);
+        places = new JsonObject[3];
+
+        places[0] = denver;
+        places[1] = boulder;
+        places[2] = foco;
+
+        for(int i = 0; i < places.length; ++i){
+            System.out.println(places[i]);
+        }
+        System.out.println();
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         places = itinerary.nearestNeighbor(places);
+        for(int i = 0; i < places.length; ++i){
+            System.out.println(places[i]);
+        }
 
-        assertEquals("first location is denver", places.get(0), denver);
-        assertEquals("second location is boulder", places.get(1), boulder);
-        assertEquals("third location is foco", places.get(2), foco);
+        assertEquals("first location is denver", places[0], denver);
+        assertEquals("second location is boulder", places[1], boulder);
+        assertEquals("third location is foco", places[2], foco);
     }
 
 }

@@ -11,7 +11,8 @@ import java.util.*;
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
-    private JsonArray places;
+//    private JsonArray places;
+    protected JsonObject [] places = new JsonObject[0];
     protected int[] distances = new int[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
@@ -22,13 +23,15 @@ public class TIPItinerary extends TIPHeader{
     }
 
     //for testing purposes, optional distances
-    TIPItinerary(JsonObject options, JsonArray places) {
+//    TIPItinerary(JsonObject options, JsonArray places) {
+    TIPItinerary(JsonObject options, JsonObject[] places) {
         this();
         this.options = options;
         this.places = places;
     }
 
-    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
+//    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
+    TIPItinerary(JsonObject options, JsonObject[] places, int[] distances) {
         this();
         this.options = options;
         this.places = places;
@@ -42,7 +45,7 @@ public class TIPItinerary extends TIPHeader{
         GreatCircleDistance haversine = new GreatCircleDistance();
 
         //base case, there are 0 or 1 places listed then return 0
-        if(places.size() == 0 || places.size() == 1){
+        if(places.length == 0 || places.length == 1){
             destination = origin;
             return 0;
         }
@@ -63,18 +66,18 @@ public class TIPItinerary extends TIPHeader{
 
     //Code to extract data from Jsonarray from https://stackoverflow.com/questions/41354932/getting-a-value-from-a-jsonarray-using-gson
     public double getLatitude(int i){
-        return places.get(i).getAsJsonObject().get("latitude").getAsDouble();
+        return places[i].getAsJsonObject().get("latitude").getAsDouble();
     }
 
     public double getLongitude(int i){
-        return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
+        return places[i].getAsJsonObject().get("longitude").getAsDouble();
     }
 
     public int[] fillDistances(){
-        distances = new int[places.size()];
-        for(int i = 0; i < places.size(); ++i){
+        distances = new int[places.length];
+        for(int i = 0; i < places.length; ++i){
             int leg_distance = 0;
-            if(i == places.size()-1){
+            if(i == places.length-1){
                 leg_distance = calculateDistance(i, 0);
             } else {
                 leg_distance = calculateDistance(i, i + 1);
@@ -117,23 +120,39 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-    public JsonArray nearestNeighbor(JsonArray places) {
+//    public JsonArray nearestNeighbor(JsonArray places) {
+    public JsonObject[] nearestNeighbor(JsonObject[] places) {
         long shortestTourCumulativeDistance = Integer.MAX_VALUE;
-        JsonArray shortestTour = new JsonArray();
-        for (int startingCity = 0; startingCity < places.size(); startingCity++) {
-            JsonArray tempPlaces = new JsonArray();
-            tempPlaces.addAll(places);
-            JsonArray newTour = new JsonArray();
-            newTour.add(tempPlaces.get(startingCity));
-            tempPlaces.remove(startingCity);
+//        JsonArray shortestTour = new JsonArray();
+        JsonObject [] shortestTour = new JsonObject[places.length];
+        for (int startingCity = 0; startingCity < places.length; startingCity++) {
+//            JsonArray tempPlaces = new JsonArray();
+            JsonObject[] tempPlaces = new JsonObject[places.length];
+            for(int i = 0; i < places.length; ++i){
+                tempPlaces[i] = places[i];
+            }
+//            tempPlaces.addAll(places);
+//            JsonArray newTour = new JsonArray();
+            JsonObject [] newTour = new JsonObject[places.length];
+            newTour[0] = tempPlaces[startingCity];
+            tempPlaces[startingCity] = null;
 
-            long[] distances = new long[places.size()+1];
-            for (int i = 0; i < places.size() - 1; ++i) {
+            long[] distances = new long[places.length+1];
+            for (int i = 0; i < places.length - 1; ++i) {
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
+            Map<String, String> startingPlace = createMapFromPlace(newTour[0]);
 
-            Map<String, String> startingPlace = createMapFromPlace(newTour.get(0));
-            Map<String, String> lastPlace = createMapFromPlace(newTour.get(newTour.size() - 1));
+//            int count = 0;
+//            for(int i = newTour.length-1; i > 0; --i){
+//                if(newTour[i-1] != null){
+//                    count = i-1;
+//                    break;
+//                }
+//            }
+//            Map<String, String> lastPlace = createMapFromPlace(newTour[count]);
+
+            Map<String, String> lastPlace = lastPlace(newTour);
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
             distances[startingCity] = roundTripLeg;
 
@@ -147,26 +166,51 @@ public class TIPItinerary extends TIPHeader{
         return shortestTour;
     }
 
-
-    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, long[] distances){
-        long closestNeighborDistance = Integer.MAX_VALUE;
-        int closestNeighborIndex = -1;
-        Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
-        log.trace("source: " + newTour.get(newTour.size() - 1));
-        for (int j = 0; j < tempPlaces.size(); ++j) {
-            Map<String, String> destination = createMapFromPlace(tempPlaces.get(j));
-            long distance = sourceToDestinationDistance(source, destination);
-            if (distance < closestNeighborDistance) {
-                log.trace("new distance: " + distance + " destination: " + tempPlaces.get(j));
-                closestNeighborDistance = distance;
-                closestNeighborIndex = j;
+    private Map<String, String> lastPlace(JsonObject[] newTour)
+    {
+        int count = 0;
+        for(int i = newTour.length-1; i > 0; --i){
+            if(newTour[i-1] != null){
+                count = i-1;
+                break;
             }
         }
+        return createMapFromPlace(newTour[count]);
+    }
 
+
+//    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, long[] distances){
+    private void findClosestNeighbor(JsonObject[] newTour, JsonObject[] tempPlaces, long[] distances){
+        long closestNeighborDistance = Integer.MAX_VALUE;
+        int closestNeighborIndex = -1;
+        int count = 0;
+//        for(int i = newTour.length-1; i > 0; --i){
+//            if(newTour[i-1] != null){
+//                count = i-1;
+//                break;
+//            }
+//        }
+//        Map<String, String> source = createMapFromPlace(newTour[count]);
+        Map<String, String> source = lastPlace(newTour);
+
+        //was newTour[newTour.length-1]
+//        Map<String, String> source = createMapFromPlace(newTour[0]);
+        log.trace("source: " + newTour[newTour.length - 1]);
+        for (int j = 0; j < tempPlaces.length; ++j) {
+            if(tempPlaces[j] != null) {
+                Map<String, String> destination = createMapFromPlace(tempPlaces[j]);
+//                long distance = sourceToDestinationDistance(source, destination);
+                closestNeighborDistance = sourceToDestinationDistance(source, destination);
+//                if (distance < closestNeighborDistance) {
+//                    log.trace("new distance: " + distance + " destination: " + tempPlaces[j]);
+//                    closestNeighborDistance = distance;
+                    closestNeighborIndex = j;
+//                }
+            }
+        }
         distances[closestNeighborIndex] += closestNeighborDistance;
-
-        newTour.add(tempPlaces.get(closestNeighborIndex));
-        tempPlaces.remove(closestNeighborIndex);
+        newTour[closestNeighborIndex] = tempPlaces[closestNeighborIndex];
+        tempPlaces[closestNeighborIndex] = null;
     }
 
     private long sourceToDestinationDistance(Map<String, String> source, Map<String, String> destination) {
