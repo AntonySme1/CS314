@@ -47,8 +47,8 @@ const generateTableData = (props) =>{
                     <Button className={'btn-csu'} onClick={ ()=>moveToFirst(props,place,index)}><MdArrowDropUp size={'1.4em'}/></Button>
                     <Button className={'btn-csu'} onClick={ ()=>moveUp(props,place,index)}><MdArrowUpward size={'1.4em'}/></Button>
                     <Button className={'btn-csu'} onClick={ ()=>moveDown(props,place,index)}><MdArrowDownward size={'1.4em'}/></Button>
-                    <Button className={'btn-csu'} onClick={ ()=>updateItinerary(props,place,index)}><MdDelete size={'1.4em'}/></Button>
-                    <Button className={'btn-csu'} ><MdPinDrop size={'1.5em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>{updateItinerary(props,place,index); deleteDisplayMarker(props,place)} }><MdDelete size={'1.4em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>updateDisplayMarker(props,place) }><MdPinDrop size={'1.5em'}/></Button>
                 </td>
             </tr>)
         }))
@@ -123,6 +123,34 @@ export const reverseItinerary = (props) => {
 
   props.getItineraryData(aTest);
 
+};
+
+const updateDisplayMarker = (props,place) =>{
+
+  let displayMarker = props.displayMarker;
+  const placeIndex = displayMarker.indexOf(place);
+
+  if (placeIndex !== -1){
+    displayMarker.splice(placeIndex,1);
+
+  }
+
+  else {
+    displayMarker.push(place);
+  }
+
+  props.updateDisplayMarker(displayMarker);
+};
+const deleteDisplayMarker = (props,place) =>{
+  let displayMarker = props.displayMarker;
+  const placeIndex = displayMarker.indexOf(place);
+  console.log("test", placeIndex);
+  if (placeIndex !== -1){
+    displayMarker.splice(placeIndex,1);
+
+  }
+
+  props.updateDisplayMarker(displayMarker);
 };
 
 export default ItineraryTable;
