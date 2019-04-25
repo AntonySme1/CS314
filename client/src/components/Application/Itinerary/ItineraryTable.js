@@ -128,28 +128,24 @@ export const reverseItinerary = (props) => {
 const updateDisplayMarker = (props,place) =>{
 
   let displayMarker = props.displayMarker;
-  const placeIndex = displayMarker.indexOf(place);
+  const placeIndex = displayMarker.filter(markerPlace => (markerPlace.name === place.name)).length;
 
-  if (placeIndex !== -1){
-    displayMarker.splice(placeIndex,1);
+  if (placeIndex > 0){
 
+    displayMarker = displayMarker.filter(markerPlace => (markerPlace.name !== place.name))
   }
 
   else {
+
     displayMarker.push(place);
   }
 
   props.updateDisplayMarker(displayMarker);
 };
 const deleteDisplayMarker = (props,place) =>{
+  
   let displayMarker = props.displayMarker;
-  const placeIndex = displayMarker.indexOf(place);
-  console.log("test", placeIndex);
-  if (placeIndex !== -1){
-    displayMarker.splice(placeIndex,1);
-
-  }
-
+  displayMarker = displayMarker.filter(markerPlace => (markerPlace.name !== place.name));
   props.updateDisplayMarker(displayMarker);
 };
 
