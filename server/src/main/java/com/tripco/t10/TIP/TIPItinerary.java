@@ -137,21 +137,11 @@ public class TIPItinerary extends TIPHeader{
             newTour[0] = tempPlaces[startingCity];
             tempPlaces[startingCity] = null;
 
-            long[] distances = new long[places.length+1];
+            long[] distances = new long[places.length];
             for (int i = 0; i < places.length - 1; ++i) {
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
             Map<String, String> startingPlace = createMapFromPlace(newTour[0]);
-
-//            int count = 0;
-//            for(int i = newTour.length-1; i > 0; --i){
-//                if(newTour[i-1] != null){
-//                    count = i-1;
-//                    break;
-//                }
-//            }
-//            Map<String, String> lastPlace = createMapFromPlace(newTour[count]);
-
             Map<String, String> lastPlace = lastPlace(newTour);
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
             distances[startingCity] = roundTripLeg;
@@ -183,32 +173,27 @@ public class TIPItinerary extends TIPHeader{
     private void findClosestNeighbor(JsonObject[] newTour, JsonObject[] tempPlaces, long[] distances){
         long closestNeighborDistance = Integer.MAX_VALUE;
         int closestNeighborIndex = -1;
-        int count = 0;
-//        for(int i = newTour.length-1; i > 0; --i){
-//            if(newTour[i-1] != null){
-//                count = i-1;
-//                break;
-//            }
-//        }
-//        Map<String, String> source = createMapFromPlace(newTour[count]);
-        Map<String, String> source = lastPlace(newTour);
 
-        //was newTour[newTour.length-1]
-//        Map<String, String> source = createMapFromPlace(newTour[0]);
+        Map<String, String> source = lastPlace(newTour);
         log.trace("source: " + newTour[newTour.length - 1]);
         for (int j = 0; j < tempPlaces.length; ++j) {
             if(tempPlaces[j] != null) {
                 Map<String, String> destination = createMapFromPlace(tempPlaces[j]);
-//                long distance = sourceToDestinationDistance(source, destination);
-                closestNeighborDistance = sourceToDestinationDistance(source, destination);
-//                if (distance < closestNeighborDistance) {
-//                    log.trace("new distance: " + distance + " destination: " + tempPlaces[j]);
-//                    closestNeighborDistance = distance;
+                long distance = sourceToDestinationDistance(source, destination);
+//                closestNeighborDistance = sourceToDestinationDistance(source, destination);
+                if (distance < closestNeighborDistance) {
+                    log.trace("new distance: " + distance + " destination: " + tempPlaces[j]);
+                    closestNeighborDistance = distance;
                     closestNeighborIndex = j;
-//                }
+                }
             }
         }
-        distances[closestNeighborIndex] += closestNeighborDistance;
+        log.info("cnd: " + closestNeighborDistance);
+        log.info("cni: " + closestNeighborIndex);
+        for(long i : distances){
+            log.info("distances in closest: " + i);
+        }
+        distances[closestNeighborIndex] = closestNeighborDistance;
         newTour[closestNeighborIndex] = tempPlaces[closestNeighborIndex];
         tempPlaces[closestNeighborIndex] = null;
     }
