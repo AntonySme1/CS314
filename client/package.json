@@ -20,6 +20,7 @@
     "leaflet-providers": "^1.6.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-icons": "^3.6.1",
     "react-leaflet": "^2.2.0",
     "reactstrap": "^7.0.2",
     "style-loader": "^0.23.1",

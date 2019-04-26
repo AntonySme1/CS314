@@ -19,6 +19,7 @@ export default class Itinerary extends Component {
     constructor(props) {
         super(props);
         this.updateDisplay = this.updateDisplay.bind(this);
+        this.updateDisplayMarker = this.updateDisplayMarker.bind(this);
         this.getItineraryData = this.getItineraryData.bind(this);
         this.renderItineraryForm = this.renderItineraryForm.bind(this);
         this.renderItineraryTable = this.renderItineraryTable.bind(this);
@@ -32,11 +33,11 @@ export default class Itinerary extends Component {
         this.state = {
             itinerary: props.itinerary,
             display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false, findForm:false, findTable:false },
-
+            displayMarker: props.displayMarker,
             find:null,
             errorMessage: null
         };
-
+        console.log(props.displayMarker);
         this.callCalcLegDistance();
     }
 
@@ -74,7 +75,7 @@ export default class Itinerary extends Component {
 
     renderMap() {
         return (
-            <ItineraryMap title= "Itinerary Map" places = {this.state.itinerary.places}/>
+            <ItineraryMap title= "Itinerary Map" displayMarker = {this.state.displayMarker} places = {this.state.itinerary.places}/>
 
         );
     }
@@ -168,6 +169,8 @@ export default class Itinerary extends Component {
                                 createErrorBanner={this.props.createErrorBanner}
                                 itinerary={this.state.itinerary}
                                 getItineraryData={this.getItineraryData}
+                                displayMarker = {this.state.displayMarker}
+                                updateDisplayMarker ={this.updateDisplayMarker}
                                 options={this.props.options}
         />)
     }
@@ -184,6 +187,11 @@ export default class Itinerary extends Component {
     getFindData(find){
 
         this.setState({find: find});
+    }
+    updateDisplayMarker(displayMarker){
+            //console.log(displayMarker);
+            this.setState({displayMarker: displayMarker},()=>{this.props.updateDisplayMarker(this.state.displayMarker)});
+
     }
 
     callCalcLegDistance(){

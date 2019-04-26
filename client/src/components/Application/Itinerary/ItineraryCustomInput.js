@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,Row, Col, FormGroup, Input, Label, Button} from 'reactstrap';
 import Pane from '../Pane'
-import { isValidLatLon,parseLatLon,checkValidLatLonRange} from '../../../api/checkLatLon'
+import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
 
 const customInput = (props) =>{
   const latLon = ["Latitude","Longitude"];

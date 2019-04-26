@@ -80,7 +80,7 @@ updateState (event) {
 
     const tipfindSearch = {
       'requestType': 'find',
-      'requestVersion': 3,
+      'requestVersion': 5,
       'match': this.state.match,
       'limit': parseInt(this.state.limit, 10),
 

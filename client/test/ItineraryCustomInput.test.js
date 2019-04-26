@@ -27,7 +27,9 @@ let startProperties = {
   display:{ itineraryCustomInput: true},
   updateItinerary: () => {},
   getItineraryData: () => {},
-  updateDisplay: () => {}
+  updateDisplay: () => {},
+  displayMarker: [],
+  updateDisplayMarker: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -45,7 +47,9 @@ function itineraryCustomInputTest() {
                                        settings={startProperties.clientSettings}
                                        createErrorBanner={createErrorBanner}
                                      itinerary={startProperties.itinerary}
-                                     updateItinerary={startProperties.updateItinerary}/>);
+                                     updateItinerary={startProperties.updateItinerary}
+                                     displayMarker={startProperties.displayMarker}
+                                     updateDisplayMarker={startProperties.updateDisplayMarker}/>);
 
   const defaultPlaceSize = itinerary.state().itinerary.places.length;
 

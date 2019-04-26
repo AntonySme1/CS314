@@ -40,9 +40,9 @@ const renderLeafletMap= (props) => {
 };
 
 const generateTripMarkers = (props) =>{
-  if (props.places.length > 0) {
+  if (props.displayMarker.length > 0) {
     return (
-        props.places.map((place, index) => {
+        props.displayMarker.map((place, index) => {
           return (
               <Marker position={convertCoordinates(place.latitude, place.longitude)}
                       icon={markerIcon()}

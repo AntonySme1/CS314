@@ -1,7 +1,7 @@
 import {moveToFirst, moveUp, moveDown} from '../src/components/Application/Itinerary/ItineraryTable.js';
 import {reverseItinerary, updateItinerary} from '../src/components/Application/Itinerary/ItineraryTable.js';
 import {getCumulativeDistance, getTotalDistance} from '../src/components/Application/Itinerary/ItineraryTable.js';
-
+import {updateDisplayMarker,deleteDisplayMarker} from '../src/components/Application/Itinerary/ItineraryTable.js';
 //startProperties will change throughout the course of the test, so be aware of hardcoding expected values
 const startProperties = {
     getItineraryData: (itineraryObject) => {},
@@ -13,7 +13,9 @@ const startProperties = {
             {"name": "somewhere", "latitude": "0", "longitude": "0"}
         ],
         distances: [24, 41, 59, 9999]
-    }
+    },
+    displayMarker:[],
+    updateDisplayMarker: () => {}
 };
 
 function testUpdateItinerary () {
@@ -81,3 +83,22 @@ function testReverseItinerary () {
 }
 
 test('testing reverseItinerary() function', testReverseItinerary);
+
+
+function testUpdateDisplayMarker (){
+    const place = {"name": "Denver", "latitude": "39.7", "longitude": "-105.0"};
+    let displayMarker = updateDisplayMarker (startProperties,place);
+    expect(displayMarker.length).toBe(1);
+    displayMarker = updateDisplayMarker (startProperties,place);//toggle off
+    expect(displayMarker.length).toBe(0);
+}
+
+test('testing updateDisplayMarker() function', testUpdateDisplayMarker);
+
+function testDeleteDisplayMarker (){
+    const place = {"name": "Denver", "latitude": "39.7", "longitude": "-105.0"};
+    const displayMarker = deleteDisplayMarker(startProperties,place);
+    expect(displayMarker.length).toBe(0);
+}
+
+test('testing deleteDisplayMarker() function', testDeleteDisplayMarker);

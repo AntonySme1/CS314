@@ -19,7 +19,7 @@ export default class ItineraryForm extends Component {
 
             <FormGroup>
                 <Label for="itinerary">Itinerary Upload</Label>
-                <CustomInput type="file" label="Upload valid itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
+                <CustomInput type="file" label="Upload itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
             </FormGroup>
           <FormGroup className={"Button text-center"}>

@@ -26,7 +26,9 @@ const startProperties = {
         places: [],
         distances: [],
     },
-    updateItinerary: () => {}
+    updateItinerary: () => {},
+    displayMarker: [],
+    updateDisplayMarker: () => {}
 };
 
 function createErrorBanner(statusText, statusCode, message) {
@@ -42,10 +44,12 @@ function mapExistenceTest() {
                                        settings={startProperties.clientSettings}
                                        createErrorBanner={createErrorBanner}
                                        itinerary={startProperties.itinerary}
-                                       updateItinerary={startProperties.updateItinerary}/>);
+                                       updateItinerary={startProperties.updateItinerary}
+                                       displayMarker={startProperties.displayMarker}
+                                       updateDisplayMarker={startProperties.updateDisplayMarker}/>);
 
     expect(itinerary.contains(
-        <ItineraryMap title = "Itinerary Map" places = {startProperties.itinerary.places}/>
+        <ItineraryMap title = "Itinerary Map" displayMarker = {startProperties.displayMarker} places = {startProperties.itinerary.places}/>
     )).toEqual(true);
 }
 
@@ -66,7 +70,9 @@ function itineraryTableTest() {
                                        settings={startProperties.clientSettings}
                                        createErrorBanner={createErrorBanner}
                                          itinerary={startProperties.itinerary}
-                                         updateItinerary={startProperties.updateItinerary}/>);
+                                         updateItinerary={startProperties.updateItinerary}
+                                         displayMarker={startProperties.displayMarker}
+                                         updateDisplayMarker={startProperties.updateDisplayMarker}/>);
 
     itinerary.setState(itineraryData);
     itinerary.update();

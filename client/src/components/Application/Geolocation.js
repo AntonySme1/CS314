@@ -19,9 +19,7 @@ export default class Geolocation extends Component {
             geolocationFlag: false
         };
 
-        this.getCurrentCoordinates();
-        this.updateStateWithCookieCoordinates();
-        this.checkGeolocationFlag();
+
     }
 
     render() {
@@ -112,6 +110,14 @@ export default class Geolocation extends Component {
             shadowUrl: iconShadow,
             iconAnchor: [12,40]  // for proper placement
         })
+    }
+
+
+    componentDidMount(){
+        this.getCurrentCoordinates();
+        this.updateStateWithCookieCoordinates();
+        this.checkGeolocationFlag();
+
     }
 }
 
