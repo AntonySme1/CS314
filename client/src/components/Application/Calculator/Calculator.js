@@ -9,6 +9,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import Cookies from 'js-cookie';
+import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
+import {updateItinerary} from "../Itinerary/ItineraryCustomInput";
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -18,7 +20,6 @@ export default class Calculator extends Component {
       this.updateStateWithCookieCoord = this.updateStateWithCookieCoord.bind(this);
       this.calculateDistance = this.calculateDistance.bind(this);
       this.createInputField = this.createInputField.bind(this);
-      this.checkValidLatLonRange = this.checkValidLatLonRange.bind(this);
       this.setErrorBanner = this.setErrorBanner.bind(this);
       this.state = {
           origin: {latitude:"", longitude: ""},
@@ -27,15 +28,15 @@ export default class Calculator extends Component {
           errorMessage: null
       };
 
-      this.updateStateWithCookieCoord();
-      this.calculateDistance();
+
+
 
   }
 
   render() {
     return (
       <Container>
-        { this.state.errorMessage }
+        {this.state.errorMessage}
         <Row className = 'mb-4'>
           <Col>
             {this.createHeader()}
@@ -114,37 +115,7 @@ export default class Calculator extends Component {
     );
   }
 
-  calculateDistance() {
 
-      let parsedOrigin = this.parseLatLon ()[0], parsedDestination = this.parseLatLon()[1];
-
-      if (this.isParseValid(parsedOrigin,parsedDestination)) {
-        let originLat = parsedOrigin.lat, originLon = parsedOrigin.lon;
-        let destinationLat = parsedDestination.lat, destinationLon = parsedDestination.lon;
-
-        const checkOrgRange = this.checkValidLatLonRange(parseFloat(originLat),parseFloat(originLon));
-        const checkDestRange = this.checkValidLatLonRange(parseFloat(destinationLat),parseFloat(destinationLon));
-
-          if (checkOrgRange && checkDestRange) {
-
-          const tipConfigRequest = {
-              'requestType': 'distance',
-              'requestVersion': 3,
-              'origin': {latitude: originLat.toString(), longitude: originLon.toString()},
-              'destination': {latitude: destinationLat.toString(), longitude: destinationLon.toString()},
-              'earthRadius': this.props.options.units[this.props.options.activeUnit]
-          };
-
-          sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
-              .then((response) => {
-                 this.getRequest(response);
-              });
-      }
-          else {
-            this.setErrorBanner('Bad Longitude or latitude', 400, this.props.settings.serverPort)
-          }
-      }
-  }
 
   updateLocationOnChange(stateVar, field, value) {
       let location = Object.assign({}, this.state[stateVar]);
@@ -247,33 +218,6 @@ export default class Calculator extends Component {
         })
     }
 
-    checkValidLatLonRange(lat,lon){
-      const checkLatRange = parseInt(lat) >= -90 && parseInt(lat) <= 90;
-      const checkLonRange = parseInt(lon) >= -180 && parseInt(lon) <= 180;
-      return checkLatRange && checkLonRange;
-     }
-
-  parseLatLon (){
-    const originLatLon = this.state.origin.latitude + ", " + this.state.origin.longitude;
-
-    const destinationLatLon = this.state.destination.latitude + ", " + this.state.destination.longitude;
-
-    let parsedOrigin = {}, parsedDestination = {};
-
-    try {
-      parsedOrigin = coordParser(originLatLon);
-      parsedDestination = coordParser(destinationLatLon);
-
-    }
-    catch (e) {}
-    return [parsedOrigin,parsedDestination];
-
-  }
-
-  isParseValid(parsedOrigin,parsedDestination){
-     return   Object.keys(parsedOrigin).length === 2 && Object.keys(parsedDestination).length === 2
-  }
-
   setErrorBanner(message,statusCode,serverPort){
     this.setState({
       errorMessage: this.props.createErrorBanner(
@@ -293,6 +237,44 @@ export default class Calculator extends Component {
       this.setErrorBanner(response.statusText,response.statusCode,response.serverPort);
     }
   }
+
+  calculateDistance() {
+
+    if (isValidLatLon(this.state.origin.latitude,this.state.origin.longitude) && isValidLatLon(this.state.destination.latitude,this.state.destination.longitude) ) {
+      const origin = parseLatLon(this.state.origin.latitude,this.state.origin.longitude);
+      const destination = parseLatLon(this.state.destination.latitude,this.state.destination.longitude);
+
+      const tipConfigRequest = {
+        'requestType': 'distance',
+        'requestVersion': 5,
+        'origin': {latitude: origin.lat, longitude: origin.lon},
+        'destination': {latitude: destination.lat, longitude: destination.lat},
+        'earthRadius': this.props.options.units[this.props.options.activeUnit]
+      };
+
+      sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
+      .then((response) => {
+        this.getRequest(response);
+      });
+    }
+    else {
+      this.setErrorBanner("Bad latitude or longitude format",400,this.props.settings.serverPort)
+    }
+
+
+
+
+  }
+
+  componentDidMount(){
+    this.updateStateWithCookieCoord();
+
+    const origin = this.state.origin.latitude !== "" && this.state.origin.longitude !== "";
+    const destination = this.state.destination.latitude !== "" && this.state.destination.longitude !== "";
+    
+    if (origin && destination){ this.calculateDistance(); }
+  }
+
 
 
 

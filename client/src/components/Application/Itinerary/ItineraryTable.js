@@ -143,7 +143,7 @@ const updateDisplayMarker = (props,place) =>{
   props.updateDisplayMarker(displayMarker);
 };
 const deleteDisplayMarker = (props,place) =>{
-  
+
   let displayMarker = props.displayMarker;
   displayMarker = displayMarker.filter(markerPlace => (markerPlace.name !== place.name));
   props.updateDisplayMarker(displayMarker);

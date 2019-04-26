@@ -19,6 +19,7 @@ export default class Application extends Component {
   constructor(props){
     super(props);
     this.updateItinerary = this.updateItinerary.bind(this);
+    this.updateDisplayMarker = this.updateDisplayMarker.bind(this);
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
@@ -41,7 +42,8 @@ export default class Application extends Component {
           "earthRadius":"3958.761316","optimization":"none" },
         places: [],
         distances: [],
-      }
+      },
+      displayMarker:[]
     };
 
     this.updateStateWithCookies();
@@ -90,8 +92,13 @@ export default class Application extends Component {
   }
 
   updateItinerary(itinerary){
-    console.log(itinerary);
+
     this.setState({'itinerary': itinerary});
+  }
+
+  updateDisplayMarker(displayMarker){
+
+    this.setState({'displayMarker': displayMarker});
   }
 
   updateStateWithCookies(){
@@ -128,7 +135,9 @@ export default class Application extends Component {
                           settings={this.state.clientSettings}
                           createErrorBanner={this.createErrorBanner}
                           itinerary={this.state.itinerary}
-                          updateItinerary={this.updateItinerary}/>;
+                          updateItinerary={this.updateItinerary}
+                          displayMarker={this.state.displayMarker}
+                          updateDisplayMarker ={this.updateDisplayMarker}/>;
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}

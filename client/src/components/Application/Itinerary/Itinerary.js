@@ -33,11 +33,11 @@ export default class Itinerary extends Component {
         this.state = {
             itinerary: props.itinerary,
             display:{itineraryTable: true, itineraryCustomInput: false, itineraryUpload: false, findForm:false, findTable:false },
-            displayMarker: [],
+            displayMarker: props.displayMarker,
             find:null,
             errorMessage: null
         };
-
+        console.log(props.displayMarker);
         this.callCalcLegDistance();
     }
 
@@ -189,8 +189,9 @@ export default class Itinerary extends Component {
         this.setState({find: find});
     }
     updateDisplayMarker(displayMarker){
-            console.log(displayMarker);
-            this.setState({displayMarker: displayMarker});
+            //console.log(displayMarker);
+            this.setState({displayMarker: displayMarker},()=>{this.props.updateDisplayMarker(this.state.displayMarker)});
+
     }
 
     callCalcLegDistance(){
