@@ -3,14 +3,13 @@ import { Container, Row, Col } from 'reactstrap'
 import { Form, Button , Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import coordParser from 'coord-parser'
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import Cookies from 'js-cookie';
 import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
-import {updateItinerary} from "../Itinerary/ItineraryCustomInput";
+
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -28,12 +27,10 @@ export default class Calculator extends Component {
           errorMessage: null
       };
 
-
-
-
   }
 
   render() {
+    const panes = [this.createForm('origin'),this.createForm('destination'),this.createDistance()];
     return (
       <Container>
         {this.state.errorMessage}
@@ -42,22 +39,20 @@ export default class Calculator extends Component {
             {this.createHeader()}
           </Col>
         </Row>
+
         <Row className = 'mb-4'>
-          <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createForm('origin')}
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createForm('destination')}
-          </Col>
-          <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createDistance()}
-          </Col>
+          {panes.map ((pane,index)=>{
+          return(<Col xs={12} sm={6} md={4} lg={3} key ={index}>
+            {pane}
+          </Col>)
+        })}
         </Row>
-          <Row className = 'mb-4'>
+
+        <Row className = 'mb-4'>
               <Col xs={12} sm={12} md={7} lg={8} xl={9}>
                   {this.renderMap()}
               </Col>
-          </Row>
+        </Row>
       </Container>
     );
   }
@@ -153,58 +148,37 @@ export default class Calculator extends Component {
     //Map background from https://leafletjs.com/examples/zoom-levels/
     renderLeafletMap() {
       let coordinates = [this.getMarker(this.state.origin.latitude,this.state.origin.longitude), this.getMarker(this.state.destination.latitude,this.state.destination.longitude)];
-        return (
-            <Map center={L.latLng(0,0)} zoom={0} style={{height: 500, maxwidth: 700}} preferCanvas={true}>
+      const markers = [{name: "Origin", position:this.getMarker(this.state.origin.latitude,this.state.origin.longitude)},
+        {name: "Destination", position:this.getMarker(this.state.destination.latitude,this.state.destination.longitude)} ];
+      return (
+            <Map center={L.latLng(0,0)} zoom={2} style={{height: 500, maxwidth: 700}} preferCanvas={true}>
                 <TileLayer url='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={this.getMarker(this.state.origin.latitude,this.state.origin.longitude)}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Origin</Popup>
-                </Marker>
-                <Marker position={this.getMarker(this.state.destination.latitude,this.state.destination.longitude)}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Destination</Popup>
-                </Marker>
+              { markers.map((marker,index) =>{
+                return(
+                    <Marker position={marker.position} icon={this.markerIcon()} key ={index}>
+                      <Popup className="font-weight-extrabold">{marker.name}</Popup>
+                    </Marker>
+                )
+              })}
+
                 <Polyline positions={coordinates}/>
             </Map>
         )
     }
 
-    buildMarker(latitude, longitude) {
-      try {
-          if (isNaN(latitude) && /[NSns]/.test(latitude)) {
-              let parsedCoordinate = coordParser(latitude);
-              latitude = parsedCoordinate.lat;
-          }
 
-          if (isNaN(latitude) && !(/[NSns]/.test(latitude))) {
-              return L.latLng(0, 0);
-          }
-
-          if (isNaN(longitude) && /[WEwe]/.test(longitude)) {
-              let parsedCoordinate = coordParser(longitude);
-              longitude = parsedCoordinate.lon;
-          }
-
-          if (isNaN(longitude) && !(/[WEwe]/.test(latitude))) {
-              return L.latLng(0, 0);
-          }
-
-          return L.latLng(latitude, longitude);
-      }
-      catch(e) {
-          return L.latLng(0,0);
-      }
-    }
 
     getMarker(lat,lon){
 
-          if(!(/\d/.test(lat)) || !(/\d/.test(lon))){
-                return L.latLng(0, 0);
-          }
-
-          return this.buildMarker(lat, lon);
+      if (isValidLatLon(lat,lon)  ) {
+        const location  = parseLatLon(lat,lon);
+          return L.latLng(location.lat, location.lon);
+    }
+      else {
+        return L.latLng(0, 0);
+      }
     }
 
 
@@ -261,9 +235,6 @@ export default class Calculator extends Component {
       this.setErrorBanner("Bad latitude or longitude format",400,this.props.settings.serverPort)
     }
 
-
-
-
   }
 
   componentDidMount(){
@@ -271,7 +242,7 @@ export default class Calculator extends Component {
 
     const origin = this.state.origin.latitude !== "" && this.state.origin.longitude !== "";
     const destination = this.state.destination.latitude !== "" && this.state.destination.longitude !== "";
-    
+
     if (origin && destination){ this.calculateDistance(); }
   }
 

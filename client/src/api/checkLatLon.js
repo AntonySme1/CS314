@@ -8,7 +8,7 @@ export const isValidLatLon = (lat,lon)=>{
 
   }
   else{
-    console.log("bad lat lon");
+    //console.log("bad lat lon");
   }
 
 

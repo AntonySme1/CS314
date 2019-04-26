@@ -3,24 +3,22 @@ import {Table,Button} from "reactstrap";
 import { MdDelete,MdPinDrop,MdArrowUpward,MdArrowDownward,MdArrowDropUp} from "react-icons/md";
 
 const  ItineraryTable = (props) => {
+  const tableHeaders = ["#","Name","Latitude","longitude", `Leg Distance (${props.options.activeUnit})`
+    ,`Cumulative Distance (${props.options.activeUnit})`,"Options"];
     return (
         <Table responsive hover borderless>
             <thead>
             <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Leg Distance ({props.options.activeUnit})</th>
-                <th>Cumulative Distance ({props.options.activeUnit})</th>
-                <th>Options</th>
-
+              {tableHeaders.map((tableHeader,index)=>{
+                return(<th key={index}>{tableHeader}</th>)
+              })}
             </tr>
             </thead>
             <tbody>
                 {generateTableData (props)}
 
-                <tr><td><Button onClick={ () => reverseItinerary(props)}> Reverse</Button></td></tr>
+                <tr><td><Button onClick={ () => reverseItinerary(props)}> Reverse</Button></td>
+                <td><Button onClick={ () => props.updateDisplayMarker([])}> Clear Markers</Button></td></tr>
 
             <tr>
                 <th colSpan="5" scope="row">Grand Total</th>
@@ -48,7 +46,7 @@ const generateTableData = (props) =>{
                     <Button className={'btn-csu'} onClick={ ()=>moveUp(props,place,index)}><MdArrowUpward size={'1.4em'}/></Button>
                     <Button className={'btn-csu'} onClick={ ()=>moveDown(props,place,index)}><MdArrowDownward size={'1.4em'}/></Button>
                     <Button className={'btn-csu'} onClick={ ()=>{updateItinerary(props,place,index); deleteDisplayMarker(props,place)} }><MdDelete size={'1.4em'}/></Button>
-                    <Button className={'btn-csu'} onClick={ ()=>updateDisplayMarker(props,place) }><MdPinDrop size={'1.5em'}/></Button>
+                    <Button className={'btn-csu'} onClick={ ()=>updateDisplayMarker(props,place) }><MdPinDrop size={'1.4em'}/></Button>
                 </td>
             </tr>)
         }))
@@ -125,7 +123,7 @@ export const reverseItinerary = (props) => {
 
 };
 
-const updateDisplayMarker = (props,place) =>{
+export const updateDisplayMarker = (props,place) =>{
 
   let displayMarker = props.displayMarker;
   const placeIndex = displayMarker.filter(markerPlace => (markerPlace.name === place.name)).length;
@@ -141,12 +139,14 @@ const updateDisplayMarker = (props,place) =>{
   }
 
   props.updateDisplayMarker(displayMarker);
+  return displayMarker;
 };
-const deleteDisplayMarker = (props,place) =>{
+export const deleteDisplayMarker = (props,place) =>{
 
   let displayMarker = props.displayMarker;
   displayMarker = displayMarker.filter(markerPlace => (markerPlace.name !== place.name));
   props.updateDisplayMarker(displayMarker);
+  return displayMarker;
 };
 
 export default ItineraryTable;
