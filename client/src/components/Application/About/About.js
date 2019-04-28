@@ -10,32 +10,6 @@ import { Card, CardImg, CardText, CardBody } from 'reactstrap';
 export default class About extends Component{
     constructor(props) {
         super(props);
-
-        this.state = {
-            Jon: {
-                name: "Jon",
-                description: "I'm a senior at CSU studying Applied Computing Technologies. I work four jobs at the Lincoln Center. In my free time," +
-                             "I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tv," +
-                             "or working out.",
-                imageSource: "https://photos.gurushots.com/unsafe/500x500/ccce38a7b1b46939b00b63dfd0fe0fea/3_04e86ebfb135035a652071581e8490bb.jpg"
-            },
-            Patrick:{
-                name: "Patrick",
-                description: "I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits." +
-                             "I also enjoy video games and drones.",
-                imageSource: "http://i68.tinypic.com/xldo2b.jpg"
-            },
-            Saurav: {
-                name: "Saurav",
-                description: "I am a senior CSU student studying Applied Computing Technology.",
-                imageSource: "https://i.ibb.co/JcFhMwp/saurav.png"
-            },
-            Jack: {
-                name: "Jack",
-                description: "I'm currently a junior at CSU studying Computer Science",
-                imageSource: "https://i.ibb.co/JKWx0RP/jacks-avatar.png"
-            }
-        };
     }
 
     /*
@@ -53,10 +27,8 @@ export default class About extends Component{
                         {this.heading()}
                     </Col>
                 </Row>
-                {this.addTeamMember(this.state.Jon)}
-                {this.addTeamMember(this.state.Patrick)}
-                {this.addTeamMember(this.state.Saurav)}
-                {this.addTeamMember(this.state.Jack)}
+                {this.memberData().map((member,index)=><span key ={index}>{this.addTeamMember(member)}</span>)}
+
             </Container>
         )
     }
@@ -89,6 +61,24 @@ export default class About extends Component{
                 </Row>
 
         );
+    }
+
+    memberData(){
+        return [ { name: "Jon", description: "I'm a senior at CSU studying Applied Computing Technologies. I work four jobs at the Lincoln Center. In my free time," +
+            "I am a photographer hobbyist so I spend a lot of time shooting and editing photos, or I am playing video games, reading, watching tv," +
+            "or working out.",
+            imageSource: "https://photos.gurushots.com/unsafe/500x500/ccce38a7b1b46939b00b63dfd0fe0fea/3_04e86ebfb135035a652071581e8490bb.jpg"},
+
+            { name: "Patrick", description: "I am a current junior in computer science. I am an avid hiker with currently 18 Colorado 14er summits." +
+            "I also enjoy video games and drones.",
+                imageSource: "http://i68.tinypic.com/xldo2b.jpg"},
+
+            {name: "Saurav", description: "I am a senior CSU student studying Applied Computing Technology.",
+                imageSource: "https://i.ibb.co/JcFhMwp/saurav.png"},
+
+            {name: "Jack", description: "I'm currently a junior at CSU studying Computer Science",
+                imageSource: "https://i.ibb.co/JKWx0RP/jacks-avatar.png"}
+              ]
     }
 
 
