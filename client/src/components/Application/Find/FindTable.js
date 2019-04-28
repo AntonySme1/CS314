@@ -3,47 +3,45 @@ import {Table,Button} from "reactstrap";
 import { MdAdd} from "react-icons/md";
 
 const  FindTable = (props) => {
+  const tableHeaders = ["Add","#","City","Latitude","Longitude"];
   return (
       <Table responsive hover borderless>
         <thead>
         <tr>
-          <th>#</th>
-          <th>City</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-          <th>Add</th>
-
+          {tableHeaders.map(tableHeader=><th key ={tableHeader}>{tableHeader}</th>)}
         </tr>
         </thead>
         <tbody>
         {generateTableData (props)}
-        <tr>
-        </tr>
+
 
         </tbody>
       </Table>);
 };
 
-const generateTableData = (props) =>{
+export const generateTableData = (props) =>{
   return(
       props.find.places.map((place,index) => {
         return (<tr key={index}>
+          <td><Button className={'btn-csu'} onClick={()=>updateItinerary(props,place)}><MdAdd size ={'1.4em'}/></Button></td>
           <td>{index + 1}</td>
           <td>{place.name}</td>
           <td>{place.latitude}</td>
           <td>{place.longitude}</td>
-          <td><Button className={'btn-csu'} onClick={()=>updateItinerary(props,place)}><MdAdd size ={'1.4em'}/></Button></td>
+
         </tr>)
       }))
 };
 
-const updateItinerary = (props,place) => {
+export const updateItinerary = (props,place) => {
 
-      let aTest = Object.assign({}, props.itinerary);
+      let itinerary = Object.assign({}, props.itinerary);
 
-        aTest.places.push(place);
+      itinerary .places.push(place);
 
-    props.getItineraryData(aTest);
+    props.getItineraryData(itinerary);
+
+    return itinerary;
 
 };
 export default FindTable;
