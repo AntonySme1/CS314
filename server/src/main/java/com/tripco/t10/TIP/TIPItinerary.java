@@ -114,7 +114,13 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
         if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
+
             this.places = nearestNeighbor(this.places);
+            this.distances = fillDistances();
+        }
+        else if (options.getAsJsonObject().get("optimization").getAsString().equals("shorter")) {
+
+            this.places = twoOpt(this.places);
             this.distances = fillDistances();
         }
         else {
@@ -148,6 +154,29 @@ public class TIPItinerary extends TIPHeader{
                 shortestTourCumulativeDistance = totalDistance;
             }
         }
+        return shortestTour;
+    }
+
+    public JsonArray twoOpt(JsonArray places) {
+        JsonArray nearestNeigbor = nearestNeighbor(places);
+        JsonArray shortestTour = new JsonArray();
+        boolean improvement = true;
+        while (improvement) {
+            improvement = false;
+            for (int i = 0; i <= places.size()-3; i++) {  // assert n>4
+                for (int k = i + 2; k <= places.size()-1; k++) {
+                    int delta = -1 * calculateDistance(i,i+1)-calculateDistance(k,k+1)+calculateDistance(i,k)+calculateDistance(i+1,k+1);
+                    if (delta < 0) { //improvement?
+                        //twooptReverse (JsonArray route, int i1, int k)
+                        improvement = true;
+                        //if(newCost < bestCost){
+
+                        //}
+                    }
+                }
+            }
+        }
+
         return shortestTour;
     }
 
@@ -192,6 +221,15 @@ public class TIPItinerary extends TIPHeader{
             totalDistance += distance;
         }
         return totalDistance;
+    }
+
+    private void twooptReverse (JsonArray route, int i1, int k) { // reverse in place
+        while(i1 < k) {
+            JsonElement temp = route.get(i1);
+            route.set(i1, route.get(i1));
+            route.set(k,temp);
+            i1++; k--;
+        }
     }
 
     @Override
