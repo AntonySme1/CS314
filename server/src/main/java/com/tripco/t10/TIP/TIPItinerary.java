@@ -1,5 +1,7 @@
 package com.tripco.t10.TIP;
 
+import java.util.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -7,7 +9,7 @@ import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
@@ -121,7 +123,7 @@ public class TIPItinerary extends TIPHeader{
             this.distances = fillDistances();
         }
     }
-    private int find (JsonObject [] places ,String findValue){
+    protected int find (JsonObject [] places ,String findValue){
         for (int i =0; i< places.length; i++){
             if ((places[i].get("name").getAsString()).equals(findValue)){ return i;}
         }
@@ -129,19 +131,22 @@ public class TIPItinerary extends TIPHeader{
     }
         //code from https://www.geeksforgeeks.org/array-rotation/
     /*Function to left rotate arr[] of size n by d*/
-    JsonObject[] leftRotate(JsonObject arr[], int d, int n)
+    JsonObject[] leftRotate(JsonObject arr[], int oldPosition, int lengthOfArray)
     {
-        for (int i = 0; i < d; i++)
-            leftRotatebyOne(arr, n);
+        for (int i = 0; i < oldPosition; i++) {
+            leftRotatebyOne(arr, lengthOfArray);
+        }
         return arr;
     }
 
-    void leftRotatebyOne(JsonObject arr[], int n)
+    void leftRotatebyOne(JsonObject arr[], int lengthOfArray)
     {
-        int i; JsonObject temp;
+        int i;
+        JsonObject temp;
         temp = arr[0];
-        for (i = 0; i < n - 1; i++)
+        for (i = 0; i < lengthOfArray - 1; i++) {
             arr[i] = arr[i + 1];
+        }
         arr[i] = temp;
     }
 

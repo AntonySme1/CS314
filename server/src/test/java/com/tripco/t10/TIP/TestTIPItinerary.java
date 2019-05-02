@@ -243,5 +243,14 @@ public class TestTIPItinerary {
 
 
     }
+    @Test
+    public void testFindPlace (){
+        JsonObject [] places = {this.fillDenver(),fillBoulder(),this.fillFoco()};
+
+        TIPItinerary itinerary = new TIPItinerary(options, places, distances);
+        assertEquals("Bad value find index", -1, itinerary.find(places,"Bad"));
+        assertEquals("Find index of boulder", 1, itinerary.find(places,"Boulder"));
+
+    }
 
 }
