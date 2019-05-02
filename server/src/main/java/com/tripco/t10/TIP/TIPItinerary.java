@@ -113,7 +113,7 @@ public class TIPItinerary extends TIPHeader{
         setOptimization();
         if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
 
-            int first = find(nearestNeighbor(this.places),this.places[0].get("name").getAsString());
+            int first = this.places.length > 0 ? find(nearestNeighbor(this.places),this.places[0].get("name").getAsString()) : -1;
             this.places = leftRotate(nearestNeighbor(this.places),first,this.places.length);
             this.distances = fillDistances();
         }
