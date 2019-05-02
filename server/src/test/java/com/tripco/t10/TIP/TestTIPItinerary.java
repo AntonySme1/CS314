@@ -231,5 +231,17 @@ public class TestTIPItinerary {
         assertEquals("second location is boulder", boulder, places[1]);
         assertEquals("third location is foco", foco, places[2]);
     }
+    @Test
+    public void testLeftRotateArray(){
+        JsonObject [] places = {this.fillDenver(),fillBoulder(),this.fillFoco()};
+
+        TIPItinerary itinerary = new TIPItinerary(options, places, distances);
+
+        places = itinerary.leftRotate(places,1,places.length);
+
+        assertEquals("first location is boulder", places[0].get("name").getAsString(), "Boulder");
+
+
+    }
 
 }
