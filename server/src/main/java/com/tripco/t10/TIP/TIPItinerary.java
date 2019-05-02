@@ -120,30 +120,29 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-//    public JsonArray nearestNeighbor(JsonArray places) {
     public JsonObject[] nearestNeighbor(JsonObject[] places) {
         long shortestTourCumulativeDistance = Integer.MAX_VALUE;
-//        JsonArray shortestTour = new JsonArray();
         JsonObject [] shortestTour = new JsonObject[places.length];
         for (int startingCity = 0; startingCity < places.length; startingCity++) {
-//            JsonArray tempPlaces = new JsonArray();
             JsonObject[] tempPlaces = new JsonObject[places.length];
             for(int i = 0; i < places.length; ++i){
                 tempPlaces[i] = places[i];
             }
-//            tempPlaces.addAll(places);
-//            JsonArray newTour = new JsonArray();
             JsonObject [] newTour = new JsonObject[places.length];
             newTour[0] = tempPlaces[startingCity];
+
             tempPlaces[startingCity] = null;
 
             long[] distances = new long[places.length];
-            for (int i = 0; i < places.length - 1; ++i) {
+            for(int i = 0; i < places.length - 1; ++i){
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
+
             Map<String, String> startingPlace = createMapFromPlace(newTour[0]);
             Map<String, String> lastPlace = lastPlace(newTour);
+
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
+
             distances[startingCity] = roundTripLeg;
 
             long totalDistance = calculateTotalDistance(distances);
@@ -168,33 +167,39 @@ public class TIPItinerary extends TIPHeader{
         return createMapFromPlace(newTour[count]);
     }
 
-
-//    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, long[] distances){
     private void findClosestNeighbor(JsonObject[] newTour, JsonObject[] tempPlaces, long[] distances){
         long closestNeighborDistance = Integer.MAX_VALUE;
         int closestNeighborIndex = -1;
 
-        Map<String, String> source = lastPlace(newTour);
+          Map<String, String> source = lastPlace(newTour);
+
         log.trace("source: " + newTour[newTour.length - 1]);
         for (int j = 0; j < tempPlaces.length; ++j) {
+            Map<String, String> destination;
             if(tempPlaces[j] != null) {
-                Map<String, String> destination = createMapFromPlace(tempPlaces[j]);
+                destination = createMapFromPlace(tempPlaces[j]);
                 long distance = sourceToDestinationDistance(source, destination);
-//                closestNeighborDistance = sourceToDestinationDistance(source, destination);
+
                 if (distance < closestNeighborDistance) {
-                    log.trace("new distance: " + distance + " destination: " + tempPlaces[j]);
+
                     closestNeighborDistance = distance;
                     closestNeighborIndex = j;
                 }
             }
         }
-        log.info("cnd: " + closestNeighborDistance);
-        log.info("cni: " + closestNeighborIndex);
-        for(long i : distances){
-            log.info("distances in closest: " + i);
+        for(int i = 0; i < distances.length; ++i){
+            if(distances[i] == 0){
+                distances[i] = closestNeighborDistance;
+                break;
+            }
         }
-        distances[closestNeighborIndex] = closestNeighborDistance;
-        newTour[closestNeighborIndex] = tempPlaces[closestNeighborIndex];
+
+        for(int i = 0; i < newTour.length; ++i) {
+            if(newTour[i] == null) {
+                newTour[i] = tempPlaces[closestNeighborIndex];
+                break;
+            }
+        }
         tempPlaces[closestNeighborIndex] = null;
     }
 

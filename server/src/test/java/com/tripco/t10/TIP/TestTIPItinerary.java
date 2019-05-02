@@ -221,19 +221,11 @@ public class TestTIPItinerary {
         places = new JsonObject[3];
 
         places[0] = denver;
-        places[1] = boulder;
-        places[2] = foco;
-
-        for(int i = 0; i < places.length; ++i){
-            System.out.println(places[i]);
-        }
-        System.out.println();
+        places[1] = foco;
+        places[2] = boulder;
 
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         places = itinerary.nearestNeighbor(places);
-        for(int i = 0; i < places.length; ++i){
-            System.out.println(places[i]);
-        }
 
         assertEquals("first location is denver", places[0], denver);
         assertEquals("second location is boulder", places[1], boulder);
