@@ -112,12 +112,37 @@ public class TIPItinerary extends TIPHeader{
         log.trace("buildResponse -> {}", this);
         setOptimization();
         if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
-            this.places = nearestNeighbor(this.places);
+
+            int first = find(nearestNeighbor(this.places),this.places[0].get("name").getAsString());
+            this.places = leftRotate(nearestNeighbor(this.places),first,this.places.length);
             this.distances = fillDistances();
         }
         else {
             this.distances = fillDistances();
         }
+    }
+    private int find (JsonObject [] places ,String findValue){
+        for (int i =0; i< places.length; i++){
+            if ((places[i].get("name").getAsString()).equals(findValue)){ return i;}
+        }
+       return -1;
+    }
+        //code from https://www.geeksforgeeks.org/array-rotation/
+    /*Function to left rotate arr[] of size n by d*/
+    JsonObject[] leftRotate(JsonObject arr[], int d, int n)
+    {
+        for (int i = 0; i < d; i++)
+            leftRotatebyOne(arr, n);
+        return arr;
+    }
+
+    void leftRotatebyOne(JsonObject arr[], int n)
+    {
+        int i; JsonObject temp;
+        temp = arr[0];
+        for (i = 0; i < n - 1; i++)
+            arr[i] = arr[i + 1];
+        arr[i] = temp;
     }
 
     public JsonObject[] nearestNeighbor(JsonObject[] places) {
