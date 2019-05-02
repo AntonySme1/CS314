@@ -37,7 +37,7 @@ public class TIPConfig extends TIPHeader {
   public void buildResponse() {
     this.serverName = "T10 finiteLoop";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
-    this.optimizations = Arrays.asList("none");
+    this.optimizations = Arrays.asList("none","short");
     log.trace("buildResponse -> {}", this);
   }
 
