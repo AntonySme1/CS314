@@ -129,7 +129,13 @@ public class TIPItinerary extends TIPHeader{
                 tempPlaces[i] = places[i];
             }
             JsonObject [] newTour = new JsonObject[places.length];
-            newTour[0] = tempPlaces[startingCity];
+
+            for(int i = 0; i < newTour.length; ++i) {
+                if(newTour[i] == null) {
+                    newTour[i] = tempPlaces[startingCity];
+                    break;
+                }
+            }
 
             tempPlaces[startingCity] = null;
 
@@ -139,11 +145,10 @@ public class TIPItinerary extends TIPHeader{
             }
 
             Map<String, String> startingPlace = createMapFromPlace(newTour[0]);
-            Map<String, String> lastPlace = lastPlace(newTour);
+            Map<String, String> lastPlace = createMapFromPlace(newTour[newTour.length - 1]);
 
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
-
-            distances[startingCity] = roundTripLeg;
+            distances[distances.length-1] = roundTripLeg;
 
             long totalDistance = calculateTotalDistance(distances);
 
@@ -158,7 +163,7 @@ public class TIPItinerary extends TIPHeader{
     private Map<String, String> lastPlace(JsonObject[] newTour)
     {
         int count = 0;
-        for(int i = newTour.length-1; i > 0; --i){
+        for(int i = newTour.length; i > 0; --i){
             if(newTour[i-1] != null){
                 count = i-1;
                 break;
@@ -171,7 +176,7 @@ public class TIPItinerary extends TIPHeader{
         long closestNeighborDistance = Integer.MAX_VALUE;
         int closestNeighborIndex = -1;
 
-          Map<String, String> source = lastPlace(newTour);
+        Map<String, String> source = lastPlace(newTour);
 
         log.trace("source: " + newTour[newTour.length - 1]);
         for (int j = 0; j < tempPlaces.length; ++j) {

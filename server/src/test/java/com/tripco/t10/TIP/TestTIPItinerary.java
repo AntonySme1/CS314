@@ -227,9 +227,9 @@ public class TestTIPItinerary {
         TIPItinerary itinerary = new TIPItinerary(options, places, distances);
         places = itinerary.nearestNeighbor(places);
 
-        assertEquals("first location is denver", places[0], denver);
-        assertEquals("second location is boulder", places[1], boulder);
-        assertEquals("third location is foco", places[2], foco);
+        assertEquals("first location is denver", denver, places[0]);
+        assertEquals("second location is boulder", boulder, places[1]);
+        assertEquals("third location is foco", foco, places[2]);
     }
 
 }
