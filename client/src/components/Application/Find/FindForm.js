@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Button, FormGroup,} from 'reactstrap'
 import { Form, Label, Input} from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
+import {schemaValidator} from "../SchemaValidation";
+import TIPFindSchema from "../../../../../server/src/main/resources/TIPFindSchema.json";
 
 
 
@@ -90,13 +92,18 @@ updateState (event) {
     sendServerRequestWithBody('find', tipfindSearch, this.props.settings.serverPort)
     .then((response) => {
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        this.setState({
-          places: response.body.places,
-          found: response.body.found,
-          errorMessage: null
-        });
-
-        this.props.getFindData(this.state);
+        if (schemaValidator(TIPFindSchema, response.body)) {
+          this.props.setErrorBanner("", "", null);
+          this.setState({
+            places: response.body.places,
+            found: response.body.found,
+            errorMessage: null
+          });
+          this.props.getFindData(this.state);
+        } else {
+          const errorMessage = "Invalid Find response received from the server (does not match schema)"
+          this.props.setErrorBanner("", "", errorMessage);
+        }
       } else {
         this.setState({
           errorMessage: this.props.createErrorBanner(

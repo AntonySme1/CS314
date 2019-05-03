@@ -151,6 +151,7 @@ export default class Itinerary extends Component {
                 <Pane header={'FindForm'}>
                     {<FindForm settings = {this.props.settings}
                                createErrorBanner={this.props.createErrorBanner}
+                               setErrorBanner={this.setErrorBanner}
                                getFindData={this.getFindData}
                                display = {this.state.display}
                                updateDisplay = {this.updateDisplay}/>}
