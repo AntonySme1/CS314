@@ -29,7 +29,7 @@ public class TIPConfig extends TIPHeader {
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 4;
+    this.requestVersion = 5;
   }
 
 
@@ -37,7 +37,7 @@ public class TIPConfig extends TIPHeader {
   public void buildResponse() {
     this.serverName = "T10 finiteLoop";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
-    this.optimizations = Arrays.asList("none");
+    this.optimizations = Arrays.asList("none","short");
     log.trace("buildResponse -> {}", this);
   }
 
