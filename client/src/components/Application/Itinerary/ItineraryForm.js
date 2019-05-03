@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Button, FormGroup} from 'reactstrap'
 import { Form, Label, CustomInput} from 'reactstrap'
 import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
+import {schemaValidator} from "../SchemaValidation";
+import TIPItinerarySchema from "../../../../../server/src/main/resources/TIPItinerarySchema.json";
 
 export default class ItineraryForm extends Component {
 
@@ -48,7 +50,14 @@ async readFile   (event) {
     const file = event.target.files[0];
     const fileContent = await this.processFile (file);
 
-    this.setStateFromFile(fileContent);
+    if (schemaValidator(TIPItinerarySchema, JSON.parse(fileContent))){
+        this.props.setErrorBanner("", "", null);
+        this.setStateFromFile(fileContent);
+    } else {
+        const errorMessage = "Invalid itinerary (does not match schema)";
+        this.props.setErrorBanner("", "", errorMessage);
+    }
+
 };
 
 

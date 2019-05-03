@@ -32,6 +32,7 @@ export default class Itinerary extends Component {
         this.renderFindForm = this.renderFindForm.bind(this);
         this.renderFindTable = this.renderFindTable.bind(this);
         this.calculateLegDistance = this.calculateLegDistance.bind(this);
+        this.setErrorBanner = this.setErrorBanner.bind(this);
 
         this.state = {
             itinerary: props.itinerary,
@@ -134,6 +135,7 @@ export default class Itinerary extends Component {
             return (
                 <Pane header={'Itinerary Upload'}>
                     {<ItineraryForm  settings = {this.props.settings}
+                                     setErrorBanner = {this.setErrorBanner}
                                      createErrorBanner={this.props.createErrorBanner}
                                      getItineraryData={this.getItineraryData}
                                      display = {this.state.display}
@@ -179,6 +181,15 @@ export default class Itinerary extends Component {
                                 updateDisplayMarker ={this.updateDisplayMarker}
                                 options={this.props.options}
         />)
+    }
+
+    setErrorBanner(statusText, statusCode, message) {
+        //if message is set to null, then the error banner will be disabled
+        if (message) {
+            this.setState({errorMessage: this.props.createErrorBanner(statusText, statusCode, message)});
+        } else {
+            this.setState({errorMessage: null});
+        }
     }
 
     getItineraryData(itinerary){
