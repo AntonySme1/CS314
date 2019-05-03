@@ -9,6 +9,8 @@ import 'leaflet/dist/leaflet.css';
 import {Map, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import Cookies from 'js-cookie';
 import { isValidLatLon,parseLatLon} from '../../../api/checkLatLon'
+import {schemaValidator} from "../SchemaValidation";
+import TIPDistanceSchema from "../../../../../server/src/main/resources/TIPDistanceSchema.json";
 
 
 export default class Calculator extends Component {
@@ -228,7 +230,15 @@ export default class Calculator extends Component {
 
       sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
       .then((response) => {
-        this.getRequest(response);
+        if (schemaValidator(TIPDistanceSchema, response.body)){
+            this.getRequest(response);
+        } else {
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    "Server Error", 500, `TIPDistance response from ${this.props.settings.serverPort} failed.`
+                )
+            });
+        }
       });
     }
     else {
