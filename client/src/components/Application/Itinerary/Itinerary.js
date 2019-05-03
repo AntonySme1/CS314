@@ -11,6 +11,9 @@ import ItineraryCustomInput from "./ItineraryCustomInput";
 import saveItinerary from "./ItinerarySave";
 import ItineraryOptions from "./ItineraryOptions";
 import ItineraryOptimizationOptions from "./ItineraryOptimizationOptions";
+import {schemaValidator} from "../SchemaValidation";
+import TIPItinerarySchema from "../../../../../server/src/main/resources/TIPItinerarySchema.json";
+
 /*
  * Renders the itinerary page.
  */
@@ -45,18 +48,21 @@ export default class Itinerary extends Component {
         const allrenderMethods = [this.renderMap(),this.renderItineraryOptimizationOptions(),this.renderItineraryOptions(),this.renderFindForm(),this.renderFindTable(),this.renderItineraryForm(),
             this.renderItineraryCustomInput(),this.renderItineraryTable()];
         return (
-            <Container>
-                {allrenderMethods.map((method,index) =>{
-                    return(
-                        <Row className = 'mb-4' key ={index}>
-                            <Col xs={12}>
-                                {method}
-                            </Col>
-                        </Row>
-                    )
-                })}
+            <div>
+                {this.state.errorMessage}
+                <Container>
+                    {allrenderMethods.map((method,index) =>{
+                        return(
+                            <Row className = 'mb-4' key ={index}>
+                                <Col xs={12}>
+                                    {method}
+                                </Col>
+                            </Row>
+                        )
+                    })}
 
-            </Container>
+                </Container>
+            </div>
         )
     }
 
@@ -217,13 +223,24 @@ export default class Itinerary extends Component {
         sendServerRequestWithBody('itinerary', tipLegDistanceRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
-
-                    const state = Object.assign({},this.state);
-                    state.itinerary.distances = response.body.distances;
-                    state.itinerary.places = response.body.places;
-                    state.itinerary.options.optimization = "none";
-                    this.setState({errorMessage: null});
-                    this.setState({itinerary: state.itinerary},()=>{this.props.updateItinerary(this.state.itinerary)});
+                    if (schemaValidator(TIPItinerarySchema, response.body)) {
+                        const state = Object.assign({}, this.state);
+                        state.itinerary.distances = response.body.distances;
+                        state.itinerary.places = response.body.places;
+                        state.itinerary.options.optimization = "none";
+                        this.setState({errorMessage: null});
+                        this.setState({itinerary: state.itinerary}, () => {
+                            this.props.updateItinerary(this.state.itinerary)
+                        });
+                    } else {
+                        this.setState({
+                            errorMessage: this.props.createErrorBanner(
+                                response.statusText,
+                                response.statusCode,
+                                `Response from ${this.props.settings.serverPort} is an invalid schema.`
+                            )
+                        });
+                    }
                 }else {
                     this.setState({
                         errorMessage: this.props.createErrorBanner(
@@ -234,7 +251,6 @@ export default class Itinerary extends Component {
                     });
                 }
             });
-
     }
 
 }
