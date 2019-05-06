@@ -31,27 +31,30 @@ export default class FindForm extends Component {
 
   render() {
     return (
-        <Form onSubmit = {this.processForm}>
+        <div>
+          {this.state.errorMessage}
+          <Form onSubmit = {this.processForm}>
 
-          <FormGroup>
-            <Label for="searchTerm">Search Term</Label>
-            <Input type="text" name="match" id="searchTerm" placeholder={"Search term"} onChange={this.updateState} />
-          </FormGroup>
+            <FormGroup>
+              <Label for="searchTerm">Search Term</Label>
+              <Input type="text" name="match" id="searchTerm" placeholder={"Search term"} onChange={this.updateState} />
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="limit">Limit</Label>
-            <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
-          </FormGroup>
+            <FormGroup>
+              <Label for="limit">Limit</Label>
+              <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
+            </FormGroup>
 
-          <FormGroup className={"text-center"}>
-            <Button className={"btn-csu"} type="submit"> Find </Button>
-          </FormGroup>
-          <FormGroup className={"text-center"}>
-            <Button className={"btn-csu"} onClick={() =>{this.hideForm(); }} > Cancel </Button>
-          </FormGroup>
+            <FormGroup className={"text-center"}>
+              <Button className={"btn-csu"} type="submit"> Find </Button>
+            </FormGroup>
+            <FormGroup className={"text-center"}>
+              <Button className={"btn-csu"} onClick={() =>{this.hideForm(); }} > Cancel </Button>
+            </FormGroup>
 
 
-        </Form>
+          </Form>
+        </div>
 
     );}
 
@@ -93,7 +96,6 @@ updateState (event) {
     .then((response) => {
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         if (schemaValidator(TIPFindSchema, response.body)) {
-          this.props.setErrorBanner("", "", null);
           this.setState({
             places: response.body.places,
             found: response.body.found,
@@ -101,8 +103,13 @@ updateState (event) {
           });
           this.props.getFindData(this.state);
         } else {
-          const errorMessage = "Invalid Find response received from the server (does not match schema)"
-          this.props.setErrorBanner("", "", errorMessage);
+          this.setState({
+            errorMessage: this.props.createErrorBanner(
+                response.statusText,
+                500,
+                `Invalid Find response received from ${this.props.settings.serverPort} (does not match schema).`
+            )
+          });
         }
       } else {
         this.setState({
@@ -114,10 +121,6 @@ updateState (event) {
         });
       }
     });
-
   }
-
-
-
 }
 
