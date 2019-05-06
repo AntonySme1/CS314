@@ -1,8 +1,8 @@
 import {schemaValidator} from "../src/components/Application/SchemaValidation.js";
-import TIPItinerarySchema from "/home/jhfitzg/IdeaProjects/t10/server/src/main/resources/TIPItinerarySchema.json";
-import TIPConfigSchema from "/home/jhfitzg/IdeaProjects/t10/server/src/main/resources/TIPConfigSchema.json";
-import TIPDistanceSchema from "/home/jhfitzg/IdeaProjects/t10/server/src/main/resources/TIPDistanceSchema.json";
-import TIPFindSchema from "/home/jhfitzg/IdeaProjects/t10/server/src/main/resources/TIPFindSchema.json";
+import TIPItinerarySchema from "../../server/src/main/resources/TIPItinerarySchema.json";
+import TIPConfigSchema from "../../server/src/main/resources/TIPConfigSchema.json";
+import TIPDistanceSchema from "../../server/src/main/resources/TIPDistanceSchema.json";
+import TIPFindSchema from "../../server/src/main/resources/TIPFindSchema.json";
 
 const startProperties = {
     "config": {
