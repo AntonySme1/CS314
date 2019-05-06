@@ -60,12 +60,11 @@ async readFile   (event) {
     } else {
         this.setState({
             errorMessage: this.props.createErrorBanner(
-                "",
+                "Client Error",
                 400,
                 `Invalid itinerary uploaded (does not match schema)`
             )
         });
-        this.props.setErrorBanner("", "", errorMessage);
     }
 
 };

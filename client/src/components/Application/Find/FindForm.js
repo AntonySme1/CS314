@@ -105,7 +105,7 @@ updateState (event) {
         } else {
           this.setState({
             errorMessage: this.props.createErrorBanner(
-                response.statusText,
+                "Server Error",
                 500,
                 `Invalid Find response received from ${this.props.settings.serverPort} (does not match schema).`
             )

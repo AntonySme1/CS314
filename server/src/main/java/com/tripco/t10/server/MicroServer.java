@@ -116,8 +116,6 @@ class MicroServer {
       TIPHeader tipRequest = jsonConverter.fromJson(request.body(), tipType);
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
-      responseBody = "{}";
-      //performSchemaValidation(tipType, responseBody);
       log.trace("TIP Response: {}", responseBody);
       return responseBody;
     } catch (Exception e) {

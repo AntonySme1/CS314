@@ -245,8 +245,8 @@ export default class Itinerary extends Component {
                     } else {
                         this.setState({
                             errorMessage: this.props.createErrorBanner(
-                                response.statusText,
-                                response.statusCode,
+                                "Server Error",
+                                500,
                                 `Response from ${this.props.settings.serverPort} is an invalid schema.`
                             )
                         });
