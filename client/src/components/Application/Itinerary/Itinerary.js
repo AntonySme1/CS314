@@ -135,7 +135,6 @@ export default class Itinerary extends Component {
             return (
                 <Pane header={'Itinerary Upload'}>
                     {<ItineraryForm  settings = {this.props.settings}
-                                     setErrorBanner = {this.setErrorBanner}
                                      createErrorBanner={this.props.createErrorBanner}
                                      getItineraryData={this.getItineraryData}
                                      display = {this.state.display}

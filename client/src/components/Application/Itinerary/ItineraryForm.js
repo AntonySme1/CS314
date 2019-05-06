@@ -13,23 +13,27 @@ export default class ItineraryForm extends Component {
         this.readFile = this.readFile.bind(this);
         this.hideForm = this.hideForm.bind(this);
 
+        this.state = {
+            errorMessage: null
+        };
+
     };
 
     render() {
     return (
-        <Form>
+        <div>
+            {this.state.errorMessage}
+            <Form>
+                <FormGroup>
+                    <Label for="itinerary">Itinerary Upload</Label>
+                    <CustomInput type="file" label="Upload itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
 
-            <FormGroup>
-                <Label for="itinerary">Itinerary Upload</Label>
-                <CustomInput type="file" label="Upload itinerary json file" name="Itinerary Upload" id="itinerary" accept=".json,application/json" onChange ={this.readFile}/>
-
-            </FormGroup>
-          <FormGroup className={"Button text-center"}>
-            <Button className={"btn-csu"} type ="button" onClick={this.hideForm}> Cancel </Button>
-          </FormGroup>
-
-        </Form>
-
+                </FormGroup>
+              <FormGroup className={"Button text-center"}>
+                <Button className={"btn-csu"} type ="button" onClick={this.hideForm}> Cancel </Button>
+              </FormGroup>
+            </Form>
+        </div>
     );}
 
 //code from https://blog.shovonhasan.com/using-promises-with-filereader/
@@ -51,10 +55,16 @@ async readFile   (event) {
     const fileContent = await this.processFile (file);
 
     if (schemaValidator(TIPItinerarySchema, JSON.parse(fileContent))){
-        this.props.setErrorBanner("", "", null);
+        this.setState({errorMessage: null});
         this.setStateFromFile(fileContent);
     } else {
-        const errorMessage = "Invalid itinerary (does not match schema)";
+        this.setState({
+            errorMessage: this.props.createErrorBanner(
+                "",
+                400,
+                `Invalid itinerary uploaded (does not match schema)`
+            )
+        });
         this.props.setErrorBanner("", "", errorMessage);
     }
 
