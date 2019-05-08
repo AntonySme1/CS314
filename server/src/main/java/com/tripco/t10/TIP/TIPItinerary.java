@@ -1,23 +1,21 @@
 package com.tripco.t10.TIP;
 
+import java.util.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.tripco.t10.misc.GreatCircleDistance;
 import org.slf4j.Logger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.slf4j.LoggerFactory;
 
 
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
-    private JsonArray places;
-    private ArrayList<Integer> distances = new ArrayList<>();
+    //    private JsonArray places;
+    protected JsonObject [] places = new JsonObject[0];
+    protected int[] distances = new int[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -27,13 +25,15 @@ public class TIPItinerary extends TIPHeader{
     }
 
     //for testing purposes, optional distances
-    TIPItinerary(JsonObject options, JsonArray places) {
+//    TIPItinerary(JsonObject options, JsonArray places) {
+    TIPItinerary(JsonObject options, JsonObject[] places) {
         this();
         this.options = options;
         this.places = places;
     }
 
-    TIPItinerary(JsonObject options, JsonArray places, ArrayList<Integer> distances) {
+    //    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
+    TIPItinerary(JsonObject options, JsonObject[] places, int[] distances) {
         this();
         this.options = options;
         this.places = places;
@@ -47,7 +47,7 @@ public class TIPItinerary extends TIPHeader{
         GreatCircleDistance haversine = new GreatCircleDistance();
 
         //base case, there are 0 or 1 places listed then return 0
-        if(places.size() == 0 || places.size() == 1){
+        if(places.length == 0 || places.length == 1){
             destination = origin;
             return 0;
         }
@@ -68,23 +68,24 @@ public class TIPItinerary extends TIPHeader{
 
     //Code to extract data from Jsonarray from https://stackoverflow.com/questions/41354932/getting-a-value-from-a-jsonarray-using-gson
     public double getLatitude(int i){
-        return places.get(i).getAsJsonObject().get("latitude").getAsDouble();
+        return places[i].getAsJsonObject().get("latitude").getAsDouble();
     }
 
     public double getLongitude(int i){
-        return places.get(i).getAsJsonObject().get("longitude").getAsDouble();
+        return places[i].getAsJsonObject().get("longitude").getAsDouble();
     }
 
-    public ArrayList<Integer> fillDistances(){
-        for(int i = 0; i < places.size(); ++i){
+    public int[] fillDistances(){
+        distances = new int[places.length];
+        for(int i = 0; i < places.length; ++i){
             int leg_distance = 0;
-            if(i == places.size()-1){
+            if(i == places.length-1){
                 leg_distance = calculateDistance(i, 0);
             } else {
                 leg_distance = calculateDistance(i, i + 1);
             }
             log.trace("Leg Distance[ " + i + "] = " + leg_distance);
-            this.distances.add(leg_distance);
+            distances[i] = leg_distance;
         }
         return distances;
     }
@@ -104,48 +105,80 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-    public ArrayList<Integer> getDistances(){
+    public int[] getDistances(){
         return this.distances;
     }
 
     @Override
     public void buildResponse() {
-        this.distances.clear();
         log.trace("buildResponse -> {}", this);
         setOptimization();
         if (options.getAsJsonObject().get("optimization").getAsString().equals("short")) {
 
-            this.places = nearestNeighbor(this.places);
-            this.distances = fillDistances();
-        }
-        else if (options.getAsJsonObject().get("optimization").getAsString().equals("shorter")) {
-
-            this.places = twoOpt(this.places);
+            int first = this.places.length > 0 ? find(nearestNeighbor(this.places),this.places[0].get("name").getAsString()) : -1;
+            this.places = leftRotate(nearestNeighbor(this.places),first,this.places.length);
             this.distances = fillDistances();
         }
         else {
             this.distances = fillDistances();
         }
     }
+    protected int find (JsonObject [] places ,String findValue){
+        for (int i =0; i< places.length; i++){
+            if ((places[i].get("name").getAsString()).equals(findValue)){ return i;}
+        }
+        return -1;
+    }
+    //code from https://www.geeksforgeeks.org/array-rotation/
+    /*Function to left rotate arr[] of size n by d*/
+    JsonObject[] leftRotate(JsonObject arr[], int oldPosition, int lengthOfArray)
+    {
+        for (int i = 0; i < oldPosition; i++) {
+            leftRotatebyOne(arr, lengthOfArray);
+        }
+        return arr;
+    }
 
-    public JsonArray nearestNeighbor(JsonArray places) {
+    void leftRotatebyOne(JsonObject arr[], int lengthOfArray)
+    {
+        int i;
+        JsonObject temp;
+        temp = arr[0];
+        for (i = 0; i < lengthOfArray - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        arr[i] = temp;
+    }
+
+    public JsonObject[] nearestNeighbor(JsonObject[] places) {
         long shortestTourCumulativeDistance = Integer.MAX_VALUE;
-        JsonArray shortestTour = new JsonArray();
-        for (int startingCity = 0; startingCity < places.size(); startingCity++) {
-            JsonArray tempPlaces = new JsonArray();
-            tempPlaces.addAll(places);
-            JsonArray newTour = new JsonArray();
-            newTour.add(tempPlaces.get(startingCity));
-            tempPlaces.remove(startingCity);
-            ArrayList<Long> distances = new ArrayList<>();
-            for (int i = 0; i < places.size() - 1; ++i) {
+        JsonObject [] shortestTour = new JsonObject[places.length];
+        for (int startingCity = 0; startingCity < places.length; startingCity++) {
+            JsonObject[] tempPlaces = new JsonObject[places.length];
+            for(int i = 0; i < places.length; ++i){
+                tempPlaces[i] = places[i];
+            }
+            JsonObject [] newTour = new JsonObject[places.length];
+
+            for(int i = 0; i < newTour.length; ++i) {
+                if(newTour[i] == null) {
+                    newTour[i] = tempPlaces[startingCity];
+                    break;
+                }
+            }
+
+            tempPlaces[startingCity] = null;
+
+            long[] distances = new long[places.length];
+            for(int i = 0; i < places.length - 1; ++i){
                 findClosestNeighbor(newTour, tempPlaces, distances);
             }
 
-            Map<String, String> startingPlace = createMapFromPlace(newTour.get(0));
-            Map<String, String> lastPlace = createMapFromPlace(newTour.get(newTour.size() - 1));
+            Map<String, String> startingPlace = createMapFromPlace(newTour[0]);
+            Map<String, String> lastPlace = createMapFromPlace(newTour[newTour.length - 1]);
+
             long roundTripLeg = sourceToDestinationDistance(lastPlace, startingPlace);
-            distances.add(roundTripLeg);
+            distances[distances.length-1] = roundTripLeg;
 
             long totalDistance = calculateTotalDistance(distances);
 
@@ -157,47 +190,52 @@ public class TIPItinerary extends TIPHeader{
         return shortestTour;
     }
 
-    public JsonArray twoOpt(JsonArray places) {
-        JsonArray nearestNeigbor = nearestNeighbor(places);
-        JsonArray shortestTour = new JsonArray();
-        boolean improvement = true;
-        while (improvement) {
-            improvement = false;
-            for (int i = 0; i <= places.size()-3; i++) {  // assert n>4
-                for (int k = i + 2; k <= places.size()-1; k++) {
-                    int delta = -1 * calculateDistance(i,i+1)-calculateDistance(k,k+1)+calculateDistance(i,k)+calculateDistance(i+1,k+1);
-                    if (delta < 0) { //improvement?
-                        //twooptReverse (JsonArray route, int i1, int k)
-                        improvement = true;
-                        //if(newCost < bestCost){
+    private Map<String, String> lastPlace(JsonObject[] newTour)
+    {
+        int count = 0;
+        for(int i = newTour.length; i > 0; --i){
+            if(newTour[i-1] != null){
+                count = i-1;
+                break;
+            }
+        }
+        return createMapFromPlace(newTour[count]);
+    }
 
-                        //}
-                    }
+    private void findClosestNeighbor(JsonObject[] newTour, JsonObject[] tempPlaces, long[] distances){
+        long closestNeighborDistance = Integer.MAX_VALUE;
+        int closestNeighborIndex = -1;
+
+        Map<String, String> source = lastPlace(newTour);
+
+        log.trace("source: " + newTour[newTour.length - 1]);
+        for (int j = 0; j < tempPlaces.length; ++j) {
+            Map<String, String> destination;
+            if(tempPlaces[j] != null) {
+                destination = createMapFromPlace(tempPlaces[j]);
+                long distance = sourceToDestinationDistance(source, destination);
+
+                if (distance < closestNeighborDistance) {
+
+                    closestNeighborDistance = distance;
+                    closestNeighborIndex = j;
                 }
             }
         }
-
-        return shortestTour;
-    }
-
-
-    private void findClosestNeighbor(JsonArray newTour, JsonArray tempPlaces, ArrayList<Long> distances) {
-        long closestNeighborDistance = Integer.MAX_VALUE;
-        int closestNeighborIndex = -1;
-        Map<String, String> source = createMapFromPlace(newTour.get(newTour.size() - 1));
-        log.trace("source: " + newTour.get(newTour.size() - 1));
-        for (int j = 0; j < tempPlaces.size(); ++j) {
-            Map<String, String> destination = createMapFromPlace(tempPlaces.get(j));
-            long distance = sourceToDestinationDistance(source, destination);
-            if (distance < closestNeighborDistance) {
-                log.trace("new distance: " + distance + " destination: " + tempPlaces.get(j));
-                closestNeighborDistance = distance;
-                closestNeighborIndex = j;
+        for(int i = 0; i < distances.length; ++i){
+            if(distances[i] == 0){
+                distances[i] = closestNeighborDistance;
+                break;
             }
         }
-        distances.add(closestNeighborDistance);
-        newTour.add(tempPlaces.get(closestNeighborIndex));
-        tempPlaces.remove(closestNeighborIndex);
+
+        for(int i = 0; i < newTour.length; ++i) {
+            if(newTour[i] == null) {
+                newTour[i] = tempPlaces[closestNeighborIndex];
+                break;
+            }
+        }
+        tempPlaces[closestNeighborIndex] = null;
     }
 
     private long sourceToDestinationDistance(Map<String, String> source, Map<String, String> destination) {
@@ -215,7 +253,7 @@ public class TIPItinerary extends TIPHeader{
         return placeLatLon;
     }
 
-    private long calculateTotalDistance(ArrayList<Long> distances) {
+    private long calculateTotalDistance(long[] distances) {
         long totalDistance = 0;
         for (long distance : distances) {
             totalDistance += distance;
@@ -235,9 +273,9 @@ public class TIPItinerary extends TIPHeader{
     @Override
     public String toString() {
         return "TIPItinerary{" +
-                "options: " + options +
-                "places: " + places +
-                "distances: " + distances +
-                '}';
+            "options: " + options +
+            "places: " + places +
+            "distances: " + distances +
+            '}';
     }
 }
