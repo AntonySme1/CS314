@@ -4,8 +4,15 @@ import { Form, Label, Input} from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import {schemaValidator} from "../SchemaValidation";
 import TIPFindSchema from "../../../../../server/src/main/resources/TIPFindSchema.json";
+import Select from 'react-select';
 
-
+const options = [
+  {value: 'helioport', label: 'Helioport'},
+  {value: 'small_airport', label: 'Airport'},
+  {value: 'seaplane_base', label: 'Seaplane Base'},
+  {value: 'closed', label: 'Closed'},
+  {value: 'balloonport', label: 'Balloonport'}
+];
 
 export default class FindForm extends Component {
 
@@ -15,21 +22,28 @@ export default class FindForm extends Component {
     this.findSearch = this.findSearch.bind(this);
     this.processForm = this.processForm.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
     this.state = {
 
       match: "Denver",
       limit: 10,
       found: 0,
       places: [],
-      errorMessage: null
+      errorMessage: null,
+      selectedOption: null
 
     };
 
   };
 
-
+  handleChange(selectedOption) {
+    this.setState({selectedOption});
+    console.log(selectedOption);
+  }
 
   render() {
+    const { selectedOption } = this.state;
     return (
         <div>
           {this.state.errorMessage}
@@ -41,8 +55,8 @@ export default class FindForm extends Component {
             </FormGroup>
 
             <FormGroup>
-              <Label for="limit">Limit</Label>
-              <Input type="number" name="limit" id="searchTerm" min = "0" placeholder={"Limit number"} onChange={this.updateState}/>
+              <Label for="filter">Filter Search</Label>
+              <Select value={selectedOption} onChange={this.handleChange} options={options} isMulti={true}/>
             </FormGroup>
 
             <FormGroup className={"text-center"}>
