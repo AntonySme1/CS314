@@ -65,7 +65,7 @@ This sprint will complete the following Epics.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *7* | *3* |
+| Epics | *7* | *5* |
 | Tasks |  *20*   | *9* | 
 | Story Points |  *12*  | *8* | 
 
@@ -90,12 +90,12 @@ These Epics were completed.
 * *## User: I would like to highlight certain places on the map*
 * *## User: let me choose from different map backgrounds*
 * *## User: Give me a friendly message if something goes wrong*
+* *## User: Let me plan trips world wide*
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
 
-* *## User: Let me plan trips world wide*
 * *## User: I want to view my trip in other tools: Turned out to be much more complicated than we originally thought it would be.*
 * *## User: Can trips be shorter?*
 
