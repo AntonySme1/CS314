@@ -261,14 +261,6 @@ public class TIPItinerary extends TIPHeader{
         return totalDistance;
     }
 
-    private void twooptReverse (JsonArray route, int i1, int k) { // reverse in place
-        while(i1 < k) {
-            JsonElement temp = route.get(i1);
-            route.set(i1, route.get(i1));
-            route.set(k,temp);
-            i1++; k--;
-        }
-    }
 
     @Override
     public String toString() {
