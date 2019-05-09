@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class TIPItinerary extends TIPHeader{
     private JsonObject options;
-//    private JsonArray places;
+    //    private JsonArray places;
     protected JsonObject [] places = new JsonObject[0];
     protected int[] distances = new int[0];
 
@@ -32,7 +32,7 @@ public class TIPItinerary extends TIPHeader{
         this.places = places;
     }
 
-//    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
+    //    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
     TIPItinerary(JsonObject options, JsonObject[] places, int[] distances) {
         this();
         this.options = options;
@@ -127,9 +127,9 @@ public class TIPItinerary extends TIPHeader{
         for (int i =0; i< places.length; i++){
             if ((places[i].get("name").getAsString()).equals(findValue)){ return i;}
         }
-       return -1;
+        return -1;
     }
-        //code from https://www.geeksforgeeks.org/array-rotation/
+    //code from https://www.geeksforgeeks.org/array-rotation/
     /*Function to left rotate arr[] of size n by d*/
     JsonObject[] leftRotate(JsonObject arr[], int oldPosition, int lengthOfArray)
     {
@@ -261,12 +261,13 @@ public class TIPItinerary extends TIPHeader{
         return totalDistance;
     }
 
+
     @Override
     public String toString() {
         return "TIPItinerary{" +
-                "options: " + options +
-                "places: " + places +
-                "distances: " + distances +
-                '}';
+            "options: " + options +
+            "places: " + places +
+            "distances: " + distances +
+            '}';
     }
 }
