@@ -111,7 +111,7 @@ In this sprint, ...
 #### What we changed this sprint
 
 Our changes for this sprint included ...
-Adding the option for users to make their trip even shorter.
+
 
 #### What we did well
 
