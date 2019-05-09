@@ -65,16 +65,19 @@ This sprint will complete the following Epics.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *7* | *value* |
-| Tasks |  *20*   | *value* | 
-| Story Points |  *12*  | *value* | 
+| Epics | *7* | *3* |
+| Tasks |  *20*   | *9* | 
+| Story Points |  *12*  | *8* | 
 
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
-
+| *4/22/2019* | *#308, #318* | *#259, #320, #314, #309, #306, #313, #322, #307, #321, #329, #331* | *none* | 
+| *4/26/2019* | *#313, #322* | *#259, #320, #314, #309, #306, #307, #321, #329, #331* | *none* |
+| *5/6/2019* | *#307, #259* | *#320, #314, #309, #306, #321, #329, #331* | *none* |
+| *5/8/2019* | *#321, #329* | *#320, #314, #309, #306, #331* | *none* |
+| *5/9/2019* | *#331* | *#320, #314, #309, #306* | *none* |
 ## Review (focus on solution and technology)
 
 In this sprint, ...
@@ -83,26 +86,28 @@ In this sprint, ...
 
 These Epics were completed.
 
-* *## epic title: comments*
-* 
+* *## TripCo: validate all requests sent to the server and responses received by the client*
+* *## User: I would like to highlight certain places on the map*
+* *## User: let me choose from different map backgrounds*
+* *## User: Give me a friendly message if something goes wrong*
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
 
-* *## epic title: explanation*
-* *#310 I want to view my trips in other tools: Turned out to be much more complicated than we originally thought it would be.* 
+* *## User: Let me plan trips world wide*
+* *## User: I want to view my trip in other tools: Turned out to be much more complicated than we originally thought it would be.*
+* *## User: Can trips be shorter?*
 
 #### What went well
 
-We were able to better optimize and test our existing code.
-
-
+* We were able to significantly improve our nearest neighbor algorithm
+* We were able to better optimize and test our existing code.
 
 #### Problems encountered and resolutions
 
-The ...
-
+* We were unable to complete about half of the epics that we planned, but we were able to get most of the uncompleted ones
+very close to being finished. 
 
 ## Retrospective (focus on people, process, tools)
 
@@ -110,17 +115,16 @@ In this sprint, ...
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
-
+* We changed our approach to the planning phase by mapping out several tasks at the beginning
 
 #### What we did well
 
-We ...
+* We did not over-plan too much and were able to complete a lot of the tasks that we had originally planned
 
 #### What we need to work on
 
-We could improve ...
+* We still need to work on programming together more and having more than one person working on a task. 
 
 #### What we will change next sprint 
 
-We will change ...
+* Work on tasks together instead of doing them alone
