@@ -91,7 +91,7 @@ These Epics were completed.
 These Epics were not completed.
 
 * *## epic title: explanation*
-* *#310 I want to view my trips in other tools: Turned out to be much* 
+* *#310 I want to view my trips in other tools: Turned out to be much more complicated* 
 
 #### What went well
 
