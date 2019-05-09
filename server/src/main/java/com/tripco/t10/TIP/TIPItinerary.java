@@ -15,7 +15,7 @@ public class TIPItinerary extends TIPHeader{
     private JsonObject options;
     //    private JsonArray places;
     protected JsonObject [] places = new JsonObject[0];
-    protected int[] distances = new int[0];
+    protected long[] distances = new long[0];
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -32,15 +32,15 @@ public class TIPItinerary extends TIPHeader{
         this.places = places;
     }
 
-    //    TIPItinerary(JsonObject options, JsonArray places, int[] distances) {
-    TIPItinerary(JsonObject options, JsonObject[] places, int[] distances) {
+    //    TIPItinerary(JsonObject options, JsonArray places, long[] distances) {
+    TIPItinerary(JsonObject options, JsonObject[] places, long[] distances) {
         this();
         this.options = options;
         this.places = places;
         this.distances = distances;
     }
 
-    public int calculateDistance(int position1, int position2){
+    public long calculateDistance(int position1, int position2){
         Map<String, Object> origin, destination;
         origin = new LinkedHashMap<>();
         destination = new LinkedHashMap<>();
@@ -63,7 +63,7 @@ public class TIPItinerary extends TIPHeader{
         destination.put("latitude", destLatitude);
         destination.put("longitude", destLongitude);
 
-        return haversine.calculateGreatCircleDistance(origin, destination, getEarthRadius()).intValue();
+        return haversine.calculateGreatCircleDistance(origin, destination, getEarthRadius());
     }
 
     //Code to extract data from Jsonarray from https://stackoverflow.com/questions/41354932/getting-a-value-from-a-jsonarray-using-gson
@@ -75,10 +75,10 @@ public class TIPItinerary extends TIPHeader{
         return places[i].getAsJsonObject().get("longitude").getAsDouble();
     }
 
-    public int[] fillDistances(){
-        distances = new int[places.length];
+    public long[] fillDistances(){
+        distances = new long[places.length];
         for(int i = 0; i < places.length; ++i){
-            int leg_distance = 0;
+            long leg_distance = 0;
             if(i == places.length-1){
                 leg_distance = calculateDistance(i, 0);
             } else {
@@ -105,7 +105,7 @@ public class TIPItinerary extends TIPHeader{
         }
     }
 
-    public int[] getDistances(){
+    public long[] getDistances(){
         return this.distances;
     }
 
