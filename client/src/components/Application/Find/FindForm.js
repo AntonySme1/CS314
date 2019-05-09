@@ -7,7 +7,7 @@ import TIPFindSchema from "../../../../../server/src/main/resources/TIPFindSchem
 import Select from 'react-select';
 
 const options = [
-  {value: 'helioport', label: 'Helioport'},
+  {value: 'heliport', label: 'Heliport'},
   {value: 'small_airport', label: 'Airport'},
   {value: 'seaplane_base', label: 'Seaplane Base'},
   {value: 'closed', label: 'Closed'},
@@ -31,19 +31,33 @@ export default class FindForm extends Component {
       found: 0,
       places: [],
       errorMessage: null,
-      selectedOption: null
+      narrow: [],
+      values: [],
+      optionSelected: null
 
     };
 
   };
 
-  handleChange(selectedOption) {
-    this.setState({selectedOption});
-    console.log(selectedOption);
+  handleChange(optionSelected) {
+    var valuesToAdd = [];
+
+    optionSelected.forEach(function(obj, index){
+      for(var key in obj){
+        if(key === "value"){
+          valuesToAdd.push(obj[key]);
+        }
+      }
+    });
+
+    this.setState({
+      values: valuesToAdd,
+      optionSelected
+    });
   }
 
   render() {
-    const { selectedOption } = this.state;
+    const { optionSelected } = this.state;
     return (
         <div>
           {this.state.errorMessage}
@@ -56,7 +70,7 @@ export default class FindForm extends Component {
 
             <FormGroup>
               <Label for="filter">Filter Search</Label>
-              <Select value={selectedOption} onChange={this.handleChange} options={options} isMulti={true}/>
+              <Select value={optionSelected} onChange={this.handleChange} options={options} isMulti={true}/>
             </FormGroup>
 
             <FormGroup className={"text-center"}>
@@ -96,15 +110,19 @@ updateState (event) {
 
 
   findSearch () {
+    this.state.narrow = [{"name": "type", "values": this.state.values}];
+    console.log("In findSearch, narrow: " + JSON.stringify(this.state.narrow));
+    console.log("In findSearch, values: " + JSON.stringify(this.state.values));
 
     const tipfindSearch = {
       'requestType': 'find',
       'requestVersion': 5,
       'match': this.state.match,
       'limit': parseInt(this.state.limit, 10),
-
+      'narrow': this.state.narrow,
       'places': []
     };
+
 
     sendServerRequestWithBody('find', tipfindSearch, this.props.settings.serverPort)
     .then((response) => {
