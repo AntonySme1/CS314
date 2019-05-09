@@ -1,5 +1,6 @@
 package com.tripco.t10.TIP;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class TIPFind extends TIPHeader{
         this();
         this.match = match;
         this.limit = limit;
+        this.narrow = new ArrayList<>();
     }
 
     TIPFind(String match, int limit, ArrayList<JsonObject> narrow){
@@ -72,6 +74,7 @@ public class TIPFind extends TIPHeader{
     TIPFind(String match){
         this();
         this.match = match;
+        this.narrow = new ArrayList<>();
     }
 
     private String setDBConnection(String url){
@@ -117,7 +120,7 @@ public class TIPFind extends TIPHeader{
         match = String.valueOf(matchArr);
     }
 
-    private String setSearch() {
+    private String setSearch(String filter) {
         String select = "SELECT world.name as \"World\", world.id as \"WorldID\", "
                 + "world.latitude, world.longitude, world.municipality, "
                 + "region.name as \"Region\", region.id as \"RegionID\", "
@@ -127,13 +130,18 @@ public class TIPFind extends TIPHeader{
                 + "INNER JOIN country ON continent.id = country.continent "
                 + "INNER JOIN region ON country.id = region.iso_country "
                 + "INNER JOIN world ON region.id = world.iso_region ";
-        String where = "WHERE country.name LIKE \"%" + match
+        String where = "WHERE (country.name LIKE \"%" + match
                 + "%\" OR country.id LIKE \"%" + match
                 + "%\" OR region.name LIKE \"%" + match
                 + "%\" OR region.id LIKE \"%" + match
                 + "%\" OR world.name LIKE \"%" + match
                 + "%\" OR world.id LIKE \"%" + match
-                + "%\" OR world.municipality LIKE \"%" + match + "%\" ";
+                + "%\" OR world.municipality LIKE \"%" + match + "%\")";
+
+        if(!filter.equals("")){
+            where += filter;
+        }
+
         String order = "ORDER BY continent.name, country.name, "
                 + "region.name, world.municipality, world.name ASC ";
         String limiter = "limit " + limit;
@@ -146,13 +154,50 @@ public class TIPFind extends TIPHeader{
                 + "INNER JOIN country ON continent.id = country.continent "
                 + "INNER JOIN region ON country.id = region.iso_country "
                 + "INNER JOIN world ON region.id = world.iso_region ";
-        String where = "WHERE country.name LIKE \"%" + match
+        String where = "WHERE (country.name LIKE \"%" + match
+                + "%\" OR country.id LIKE \"%" + match
                 + "%\" OR region.name LIKE \"%" + match
+                + "%\" OR region.id LIKE \"%" + match
                 + "%\" OR world.name LIKE \"%" + match
-                + "%\" OR world.municipality LIKE \"%" + match + "%\" ";
+                + "%\" OR world.id LIKE \"%" + match
+                + "%\" OR world.municipality LIKE \"%" + match + "%\")";
+
         return select + from + where;
     }
 
+    private boolean checkNarrow(){
+        if(narrow.isEmpty()){
+            return false;
+        }
+        String checkNarrow = narrow.get(0).get("values").toString();
+        log.info(checkNarrow);
+        if(checkNarrow.isEmpty() || checkNarrow.equals("[]")){
+            log.info("Narrows empty");
+            return false;
+        }
+        log.info("Narrows not empty");
+        return true;
+    }
+
+    private ArrayList<String> extractFilter(){
+        ArrayList<String> filters = new ArrayList<>();
+        for(int i = 0; i < narrow.size(); ++i){
+            String values = narrow.get(i).get("values").toString();
+            String[] parts = values.split("\"");
+            for(int j = 0; j < parts.length; ++j){
+                parts[j] = parts[j].replaceAll("\\\\", "");
+                if(parts[j].length() > 1) {
+                    if(parts[j].equals("Seaplane Base")){
+                        parts[j] = "Seaplane_Base";
+                    }
+                    filters.add(parts[j]);
+                }
+            }
+        }
+        return filters;
+    }
+
+    //narrow in format narrow=[{"name":"type", "values":["airport", "helioport"]}
     //taken from https://github.com/csucs314s19/tripco/blob/master/guides/database/DatabaseGuide.md
     private void addInfo() {
         String myDriver = "com.mysql.jdbc.Driver", url = "", user="cs314-db", pass="eiK5liet1uej";
@@ -163,14 +208,33 @@ public class TIPFind extends TIPHeader{
             user = "travis"; pass = null;
         }
 
+        String count, search;
         checkMatch();
-        String count = setCount();
-        String search = setSearch();
+        ArrayList<String> filters = extractFilter();
+        String selectByFilter = "AND (type IN (";
+        for(int i = 0; i < filters.size(); ++i){
+            selectByFilter += "\"" + filters.get(i) + "\"";
+            if(i != filters.size()-1){
+                selectByFilter += ",";
+            }
+        }
+        selectByFilter += "))";
+
+        if(checkNarrow()){
+            count = setCount() + selectByFilter;
+            search = setSearch(selectByFilter);
+        } else {
+            count = setCount();
+            search = setSearch("");
+        }
+
         try {
             Class.forName(myDriver);
             // connect to the database and query
+
             try {
                 Connection conn = DriverManager.getConnection(url, user, pass);
+
                 Statement stCount = conn.createStatement();
                 Statement stQuery = conn.createStatement();
                 ResultSet rsCount = stCount.executeQuery(count);
