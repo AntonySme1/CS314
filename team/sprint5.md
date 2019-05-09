@@ -111,6 +111,7 @@ In this sprint, ...
 #### What we changed this sprint
 
 Our changes for this sprint included ...
+Adding the option
 
 #### What we did well
 
