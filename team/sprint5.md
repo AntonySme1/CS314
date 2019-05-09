@@ -96,12 +96,13 @@ These Epics were completed.
 These Epics were not completed.
 
 * *## User: Let me plan trips world wide*
-* *## User: I want to view my trip in other tools*
+* *## User: I want to view my trip in other tools: Turned out to be much more complicated than we originally thought it would be.*
 * *## User: Can trips be shorter?*
 
 #### What went well
 
 * We were able to significantly improve our nearest neighbor algorithm
+* We were able to better optimize and test our existing code.
 
 #### Problems encountered and resolutions
 
